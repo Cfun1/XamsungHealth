@@ -1,0 +1,1 @@
+This project is using System.Graphics package (https://github.com/dotnet/System.Graphics) and some base parts of GraphicsControls (https://github.com/dotnet/GraphicsControls)

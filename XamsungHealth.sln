@@ -5,7 +5,14 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamsungHealth.Android", "XamsungHealth.Android\XamsungHealth.Android.csproj", "{084CE762-9C96-4E1E-BF0E-9AFD821B9F65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamsungHealth", "XamsungHealth\XamsungHealth.csproj", "{53DEFFEA-800E-407D-8072-FFD06DDBBBB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamsungHealth", "XamsungHealth\XamsungHealth.csproj", "{53DEFFEA-800E-407D-8072-FFD06DDBBBB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamsungHealth.Lib", "XamsungHealth.Lib\XamsungHealth.Lib.csproj", "{5CD7B482-4AA9-4FDE-BA56-69CBB1D1D09F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B09ABDA9-48C8-45A1-9E57-56F063188935}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.txt = Readme.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +32,10 @@ Global
 		{53DEFFEA-800E-407D-8072-FFD06DDBBBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53DEFFEA-800E-407D-8072-FFD06DDBBBB2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53DEFFEA-800E-407D-8072-FFD06DDBBBB2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5CD7B482-4AA9-4FDE-BA56-69CBB1D1D09F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CD7B482-4AA9-4FDE-BA56-69CBB1D1D09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CD7B482-4AA9-4FDE-BA56-69CBB1D1D09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CD7B482-4AA9-4FDE-BA56-69CBB1D1D09F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
