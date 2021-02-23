@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderers\GraphicsView.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,10 +90,19 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\XamsungHealth.Lib\XamsungHealth.Lib.csproj">
+      <Project>{5cd7b482-4aa9-4fde-ba56-69cbb1d1d09f}</Project>
+      <Name>XamsungHealth.Lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XamsungHealth\XamsungHealth.csproj">
       <Project>{5E6B6313-216F-4824-BFEF-1B939345A38F}</Project>
       <Name>XamsungHealth</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties TriggeredFromHotReload="False" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
