@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell x:Class="XamsungHealth.AppShell"
+       xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:xamsunghealth="clr-namespace:XamsungHealth"
+       xmlns:fontawesome="clr-namespace:XamsungHealth.Lib.Fonts;assembly=XamsungHealth.Lib"
+       xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+       BackgroundColor="{DynamicResource MainBackgroundColor}">
+    <!--  won't work if you move it to a style  -->
+
+
+    <TabBar>
+        <Tab Title="Home">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FontAwesome"
+                                 Glyph="{x:Static fontawesome:IconFont.Home}"/>
+            </Tab.Icon>
+            <ShellContent Title="Home"
+                          Route="Home"
+                          ContentTemplate="{DataTemplate xamsunghealth:HomePage}"/>
+        </Tab>
+
+        <Tab Title="Together"
+             xct:IconTintColorEffect.TintColor="Red">
+            <Tab.Icon xct:IconTintColorEffect.TintColor="Red">
+                <FontImageSource xct:IconTintColorEffect.TintColor="Red"
+                                 FontFamily="FontAwesome"
+                                 Glyph="{x:Static fontawesome:IconFont.UserFriends}"/>
+            </Tab.Icon>
+            <ShellContent Title="Together"
+                          Route="Together"
+                          ContentTemplate="{DataTemplate xamsunghealth:HomePage}"/>
+        </Tab>
+
+        <Tab Title="Discover">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FontAwesome"
+                                 Glyph="{x:Static fontawesome:IconFont.Compass}"/>
+            </Tab.Icon>
+            <ShellContent Title="Discover"
+                          Route="Discover"
+                          ContentTemplate="{DataTemplate xamsunghealth:HomePage}"/>
+        </Tab>
+
+    </TabBar>
+
+</Shell>
