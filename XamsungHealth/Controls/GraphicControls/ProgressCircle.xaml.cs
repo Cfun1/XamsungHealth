@@ -121,7 +121,7 @@ namespace XamsungHealth.Controls
 			//if (Jagged)
 			//	paint.PathEffect = SKPathEffect.CreateDiscrete(12f, 4f, (uint)Guid.NewGuid().GetHashCode());
 
-			var CenterX = (ProgressThickness + dirtyRect.Center.X + (float)Margin.Right) / 2f;
+			var CenterX = (dirtyRect.Center.X - ProgressThickness + (float)Margin.Right) / 2f;
 			var CenterY = dirtyRect.Center.Y / 2f;
 
 			canvas.StrokeColor = ProgressColor.AddLuminosity(-.3d).ToGraphicsColor();
