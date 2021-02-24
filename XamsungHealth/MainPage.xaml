@@ -34,11 +34,12 @@
             <local:ProgressCircle x:Name="Progress1" Grid.Row="0" Grid.Column="0"
                                   Percentage="80"
                                   ProgressColor="#61FF36"
-                                  ProgressThickness="10"
+                                  ProgressThickness="12"
                                   InputTransparent="True"
+                                  MainText="55746"
                                   Jagged="False"/>
 
-            <StackLayout Grid.Row="0" Grid.Column="0"
+            <!--<StackLayout Grid.Row="0" Grid.Column="0"
                          IsVisible="true"
                          HorizontalOptions="Center"
                          VerticalOptions="Center">
@@ -50,12 +51,12 @@
                        TextColor="Black"/>
 
                 <Label FontAttributes="Bold"
-                       FontSize="25"
+                       FontSize="20"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
                        Text="100/1000"
                        TextColor="#827B82"/>
-            </StackLayout>
+            </StackLayout>-->
         </Grid>
     </StackLayout>
 </ContentPage>

@@ -6,6 +6,7 @@ using Color = System.Graphics.Color;
 using XamsungHealth.Lib.Extensions;
 using System.Graphics;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace XamsungHealth.Controls
 {
@@ -24,10 +25,9 @@ namespace XamsungHealth.Controls
 			get { return (XColor)GetValue(ColorProperty); }
 			set { SetValue(ColorProperty, value); }
 		}
-
+		//TODO: to be removed
 		public static BindableProperty JaggedProperty =
-			BindableProperty.Create(nameof(Jagged), typeof(bool), typeof(ProgressCircle), default(bool),
-				propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
+			BindableProperty.Create(nameof(Jagged), typeof(bool), typeof(ProgressCircle), default(bool));
 
 		public bool Jagged
 		{
@@ -37,8 +37,7 @@ namespace XamsungHealth.Controls
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static BindableProperty StartingAngleProperty =
-			BindableProperty.Create(nameof(StartingAngle), typeof(float), typeof(ProgressCircle), 90f,
-				propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
+			BindableProperty.Create(nameof(StartingAngle), typeof(float), typeof(ProgressCircle), 90f);
 
 		public float StartingAngle
 		{
@@ -49,8 +48,7 @@ namespace XamsungHealth.Controls
 		[EditorBrowsable(EditorBrowsableState.Never)]
 
 		public static BindableProperty EndingAngleProperty =
-				BindableProperty.Create(nameof(EndingAngle), typeof(float), typeof(ProgressCircle), 90f,
-					propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
+				BindableProperty.Create(nameof(EndingAngle), typeof(float), typeof(ProgressCircle), 90f);
 
 		public float EndingAngle
 		{
@@ -70,15 +68,13 @@ namespace XamsungHealth.Controls
 
 		void Percentage2Angle(float percentage)
 		{
-			//var newValue = 360f / 100f * percentage;
 			var newValue = (-18f / 5f) * percentage + 90f;
 			SetValue(EndingAngleProperty, newValue == -270f ? -269 : newValue);
 		}
 
 
 		public static BindableProperty ProgressThicknessProperty =
-			BindableProperty.Create(nameof(ProgressThickness), typeof(float), typeof(ProgressCircle), 12f,
-				propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
+			BindableProperty.Create(nameof(ProgressThickness), typeof(float), typeof(ProgressCircle), 12f);
 
 		public float ProgressThickness
 		{
@@ -87,8 +83,7 @@ namespace XamsungHealth.Controls
 		}
 
 		public static BindableProperty ProgressColorProperty =
-			BindableProperty.Create(nameof(ProgressColor), typeof(XColor), typeof(ProgressCircle), XColor.Default,
-				propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
+			BindableProperty.Create(nameof(ProgressColor), typeof(XColor), typeof(ProgressCircle), XColor.Default);
 
 		public XColor ProgressColor
 		{
@@ -102,6 +97,38 @@ namespace XamsungHealth.Controls
 
 			if (Parent != null)
 				this.InvalidateDraw();
+		}
+
+		public static BindableProperty MainTextProperty = BindableProperty.Create(nameof(MainText), typeof(string), typeof(ProgressCircle));
+
+		public string MainText
+		{
+			get { return (string)GetValue(MainTextProperty); }
+			set { SetValue(MainTextProperty, value); }
+		}
+
+		public static BindableProperty SecondaryTextProperty = BindableProperty.Create(nameof(MainText), typeof(string), typeof(ProgressCircle));
+
+		public string SecondaryText
+		{
+			get { return (string)GetValue(MainTextProperty); }
+			set { SetValue(MainTextProperty, value); }
+		}
+
+		protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			base.OnPropertyChanged(propertyName);
+			switch (propertyName)
+			{
+				case nameof(MainText) or
+					 nameof(SecondaryText) or
+					 nameof(StartingAngle) or
+					 nameof(EndingAngle) or
+					 nameof(ProgressThickness) or
+					 nameof(ProgressColor):
+					InvalidateDraw();
+					break;
+			};
 		}
 
 		private static readonly Color Transparent = XColor.Transparent.ToGraphicsColor();
@@ -140,6 +167,12 @@ namespace XamsungHealth.Controls
 			canvas.StrokeColor = ProgressColor.ToGraphicsColor();
 
 			canvas.DrawArc(CenterX, 0f, size, size, StartingAngle, EndingAngle, true, false);
+
+			//Draw Text
+			canvas.FontColor = XColor.Black.ToGraphicsColor();
+			canvas.FontSize = 45;
+			canvas.SetToBoldSystemFont();
+			canvas.DrawString(MainText, CenterX, 0, size, size, HorizontalAlignment.Center, VerticalAlignment.Center);
 			canvas.RestoreState();
 		}
 	}
