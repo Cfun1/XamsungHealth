@@ -5,6 +5,7 @@ using XColor = Xamarin.Forms.Color;
 using Color = System.Graphics.Color;
 using XamsungHealth.Lib.Extensions;
 using System.Graphics;
+using System.ComponentModel;
 
 namespace XamsungHealth.Controls
 {
@@ -34,19 +35,32 @@ namespace XamsungHealth.Controls
 			set { SetValue(JaggedProperty, value); }
 		}
 
-		public static BindableProperty StartingDegreesProperty =
-			BindableProperty.Create(nameof(StartingDegrees), typeof(float), typeof(ProgressCircle), -90f,
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public static BindableProperty StartingAngleProperty =
+			BindableProperty.Create(nameof(StartingAngle), typeof(float), typeof(ProgressCircle), 90f,
 				propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
 
-		public float StartingDegrees
+		public float StartingAngle
 		{
-			get { return (float)GetValue(StartingDegreesProperty); }
-			set { SetValue(StartingDegreesProperty, value.Clamp(-359.99f, 359.99f)); }
+			get { return (float)GetValue(StartingAngleProperty); }
+			set { SetValue(StartingAngleProperty, value.Clamp(-359.99f, 359.99f)); }
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+
+		public static BindableProperty EndingAngleProperty =
+				BindableProperty.Create(nameof(EndingAngle), typeof(float), typeof(ProgressCircle), 90f,
+					propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
+
+		public float EndingAngle
+		{
+			get { return (float)GetValue(EndingAngleProperty); }
+			set { SetValue(EndingAngleProperty, value.Clamp(-359.99f, 359.99f)); }
 		}
 
 		public static BindableProperty PercentageProperty =
-	BindableProperty.Create(nameof(Percentage), typeof(float), typeof(ProgressCircle), -90f,
-		propertyChanged: (bindable, oldValue, newValue) => (bindable as ProgressCircle).Percentage2Angle(newValue));
+	BindableProperty.Create(nameof(Percentage), typeof(float), typeof(ProgressCircle), 0f,
+		propertyChanged: (bindable, oldValue, newValue) => (bindable as ProgressCircle).Percentage2Angle((float)newValue));
 
 		public float Percentage
 		{
@@ -54,20 +68,13 @@ namespace XamsungHealth.Controls
 			set { SetValue(PercentageProperty, value.Clamp(-359.99f, 359.99f)); }
 		}
 
-		void Percentage2Angle(object percentage)
+		void Percentage2Angle(float percentage)
 		{
-			SetValue(EndingDegreesProperty, 360f * (float)percentage / 100f);
+			//var newValue = 360f / 100f * percentage;
+			var newValue = (-18f / 5f) * percentage + 90f;
+			SetValue(EndingAngleProperty, newValue == -270f ? -269 : newValue);
 		}
 
-		public static BindableProperty EndingDegreesProperty =
-			BindableProperty.Create(nameof(EndingDegrees), typeof(float), typeof(ProgressCircle), -90f,
-				propertyChanged: (bindable, oldValue, newValue) => (bindable as GraphicsView)?.InvalidateDraw());
-
-		public float EndingDegrees
-		{
-			get { return (float)GetValue(EndingDegreesProperty); }
-			set { SetValue(EndingDegreesProperty, value.Clamp(-359.99f, 359.99f)); }
-		}
 
 		public static BindableProperty ProgressThicknessProperty =
 			BindableProperty.Create(nameof(ProgressThickness), typeof(float), typeof(ProgressCircle), 12f,
@@ -102,7 +109,7 @@ namespace XamsungHealth.Controls
 		public override void Draw(ICanvas canvas, RectangleF dirtyRect)
 		{
 			base.Draw(canvas, dirtyRect);
-			//canvas.SaveState();
+			canvas.SaveState();
 			var size = Math.Min(dirtyRect.Width, dirtyRect.Height) - ProgressThickness;
 
 			canvas.StrokeSize = ProgressThickness;
@@ -126,14 +133,14 @@ namespace XamsungHealth.Controls
 			blurrableCanvas?.SetBlur(3f);
 			canvas.BlendMode = BlendMode.SourceAtop;
 
-			canvas.DrawArc(CenterX, 0f, size, size, StartingDegrees, EndingDegrees, false, false);
+			canvas.DrawArc(CenterX, 0f, size, size, StartingAngle, EndingAngle, true, false);
 
 			blurrableCanvas?.SetBlur(0f);
 			canvas.BlendMode = BlendMode.Lighten;       //?? not sure 	//paint.BlendMode = SKBlendMode.SrcOver;
 			canvas.StrokeColor = ProgressColor.ToGraphicsColor();
 
-			canvas.DrawArc(CenterX, 0f, size, size, StartingDegrees, EndingDegrees, false, false);
-			canvas.ResetState();
+			canvas.DrawArc(CenterX, 0f, size, size, StartingAngle, EndingAngle, true, false);
+			canvas.RestoreState();
 		}
 	}
 }

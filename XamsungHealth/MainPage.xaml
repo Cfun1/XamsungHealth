@@ -24,18 +24,18 @@
     </ScrollView>-->
 
     <StackLayout>
-        <Grid WidthRequest="200"
+        <Grid Margin="15"
+              WidthRequest="200"
               HeightRequest="200">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="Handle_Tapped"/>
             </Grid.GestureRecognizers>
 
             <local:ProgressCircle x:Name="Progress1" Grid.Row="0" Grid.Column="0"
-                                  Percentage="25"
+                                  Percentage="80"
                                   ProgressColor="#61FF36"
                                   ProgressThickness="10"
                                   InputTransparent="True"
-                                  StartingDegrees="-90"
                                   Jagged="False"/>
 
             <StackLayout Grid.Row="0" Grid.Column="0"

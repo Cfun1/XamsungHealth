@@ -21,8 +21,8 @@ namespace XamsungHealth
 			var startingAt1 = rngesus.Next(-360, 360);
 			var endingAt1 = rngesus.Next(-360, 360);
 
-			Progress1.Animate("Progress1Start", x => Progress1.StartingDegrees = (float)x, Progress1.StartingDegrees, startingAt1, 4, 5000, Easing.CubicInOut);
-			Progress1.Animate("Progress1End", x => Progress1.EndingDegrees = (float)x, Progress1.EndingDegrees, endingAt1, 4, 5000, Easing.CubicInOut);
+			Progress1.Animate("Progress1Start", x => Progress1.StartingAngle = (float)x, Progress1.StartingAngle, startingAt1, 4, 5000, Easing.CubicInOut);
+			Progress1.Animate("Progress1End", x => Progress1.EndingAngle = (float)x, Progress1.EndingAngle, endingAt1, 4, 5000, Easing.CubicInOut);
 		}
 	}
 }
