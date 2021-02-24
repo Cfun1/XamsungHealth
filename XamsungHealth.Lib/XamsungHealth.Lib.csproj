@@ -3,6 +3,16 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\fa-solid-900.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\fa-solid-900.ttf">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
 	  <PackageReference Include="JonLipsky.System.Graphics" Version="0.1.36" />
 	  <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
