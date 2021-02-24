@@ -40,6 +40,7 @@
 
             <StackLayout Grid.Row="0" Grid.Column="0"
                          IsVisible="true"
+                         HorizontalOptions="Center"
                          VerticalOptions="Center">
                 <Label FontAttributes="Bold"
                        FontSize="33"

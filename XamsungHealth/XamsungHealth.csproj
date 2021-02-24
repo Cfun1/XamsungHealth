@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\ProgressCircle.xaml.cs">
+    <Compile Update="Controls\GraphicControls\ProgressCircle.xaml.cs">
       <DependentUpon>ProgressCircle.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
