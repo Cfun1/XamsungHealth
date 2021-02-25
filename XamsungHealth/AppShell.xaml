@@ -8,7 +8,7 @@
        BackgroundColor="{DynamicResource MainBackgroundColor}">
     <!--  won't work if you move it to a style  -->
 
-
+    <!--  issue elevation : https://github.com/xamarin/Xamarin.Forms/issues/5988  -->
     <TabBar>
         <Tab Title="Home">
             <Tab.Icon>
@@ -20,11 +20,9 @@
                           ContentTemplate="{DataTemplate xamsunghealth:HomePage}"/>
         </Tab>
 
-        <Tab Title="Together"
-             xct:IconTintColorEffect.TintColor="Red">
-            <Tab.Icon xct:IconTintColorEffect.TintColor="Red">
-                <FontImageSource xct:IconTintColorEffect.TintColor="Red"
-                                 FontFamily="FontAwesome"
+        <Tab Title="Together">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FontAwesome"
                                  Glyph="{x:Static fontawesome:IconFont.UserFriends}"/>
             </Tab.Icon>
             <ShellContent Title="Together"
