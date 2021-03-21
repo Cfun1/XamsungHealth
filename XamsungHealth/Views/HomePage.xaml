@@ -28,30 +28,27 @@
         <StackLayout Spacing="2.5">
             <yummy:PancakeView VerticalOptions="FillAndExpand"
                                HorizontalOptions="Fill">
-                <yummy:PancakeView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Handle_Tapped"/>
-                </yummy:PancakeView.GestureRecognizers>
                 <StackLayout>
                     <Grid>
                         <ActivityIndicator VerticalOptions="Start"
                                            HorizontalOptions="End"
                                            IsRunning="True"
                                            WidthRequest="20"
-                                           Color="#36E407"/>
-
-                        <local:ProgressCircle x:Name="Progress1" Grid.Row="0" Grid.Column="0"
-                                              Percentage="80"
-                                              WidthRequest="190"
-                                              HeightRequest="190"
-                                              ProgressColor="#36E407"
-                                              ProgressThickness="12"
-                                              InputTransparent="True"
-                                              MainText="8147"
-                                              MainTextFontSize="{StaticResource FontSizeBig}"
-                                              SecondaryTextFontSize="14"
-                                              SecondaryText="/10000 steps"/>
+                                           Color="{DynamicResource MainGreen}"/>
+                        <Label Text="Steps"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource MainGreen}"/>
                     </Grid>
-                    <Grid>
+
+                    <Grid Margin="10,0">
+                        <ProgressBar x:Name="progress"
+                                     Progress=".5"
+                                     ProgressColor="{DynamicResource MainGreen}"
+                                     ScaleY="10.5"/>
+                        <Label Text="{Binding Source={x:Reference progress}, Path=Progress, Converter={StaticResource ProgressToPercentage}, StringFormat='{0}%'}"
+                               TextColor="White"/>
+                    </Grid>
+                    <!--<Grid>
                         <BoxView WidthRequest="100"
                                  HeightRequest="2"
                                  HorizontalOptions="Center"
@@ -77,7 +74,7 @@
                                      HeightRequest="50"
                                      Color="#36E407"/>
                         </StackLayout>
-                    </Grid>
+                    </Grid>-->
                 </StackLayout>
             </yummy:PancakeView>
 
@@ -89,7 +86,7 @@
                                      HorizontalOptions="Start"
                                      Spacing="15"
                                      VerticalOptions="Start">
-                            <ImageButton xct:IconTintColorEffect.TintColor="#36E407">
+                            <ImageButton xct:IconTintColorEffect.TintColor="{DynamicResource MainGreen}">
                                 <ImageButton.Source>
                                     <FontImageSource FontFamily="FontAwesome"
                                                      Size="20"
@@ -102,7 +99,6 @@
                     </Grid>
                     <Label Text="79"
                            FontSize="{StaticResource FontSizeBig}"/>
-
                 </StackLayout>
             </yummy:PancakeView>
             <yummy:PancakeView HeightRequest="150"/>

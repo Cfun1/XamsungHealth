@@ -12,6 +12,10 @@
                 WhiteSmoke
             </Color>
 
+            <Color x:Key="MainGreen">
+                #36E407
+            </Color>
+
             <Style TargetType="{x:Type Tab}">
                 <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource MainBackgroundColor}"/>
                 <Setter Property="Shell.TabBarTitleColor" Value="Black"/>
