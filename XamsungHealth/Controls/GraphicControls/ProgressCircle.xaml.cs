@@ -84,19 +84,19 @@ namespace XamsungHealth.Controls
 			set { SetValue(SecondaryTextProperty, value); }
 		}
 
-		public static BindableProperty MainTextFontSizeProperty = BindableProperty.Create(nameof(MainTextFontSize), typeof(float), typeof(ProgressCircle), 60f);
+		public static BindableProperty MainTextFontSizeProperty = BindableProperty.Create(nameof(MainTextFontSize), typeof(double), typeof(ProgressCircle));
 
-		public float MainTextFontSize
+		public double MainTextFontSize
 		{
-			get { return (float)GetValue(MainTextFontSizeProperty); }
+			get { return (double)GetValue(MainTextFontSizeProperty); }
 			set { SetValue(MainTextFontSizeProperty, value); }
 		}
 
-		public static BindableProperty SecondaryTextFontSizeProperty = BindableProperty.Create(nameof(SecondaryTextFontSize), typeof(float), typeof(ProgressCircle), 18f);
+		public static BindableProperty SecondaryTextFontSizeProperty = BindableProperty.Create(nameof(SecondaryTextFontSize), typeof(double), typeof(ProgressCircle));
 
-		public float SecondaryTextFontSize
+		public double SecondaryTextFontSize
 		{
-			get { return (float)GetValue(SecondaryTextFontSizeProperty); }
+			get { return (double)GetValue(SecondaryTextFontSizeProperty); }
 			set { SetValue(SecondaryTextFontSizeProperty, value); }
 		}
 
@@ -173,13 +173,13 @@ namespace XamsungHealth.Controls
 
 			//Draw Text
 			canvas.FontColor = XColor.Black.ToGraphicsColor();
-			canvas.FontSize = MainTextFontSize;
+			canvas.FontSize = (float)MainTextFontSize;
 			canvas.SetToBoldSystemFont();
-			canvas.DrawString(MainText, CenterX, ProgressThickness, size, size, HorizontalAlignment.Center, VerticalAlignment.Center);
+			canvas.DrawString(MainText, CenterX, CenterY, size, size, HorizontalAlignment.Center, VerticalAlignment.Center);
 
 			canvas.RestoreState();
 			canvas.Translate(0, 55);
-			canvas.FontSize = SecondaryTextFontSize;
+			canvas.FontSize = (float)SecondaryTextFontSize;
 			canvas.FontColor = XColor.Gray.ToGraphicsColor();
 
 

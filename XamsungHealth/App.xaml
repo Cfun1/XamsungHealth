@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application x:Class="XamsungHealth.App"
              xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fontawesome="clr-namespace:XamsungHealth.Lib.Fonts;assembly=XamsungHealth.Lib"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
 
 
     <Application.Resources>
@@ -11,11 +13,59 @@
             </Color>
 
             <Style TargetType="{x:Type Tab}">
-                <Setter Property="Shell.TabBarBackgroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource MainBackgroundColor}"/>
                 <Setter Property="Shell.TabBarTitleColor" Value="Black"/>
                 <Setter Property="Shell.NavBarHasShadow" Value="False"/>
                 <Setter Property="Shell.NavBarIsVisible" Value="True"/>
             </Style>
+
+
+            <Style TargetType="{x:Type ImageButton}">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+
+            <ControlTemplate x:Key="AppBar">
+                <StackLayout Margin="0,5,0,0"
+                             Orientation="Horizontal"
+                             Spacing="30">
+                    <xct:BadgeView Margin="-5"
+                                   FontSize="8"
+                                   VerticalOptions="Start"
+                                   Text="N"
+                                   IsAnimated="False"
+                                   TextColor="White"
+                                   BackgroundColor="#FF7200">
+                        <ImageButton Margin="15,0,0,0"
+                                     xct:IconTintColorEffect.TintColor="Black"
+                                     VerticalOptions="Start"
+                                     BackgroundColor="Transparent">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Glyph="{x:Static fontawesome:IconFont.Bars}"/>
+                            </ImageButton.Source>
+                        </ImageButton>
+                    </xct:BadgeView>
+                    <!--  for some reasons FontSize and FontFamily not woking on spans when put in root <Label  -->
+                    <Label TextColor="Black"
+                           VerticalOptions="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <FormattedString.Spans>
+                                    <Span Text="XAMSUNG "
+                                          FontSize="18"
+                                          FontFamily="XamFont"
+                                          FontAttributes="Bold"/>
+                                    <Span Text="Health"
+                                          FontSize="15"
+                                          FontAttributes="Bold"
+                                          FontFamily="XamFont"/>
+                                </FormattedString.Spans>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </ControlTemplate>
 
         </ResourceDictionary>
     </Application.Resources>
