@@ -13,7 +13,7 @@
             </Color>
 
             <Color x:Key="MainGreen">
-                #36E407
+                #00CE08
             </Color>
 
             <Style TargetType="{x:Type Tab}">

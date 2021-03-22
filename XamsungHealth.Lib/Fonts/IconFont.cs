@@ -3,7 +3,7 @@
 [assembly: ExportFont("fa-solid-900.ttf", Alias = "FontAwesome")]
 namespace XamsungHealth.Lib.Fonts
 {
-	static class IconFont
+	public static class IconFont
 	{
 		// FontAwesome
 		public const string Ad = "\uf641";

@@ -13,15 +13,24 @@
     </Shell.TitleView>
 
     <ContentPage.Resources>
-        <Style TargetType="{x:Type yummy:PancakeView}">
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="BackgroundColor" Value="White"/>
-            <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="Padding" Value="10"/>
-        </Style>
-        <x:Double x:Key="FontSizeBig">
-            38
-        </x:Double>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type yummy:PancakeView}">
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="Padding" Value="10"/>
+            </Style>
+
+            <Style x:Key="HedearTitleStyle"
+                   TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource MainGreen}"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="17"/>
+            </Style>
+            <x:Double x:Key="FontSizeBig">
+                38
+            </x:Double>
+        </ResourceDictionary>
     </ContentPage.Resources>
 
     <ScrollView>
@@ -36,45 +45,11 @@
                                            WidthRequest="20"
                                            Color="{DynamicResource MainGreen}"/>
                         <Label Text="Steps"
-                               FontAttributes="Bold"
-                               TextColor="{DynamicResource MainGreen}"/>
+                               Style="{DynamicResource HedearTitleStyle}"/>
                     </Grid>
 
-                    <Grid Margin="10,0">
-                        <ProgressBar x:Name="progress"
-                                     Progress=".5"
-                                     ProgressColor="{DynamicResource MainGreen}"
-                                     ScaleY="10.5"/>
-                        <Label Text="{Binding Source={x:Reference progress}, Path=Progress, Converter={StaticResource ProgressToPercentage}, StringFormat='{0}%'}"
-                               TextColor="White"/>
-                    </Grid>
-                    <!--<Grid>
-                        <BoxView WidthRequest="100"
-                                 HeightRequest="2"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="End"
-                                 Color="Gray"/>
-                        <StackLayout Margin="0,0,0,10"
-                                     Orientation="Horizontal"
-                                     HorizontalOptions="Center">
-                            <BoxView WidthRequest="5"
-                                     VerticalOptions="End"
-                                     HeightRequest="30"
-                                     Color="#36E407"/>
-                            <BoxView WidthRequest="5"
-                                     VerticalOptions="End"
-                                     HeightRequest="35"
-                                     Color="#36E407"/>
-                            <BoxView WidthRequest="5"
-                                     VerticalOptions="End"
-                                     HeightRequest="40"
-                                     Color="#36E407"/>
-                            <BoxView WidthRequest="5"
-                                     VerticalOptions="End"
-                                     HeightRequest="50"
-                                     Color="#36E407"/>
-                        </StackLayout>
-                    </Grid>-->
+                    <local:LabeledProgressBar Margin="5,0"
+                                              Percentage="80"/>
                 </StackLayout>
             </yummy:PancakeView>
 
@@ -84,7 +59,6 @@
                     <Grid>
                         <StackLayout Orientation="Horizontal"
                                      HorizontalOptions="Start"
-                                     Spacing="15"
                                      VerticalOptions="Start">
                             <ImageButton xct:IconTintColorEffect.TintColor="{DynamicResource MainGreen}">
                                 <ImageButton.Source>
@@ -94,7 +68,7 @@
                                 </ImageButton.Source>
                             </ImageButton>
                             <Label Text="Active time"
-                                   VerticalOptions="End"/>
+                                   Style="{DynamicResource HedearTitleStyle}"/>
                         </StackLayout>
                     </Grid>
                     <Label Text="79"
