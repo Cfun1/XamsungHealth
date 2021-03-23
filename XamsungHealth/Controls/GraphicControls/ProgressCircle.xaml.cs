@@ -6,7 +6,6 @@ using Color = System.Graphics.Color;
 using XamsungHealth.Lib.Extensions;
 using System.Graphics;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace XamsungHealth.Controls
 {
@@ -15,7 +14,6 @@ namespace XamsungHealth.Controls
 	{
 		public ProgressCircle()
 		{
-
 		}
 
 		#region Bindable Properties
@@ -42,7 +40,7 @@ namespace XamsungHealth.Controls
 
 		public static BindableProperty PercentageProperty =
 	BindableProperty.Create(nameof(Percentage), typeof(float), typeof(ProgressCircle), 0f,
-		propertyChanged: (bindable, oldValue, newValue) => (bindable as ProgressCircle).Percentage2Angle((float)newValue));
+		propertyChanged: (bindable, oldValue, newValue) => (bindable as ProgressCircle)!.Percentage2Angle((float)newValue));
 
 		public float Percentage
 		{
@@ -117,27 +115,10 @@ namespace XamsungHealth.Controls
 			base.OnParentSet();
 
 			if (Parent != null)
-				InvalidateDraw();
-		}
-
-		protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			base.OnPropertyChanged(propertyName);
-			switch (propertyName)
 			{
-				case nameof(MainText) or
-					 nameof(SecondaryText) or
-					 nameof(StartingAngle) or
-					 nameof(EndingAngle) or
-					 nameof(ProgressThickness) or
-					 nameof(MainTextFontSize) or
-					 nameof(SecondaryTextFontSize) or
-					 nameof(ProgressColor):
-					InvalidateDraw();
-					break;
-			};
+				InvalidateDraw();
+			}
 		}
-
 		public override void Draw(ICanvas canvas, RectangleF dirtyRect)
 		{
 			base.Draw(canvas, dirtyRect);

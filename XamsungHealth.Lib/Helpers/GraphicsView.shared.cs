@@ -17,22 +17,24 @@ namespace XamsungHealth.Lib
 
 		public IList<IGraphicsEffect> GraphicsEffects { get; }
 
-		public event EventHandler Loaded;
-		public event EventHandler Unloaded;
+		public event EventHandler? Loaded;
+		public event EventHandler? Unloaded;
 
-		public event EventHandler TouchDown;
-		public event EventHandler TouchMove;
-		public event EventHandler TouchUp;
+		public event EventHandler? TouchDown;
+		public event EventHandler? TouchMove;
+		public event EventHandler? TouchUp;
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public event EventHandler Invalidated;
+		public event EventHandler? Invalidated;
 
 		public void InvalidateDraw() => Invalidated?.Invoke(this, EventArgs.Empty);
 
 		public virtual void Draw(ICanvas canvas, RectangleF dirtyRect)
 		{
 			foreach (var graphicsEffect in GraphicsEffects)
+			{
 				graphicsEffect.Draw(canvas, dirtyRect);
+			}
 		}
 
 		public virtual void Load()
@@ -64,14 +66,18 @@ namespace XamsungHealth.Lib
 		public void AttachComponents()
 		{
 			foreach (var graphicsEffect in GraphicsEffects)
+			{
 				graphicsEffect.AttachTo(this);
+			}
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public void DetachComponents()
 		{
 			foreach (var graphicsEffect in GraphicsEffects)
+			{
 				graphicsEffect.DetachFrom(this);
+			}
 		}
 	}
 }

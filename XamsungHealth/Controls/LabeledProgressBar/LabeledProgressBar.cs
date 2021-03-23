@@ -46,8 +46,8 @@ namespace XamsungHealth.Controls
 			var newValueDouble = (double)newValue;
 			var oldValueDouble = (double)oldValue;
 
-			var progressBar = (bindable as LabeledProgressBar).ProgressBar;
-			var progressBarLabel = (bindable as LabeledProgressBar).ProgressBarText;
+			var progressBar = (bindable as LabeledProgressBar)!.ProgressBar;
+			var progressBarLabel = (bindable as LabeledProgressBar)!.ProgressBarText;
 
 			await AnimateProgressAsync(progressBar, progressBarLabel, oldValueDouble / 100f, newValueDouble / 100f);
 		}
