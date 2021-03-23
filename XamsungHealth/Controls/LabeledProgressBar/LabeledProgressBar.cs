@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.UI.Views.Internals;
 using Xamarin.Forms;
@@ -11,7 +10,7 @@ namespace XamsungHealth.Controls
 		#region Static properties
 		static uint AnimationLength { get; } = 4000;
 		static uint AnimationRate { get; } = 100;
-		static Color mainGreen
+		static Color MainGreen
 		{
 			get
 			{
@@ -82,7 +81,7 @@ namespace XamsungHealth.Controls
 		static double GetXTranslate(double progress, double progressBarWidth)
 		{
 			var translateX = progress * progressBarWidth;
-			return translateX <= 30 ? 0 : translateX - 30;
+			return translateX <= 35 ? 0 : translateX - 35;
 		}
 
 		static void UpdateProgressText(Label label, double progressBarWidth, double newValue)
@@ -117,7 +116,7 @@ namespace XamsungHealth.Controls
 		private static ProgressBar CreateProgressBarElement()
 			=> new()
 			{
-				ProgressColor = mainGreen,
+				ProgressColor = MainGreen,
 				ScaleY = 9,
 				Progress = 0
 			};

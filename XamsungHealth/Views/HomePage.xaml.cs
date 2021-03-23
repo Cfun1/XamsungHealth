@@ -8,5 +8,10 @@ namespace XamsungHealth
 		{
 			InitializeComponent();
 		}
+
+		private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
+		{
+
+		}
 	}
 }

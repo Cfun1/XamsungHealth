@@ -15,17 +15,17 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type yummy:PancakeView}">
-                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Margin" Value="10,0"/>
                 <Setter Property="BackgroundColor" Value="White"/>
                 <Setter Property="CornerRadius" Value="15"/>
-                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Padding" Value="20"/>
             </Style>
 
             <Style x:Key="HedearTitleStyle"
                    TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource MainGreen}"/>
+                <Setter Property="FontSize" Value="15"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="FontSize" Value="17"/>
             </Style>
             <x:Double x:Key="FontSizeBig">
                 38
@@ -34,49 +34,150 @@
     </ContentPage.Resources>
 
     <ScrollView>
-        <StackLayout Spacing="2.5">
+        <StackLayout Spacing="10">
             <yummy:PancakeView VerticalOptions="FillAndExpand"
                                HorizontalOptions="Fill">
-                <StackLayout>
-                    <Grid>
-                        <ActivityIndicator VerticalOptions="Start"
-                                           HorizontalOptions="End"
-                                           IsRunning="True"
-                                           WidthRequest="20"
+                <local:BaseCard TitleText="Steps"
+                                TotalNumber="10000"
+                                CurrentNumber="5000"
+                                PrefixTotal="steps">
+                    <local:BaseCard.RigthHeaderItem>
+                        <ActivityIndicator IsRunning="True"
+                                           HeightRequest="15"
                                            Color="{DynamicResource MainGreen}"/>
-                        <Label Text="Steps"
-                               Style="{DynamicResource HedearTitleStyle}"/>
-                    </Grid>
+                    </local:BaseCard.RigthHeaderItem>
 
-                    <local:LabeledProgressBar Margin="5,0"
-                                              Percentage="80"/>
-                </StackLayout>
+                    <local:LabeledProgressBar Percentage="{Binding Source={RelativeSource AncestorType={x:Type local:BaseCard}}, Path=Percentage}"/>
+                </local:BaseCard>
             </yummy:PancakeView>
 
-            <yummy:PancakeView HeightRequest="100">
-                <StackLayout Margin="20,0,0,0"
-                             Spacing="15">
-                    <Grid>
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="Start"
-                                     VerticalOptions="Start">
-                            <ImageButton xct:IconTintColorEffect.TintColor="{DynamicResource MainGreen}">
-                                <ImageButton.Source>
-                                    <FontImageSource FontFamily="FontAwesome"
-                                                     Size="20"
-                                                     Glyph="{x:Static fontawesome:IconFont.Clock}"/>
-                                </ImageButton.Source>
-                            </ImageButton>
-                            <Label Text="Active time"
-                                   Style="{DynamicResource HedearTitleStyle}"/>
-                        </StackLayout>
-                    </Grid>
-                    <Label Text="79"
-                           FontSize="{StaticResource FontSizeBig}"/>
-                </StackLayout>
+            <yummy:PancakeView>
+                <local:BaseCard TitleText="Active time"
+                                CurrentNumber="1"
+                                TotalNumber="60"
+                                Icon="{x:Static fontawesome:IconFont.Clock}"
+                                PrefixTotal="mins"/>
             </yummy:PancakeView>
-            <yummy:PancakeView HeightRequest="150"/>
-            <yummy:PancakeView/>
+
+            <yummy:PancakeView>
+                <local:BaseCard TitleText="Exercise"
+                                IsRatioVisible="False"
+                                Icon="{x:Static fontawesome:IconFont.Running}">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Label Text="View history"/>
+                    </local:BaseCard.RigthHeaderItem>
+
+
+                    <StackLayout Margin="20,0"
+                                 Orientation="Horizontal"
+                                 HorizontalOptions="Center"
+                                 Spacing="20">
+                        <xct:AvatarView xct:TouchEffect.NativeAnimation="True"
+                                        xct:TouchEffect.NativeAnimationRadius="20"
+                                        VerticalOptions="Start"
+                                        Aspect="AspectFit"
+                                        CornerRadius="20"
+                                        BorderColor="LightGray"
+                                        HorizontalOptions="Start"
+                                        Color="Transparent">
+                            <xct:AvatarView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Running}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </xct:AvatarView.Source>
+                        </xct:AvatarView>
+
+                        <xct:AvatarView VerticalOptions="Start"
+                                        Aspect="AspectFit"
+                                        BorderColor="LightGray"
+                                        HorizontalOptions="Start"
+                                        Color="Transparent">
+                            <xct:AvatarView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Walking}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </xct:AvatarView.Source>
+                        </xct:AvatarView>
+
+                        <xct:AvatarView VerticalOptions="Start"
+                                        Aspect="AspectFit"
+                                        BorderColor="LightGray"
+                                        HorizontalOptions="Start"
+                                        Color="Transparent">
+                            <xct:AvatarView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Bicycle}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </xct:AvatarView.Source>
+                        </xct:AvatarView>
+
+                        <xct:AvatarView VerticalOptions="Start"
+                                        Aspect="AspectFit"
+                                        BorderColor="LightGray"
+                                        HorizontalOptions="Start"
+                                        Color="Transparent">
+                            <xct:AvatarView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.ListUl}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </xct:AvatarView.Source>
+                        </xct:AvatarView>
+                    </StackLayout>
+
+                </local:BaseCard>
+            </yummy:PancakeView>
+
+            <yummy:PancakeView HeightRequest="150">
+                <local:BaseCard TitleText="Food"
+                                TotalNumber="950"
+                                CurrentNumber="0"
+                                PrefixTotal="Kcal"
+                                Icon="{x:Static fontawesome:IconFont.SadCry}">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Button Padding="0"
+                                xct:TouchEffect.NativeAnimation="True"
+                                Text="Add"
+                                Visual="Material"
+                                VerticalOptions="Center"
+                                WidthRequest="120"
+                                HeightRequest="35"
+                                BorderColor="LightGray"
+                                BorderWidth="1"/>
+                    </local:BaseCard.RigthHeaderItem>
+                </local:BaseCard>
+            </yummy:PancakeView>
+
+            <yummy:PancakeView HeightRequest="150">
+                <local:BaseCard TitleText="Water"
+                                IsRatioVisible="False"
+                                Icon="{x:Static fontawesome:IconFont.GlassWhiskey}"
+                                Color="Blue">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Stepper BackgroundColor="red"
+                                 Value="7"/>
+                    </local:BaseCard.RigthHeaderItem>
+                </local:BaseCard>
+            </yummy:PancakeView>
+
+            <yummy:PancakeView HeightRequest="150">
+                <local:BaseCard TitleText="Were you asleep"
+                                IsRatioVisible="False"
+                                Icon="{x:Static fontawesome:IconFont.Moon}"
+                                Color="Purple">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Label Text="OK">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </local:BaseCard.RigthHeaderItem>
+
+                </local:BaseCard>
+            </yummy:PancakeView>
         </StackLayout>
     </ScrollView>
 
