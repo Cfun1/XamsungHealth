@@ -15,7 +15,6 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type yummy:PancakeView}">
-                <Setter Property="Margin" Value="10,0"/>
                 <Setter Property="BackgroundColor" Value="White"/>
                 <Setter Property="CornerRadius" Value="15"/>
                 <Setter Property="Padding" Value="20"/>
@@ -34,7 +33,8 @@
     </ContentPage.Resources>
 
     <ScrollView>
-        <StackLayout Spacing="10">
+        <StackLayout Padding="10,0"
+                     Spacing="10">
             <yummy:PancakeView VerticalOptions="FillAndExpand"
                                HorizontalOptions="Fill">
                 <local:BaseCard TitleText="Steps"
@@ -56,7 +56,15 @@
                                 CurrentNumber="1"
                                 TotalNumber="60"
                                 Icon="{x:Static fontawesome:IconFont.Clock}"
-                                PrefixTotal="mins"/>
+                                PrefixTotal="mins">
+                    <local:BaseCard.RigthRatioViewItem>
+                        <StackLayout>
+                            <Label Text="425 Kcal  |  0.0Km"/>
+                        </StackLayout>
+                    </local:BaseCard.RigthRatioViewItem>
+
+
+                </local:BaseCard>
             </yummy:PancakeView>
 
             <yummy:PancakeView>
@@ -72,60 +80,41 @@
                                  Orientation="Horizontal"
                                  HorizontalOptions="Center"
                                  Spacing="20">
-                        <xct:AvatarView xct:TouchEffect.NativeAnimation="True"
-                                        xct:TouchEffect.NativeAnimationRadius="20"
-                                        VerticalOptions="Start"
-                                        Aspect="AspectFit"
-                                        CornerRadius="20"
-                                        BorderColor="LightGray"
-                                        HorizontalOptions="Start"
-                                        Color="Transparent">
-                            <xct:AvatarView.Source>
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
                                 <FontImageSource Glyph="{x:Static fontawesome:IconFont.Running}"
                                                  FontFamily="FontAwesome"
                                                  Size="20"
                                                  Color="Black"/>
-                            </xct:AvatarView.Source>
-                        </xct:AvatarView>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
 
-                        <xct:AvatarView VerticalOptions="Start"
-                                        Aspect="AspectFit"
-                                        BorderColor="LightGray"
-                                        HorizontalOptions="Start"
-                                        Color="Transparent">
-                            <xct:AvatarView.Source>
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
                                 <FontImageSource Glyph="{x:Static fontawesome:IconFont.Walking}"
                                                  FontFamily="FontAwesome"
                                                  Size="20"
                                                  Color="Black"/>
-                            </xct:AvatarView.Source>
-                        </xct:AvatarView>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
 
-                        <xct:AvatarView VerticalOptions="Start"
-                                        Aspect="AspectFit"
-                                        BorderColor="LightGray"
-                                        HorizontalOptions="Start"
-                                        Color="Transparent">
-                            <xct:AvatarView.Source>
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
                                 <FontImageSource Glyph="{x:Static fontawesome:IconFont.Bicycle}"
                                                  FontFamily="FontAwesome"
                                                  Size="20"
                                                  Color="Black"/>
-                            </xct:AvatarView.Source>
-                        </xct:AvatarView>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
 
-                        <xct:AvatarView VerticalOptions="Start"
-                                        Aspect="AspectFit"
-                                        BorderColor="LightGray"
-                                        HorizontalOptions="Start"
-                                        Color="Transparent">
-                            <xct:AvatarView.Source>
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
                                 <FontImageSource Glyph="{x:Static fontawesome:IconFont.ListUl}"
                                                  FontFamily="FontAwesome"
                                                  Size="20"
                                                  Color="Black"/>
-                            </xct:AvatarView.Source>
-                        </xct:AvatarView>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
                     </StackLayout>
 
                 </local:BaseCard>
@@ -169,15 +158,14 @@
                                 Icon="{x:Static fontawesome:IconFont.Moon}"
                                 Color="Purple">
                     <local:BaseCard.RigthHeaderItem>
-                        <Label Text="OK">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                        <Label Text="OK"/>
                     </local:BaseCard.RigthHeaderItem>
 
                 </local:BaseCard>
             </yummy:PancakeView>
+
+            <Label Text="Manage Items  &gt;"
+                   HorizontalOptions="End"/>
         </StackLayout>
     </ScrollView>
 

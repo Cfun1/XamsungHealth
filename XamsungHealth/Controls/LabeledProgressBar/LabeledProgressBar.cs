@@ -7,6 +7,7 @@ namespace XamsungHealth.Controls
 {
 	public class LabeledProgressBar : BaseTemplatedView<Grid>
 	{
+		//TODO: add cancel animation when navigating away from page
 		#region Static properties
 		static uint AnimationLength { get; } = 4000;
 		static uint AnimationRate { get; } = 100;

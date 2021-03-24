@@ -10,15 +10,13 @@ namespace XamsungHealth.Controls
 	[ContentProperty(nameof(Content))]
 	public class BaseCard : BaseTemplatedView<IconHedearRatioTemplate>
 	{
-
-
 		public static readonly BindableProperty ColorProperty = BindableProperty.Create(
-												propertyName: nameof(Color),
-												returnType: typeof(Color),
-												declaringType: typeof(BaseCard),
-												defaultValue: Color.FromHex("#00CE08"),
-												defaultBindingMode: BindingMode.TwoWay,
-												propertyChanged: ColorChanged);
+														propertyName: nameof(Color),
+														returnType: typeof(Color),
+														declaringType: typeof(BaseCard),
+														defaultValue: Color.FromHex("#00CE08"),
+														defaultBindingMode: BindingMode.TwoWay,
+														propertyChanged: ColorChanged);
 
 		private static void ColorChanged(BindableObject bindable, object oldValue, object newValue)
 		{
@@ -76,6 +74,15 @@ namespace XamsungHealth.Controls
 		{
 			get => (View?)GetValue(RigthHeaderItemProperty);
 			set => SetValue(RigthHeaderItemProperty, value);
+		}
+
+		public static readonly BindableProperty RigthRatioViewItemProperty =
+		BindableProperty.Create(nameof(RigthRatioViewItem), typeof(View), typeof(BaseCard));
+
+		public View? RigthRatioViewItem
+		{
+			get => (View?)GetValue(RigthRatioViewItemProperty);
+			set => SetValue(RigthRatioViewItemProperty, value);
 		}
 
 		public static Style<Label> DefaulTitleStyle

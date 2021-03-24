@@ -33,10 +33,10 @@
         <Tab Title="Discover">
             <Tab.Icon>
                 <FontImageSource FontFamily="FontAwesome"
-                                 Glyph="{x:Static fontawesome:IconFont.Compass}"/>
+                                 Glyph="{x:Static fontawesome:IconFont.Calendar}"/>
             </Tab.Icon>
-            <ShellContent Title="Discover"
-                          Route="Discover"
+            <ShellContent Title="Fitness"
+                          Route="Fitness"
                           ContentTemplate="{DataTemplate xamsunghealth:HomePage}"/>
         </Tab>
 

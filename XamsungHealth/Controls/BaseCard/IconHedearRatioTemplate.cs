@@ -62,9 +62,25 @@ namespace XamsungHealth.Controls
 				Children =
 				{
 					headerGrid,
-					new ContentView()
+					//TODO: maybe change to a Grid
+					new StackLayout()
+					{
+						Orientation = StackOrientation.Horizontal,
+						Children =
+						{
+							new ContentView()
+							{
+								HorizontalOptions = LayoutOptions.StartAndExpand
+							}
 						.Bind(ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.RatioView))
 						.Bind(IsVisibleProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.IsRatioVisible)),
+							new ContentView()
+							{
+								VerticalOptions = LayoutOptions.End,
+ 							}.Bind(ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.RigthRatioViewItem))
+						}
+					},
+
 					new ContentPresenter()
 					{
 						Margin = new Thickness(0,10)
