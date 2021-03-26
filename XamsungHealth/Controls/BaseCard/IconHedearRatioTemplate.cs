@@ -5,19 +5,30 @@ using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
 
 namespace XamsungHealth.Controls
 {
-	public class IconHedearRatioTemplate : ContentView
+	public class IconHedearRatioTemplate : Frame
 	{
+		public static Style<IconHedearRatioTemplate> DefaulIconHedearRatioTemplateStyle
+		{
+			get => new(
+						(CornerRadiusProperty, 15),
+						(PaddingProperty, 20),
+						(BackgroundColorProperty, Color.White),
+						(BorderColorProperty, Color.Transparent));
+		}
+
 		public Image IconImage { get; set; }
 		public IconHedearRatioTemplate()
 		{
+			Style = DefaulIconHedearRatioTemplateStyle;
+
 			var title = new Label()
 			{
 				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.Start
 			}
-				.Bind(Label.TextProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.TitleText))
-				.Bind(Label.TextColorProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.Color))
-				.Style(BaseCard.DefaulTitleStyle);
+							.Bind(Label.TextProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.TitleText))
+							.Bind(Label.TextColorProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.Color))
+							.Style(BaseCard.DefaulTitleStyle);
 
 			IconImage = new Image()
 			{

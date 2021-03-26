@@ -14,12 +14,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style TargetType="{x:Type yummy:PancakeView}">
-                <Setter Property="BackgroundColor" Value="White"/>
-                <Setter Property="CornerRadius" Value="15"/>
-                <Setter Property="Padding" Value="20"/>
-            </Style>
-
             <Style x:Key="HedearTitleStyle"
                    TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource MainGreen}"/>
@@ -35,134 +29,118 @@
     <ScrollView>
         <StackLayout Padding="10,0"
                      Spacing="10">
-            <yummy:PancakeView VerticalOptions="FillAndExpand"
-                               HorizontalOptions="Fill">
-                <local:BaseCard TitleText="Steps"
-                                TotalNumber="10000"
-                                CurrentNumber="5000"
-                                PrefixTotal="steps">
-                    <local:BaseCard.RigthHeaderItem>
-                        <ActivityIndicator IsRunning="True"
-                                           HeightRequest="15"
-                                           Color="{DynamicResource MainGreen}"/>
-                    </local:BaseCard.RigthHeaderItem>
 
-                    <local:LabeledProgressBar Percentage="{Binding Source={RelativeSource AncestorType={x:Type local:BaseCard}}, Path=Percentage}"/>
-                </local:BaseCard>
-            </yummy:PancakeView>
+            <local:BaseCard TitleText="Steps"
+                            TotalNumber="10000"
+                            CurrentNumber="5000"
+                            PrefixTotal="steps">
+                <local:BaseCard.RigthHeaderItem>
+                    <ActivityIndicator IsRunning="True"
+                                       HeightRequest="15"
+                                       Color="{DynamicResource MainGreen}"/>
+                </local:BaseCard.RigthHeaderItem>
 
-            <yummy:PancakeView>
-                <local:BaseCard TitleText="Active time"
-                                CurrentNumber="1"
-                                TotalNumber="60"
-                                Icon="{x:Static fontawesome:IconFont.Clock}"
-                                PrefixTotal="mins">
-                    <local:BaseCard.RigthRatioViewItem>
-                        <StackLayout>
-                            <Label Text="425 Kcal  |  0.0Km"/>
-                        </StackLayout>
-                    </local:BaseCard.RigthRatioViewItem>
+                <local:LabeledProgressBar Percentage="{Binding Source={RelativeSource AncestorType={x:Type local:BaseCard}}, Path=Percentage}"/>
+            </local:BaseCard>
 
-
-                </local:BaseCard>
-            </yummy:PancakeView>
-
-            <yummy:PancakeView>
-                <local:BaseCard TitleText="Exercise"
-                                IsRatioVisible="False"
-                                Icon="{x:Static fontawesome:IconFont.Running}">
-                    <local:BaseCard.RigthHeaderItem>
-                        <Label Text="View history"/>
-                    </local:BaseCard.RigthHeaderItem>
-
-
-                    <StackLayout Margin="20,0"
-                                 Orientation="Horizontal"
-                                 HorizontalOptions="Center"
-                                 Spacing="20">
-                        <local:CircleIconView>
-                            <local:CircleIconView.Source>
-                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Running}"
-                                                 FontFamily="FontAwesome"
-                                                 Size="20"
-                                                 Color="Black"/>
-                            </local:CircleIconView.Source>
-                        </local:CircleIconView>
-
-                        <local:CircleIconView>
-                            <local:CircleIconView.Source>
-                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Walking}"
-                                                 FontFamily="FontAwesome"
-                                                 Size="20"
-                                                 Color="Black"/>
-                            </local:CircleIconView.Source>
-                        </local:CircleIconView>
-
-                        <local:CircleIconView>
-                            <local:CircleIconView.Source>
-                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Bicycle}"
-                                                 FontFamily="FontAwesome"
-                                                 Size="20"
-                                                 Color="Black"/>
-                            </local:CircleIconView.Source>
-                        </local:CircleIconView>
-
-                        <local:CircleIconView>
-                            <local:CircleIconView.Source>
-                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.ListUl}"
-                                                 FontFamily="FontAwesome"
-                                                 Size="20"
-                                                 Color="Black"/>
-                            </local:CircleIconView.Source>
-                        </local:CircleIconView>
+            <local:BaseCard TitleText="Active time"
+                            CurrentNumber="1"
+                            TotalNumber="60"
+                            Icon="{x:Static fontawesome:IconFont.Clock}"
+                            PrefixTotal="mins">
+                <local:BaseCard.RigthRatioViewItem>
+                    <StackLayout>
+                        <Label Text="425 Kcal  |  0.0Km"/>
                     </StackLayout>
+                </local:BaseCard.RigthRatioViewItem>
+            </local:BaseCard>
 
-                </local:BaseCard>
-            </yummy:PancakeView>
+            <local:BaseCard TitleText="Exercise"
+                            IsRatioVisible="False"
+                            Icon="{x:Static fontawesome:IconFont.Running}">
+                <local:BaseCard.RigthHeaderItem>
+                    <Label Text="View history"/>
+                </local:BaseCard.RigthHeaderItem>
 
-            <yummy:PancakeView HeightRequest="150">
-                <local:BaseCard TitleText="Food"
-                                TotalNumber="950"
-                                CurrentNumber="0"
-                                PrefixTotal="Kcal"
-                                Icon="{x:Static fontawesome:IconFont.SadCry}">
-                    <local:BaseCard.RigthHeaderItem>
-                        <Button Padding="0"
-                                xct:TouchEffect.NativeAnimation="True"
-                                Text="Add"
-                                Visual="Material"
-                                VerticalOptions="Center"
-                                WidthRequest="120"
-                                HeightRequest="35"
-                                BorderColor="LightGray"
-                                BorderWidth="1"/>
-                    </local:BaseCard.RigthHeaderItem>
-                </local:BaseCard>
-            </yummy:PancakeView>
 
-            <yummy:PancakeView HeightRequest="150">
-                <local:BaseCard TitleText="Water"
-                                IsRatioVisible="False"
-                                Icon="{x:Static fontawesome:IconFont.GlassWhiskey}"
-                                Color="Blue">
-                    <local:BaseCard.RigthHeaderItem>
-                        <Stepper BackgroundColor="red"
-                                 Value="7"/>
-                    </local:BaseCard.RigthHeaderItem>
-                </local:BaseCard>
-            </yummy:PancakeView>
+                <StackLayout Margin="20,0"
+                             Orientation="Horizontal"
+                             HorizontalOptions="Center"
+                             Spacing="20">
+                    <local:CircleIconView>
+                        <local:CircleIconView.Source>
+                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.Running}"
+                                             FontFamily="FontAwesome"
+                                             Size="20"
+                                             Color="Black"/>
+                        </local:CircleIconView.Source>
+                    </local:CircleIconView>
 
-            <yummy:PancakeView HeightRequest="150">
-                <local:BaseCard TitleText="Were you asleep"
-                                IsRatioVisible="False"
-                                Icon="{x:Static fontawesome:IconFont.Moon}"
-                                Color="Purple">
-                    <local:BaseCard.RigthHeaderItem>
-                        <Label Text="OK"/>
-                    </local:BaseCard.RigthHeaderItem>
+                    <local:CircleIconView>
+                        <local:CircleIconView.Source>
+                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.Walking}"
+                                             FontFamily="FontAwesome"
+                                             Size="20"
+                                             Color="Black"/>
+                        </local:CircleIconView.Source>
+                    </local:CircleIconView>
 
-                </local:BaseCard>
-            </yummy:PancakeView>
+                    <local:CircleIconView>
+                        <local:CircleIconView.Source>
+                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.Bicycle}"
+                                             FontFamily="FontAwesome"
+                                             Size="20"
+                                             Color="Black"/>
+                        </local:CircleIconView.Source>
+                    </local:CircleIconView>
+
+                    <local:CircleIconView>
+                        <local:CircleIconView.Source>
+                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.ListUl}"
+                                             FontFamily="FontAwesome"
+                                             Size="20"
+                                             Color="Black"/>
+                        </local:CircleIconView.Source>
+                    </local:CircleIconView>
+                </StackLayout>
+            </local:BaseCard>
+
+            <local:BaseCard TitleText="Food"
+                            TotalNumber="950"
+                            CurrentNumber="0"
+                            PrefixTotal="Kcal"
+                            Icon="{x:Static fontawesome:IconFont.SadCry}">
+                <local:BaseCard.RigthHeaderItem>
+                    <Button Padding="0"
+                            xct:TouchEffect.NativeAnimation="True"
+                            Text="Add"
+                            Visual="Material"
+                            VerticalOptions="Center"
+                            WidthRequest="120"
+                            HeightRequest="35"
+                            BorderColor="LightGray"
+                            BorderWidth="1"/>
+                </local:BaseCard.RigthHeaderItem>
+            </local:BaseCard>
+
+            <local:BaseCard TitleText="Water"
+                            IsRatioVisible="False"
+                            Icon="{x:Static fontawesome:IconFont.GlassWhiskey}"
+                            Color="Blue">
+                <local:BaseCard.RigthHeaderItem>
+                    <Stepper BackgroundColor="red"
+                             Value="7"/>
+                </local:BaseCard.RigthHeaderItem>
+            </local:BaseCard>
+
+            <local:BaseCard TitleText="Were you asleep"
+                            IsRatioVisible="False"
+                            Icon="{x:Static fontawesome:IconFont.Moon}"
+                            Color="Purple">
+                <local:BaseCard.RigthHeaderItem>
+                    <Label Text="OK"/>
+                </local:BaseCard.RigthHeaderItem>
+            </local:BaseCard>
 
             <Label Text="Manage Items  &gt;"
                    HorizontalOptions="End"/>
