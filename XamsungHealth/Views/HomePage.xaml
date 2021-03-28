@@ -2,10 +2,13 @@
 <ContentPage x:Class="XamsungHealth.HomePage"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:fontawesome="clr-namespace:XamsungHealth.Lib.Fonts;assembly=XamsungHealth.Lib"
              xmlns:local="clr-namespace:XamsungHealth.Controls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xamsunghealth="clr-namespace:XamsungHealth"
+             x:DataType="xamsunghealth:HomeViewModel"
+             Shell.NavBarIsVisible="{Binding IsInEditMode, Converter={StaticResource InvertedBoolConverter}}"
+             Shell.TabBarIsVisible="{Binding IsInEditMode, Converter={StaticResource InvertedBoolConverter}}"
              BackgroundColor="{DynamicResource MainBackgroundColor}">
 
     <Shell.TitleView>
@@ -14,137 +17,170 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
+
             <Style x:Key="HedearTitleStyle"
                    TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource MainGreen}"/>
                 <Setter Property="FontSize" Value="15"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
-            <x:Double x:Key="FontSizeBig">
-                38
-            </x:Double>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView>
-        <StackLayout Padding="10,0"
-                     Spacing="10">
 
-            <local:BaseCard TitleText="Steps"
-                            TotalNumber="10000"
-                            CurrentNumber="5000"
-                            PrefixTotal="steps">
-                <local:BaseCard.RigthHeaderItem>
-                    <ActivityIndicator IsRunning="True"
-                                       HeightRequest="15"
-                                       Color="{DynamicResource MainGreen}"/>
-                </local:BaseCard.RigthHeaderItem>
+    <StackLayout Spacing="0">
 
-                <local:LabeledProgressBar Percentage="{Binding Source={RelativeSource AncestorType={x:Type local:BaseCard}}, Path=Percentage}"/>
-            </local:BaseCard>
+        <ScrollView Scale="{Binding IsInEditMode, Converter={xct:BoolToObjectConverter FalseObject=1.0, TrueObject=0.95}}">
+            <StackLayout Padding="10,5"
+                         xct:TouchEffect.LongPressCommand="{Binding LongPressCommand}"
+                         xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
+                         Spacing="10">
 
-            <local:BaseCard TitleText="Active time"
-                            CurrentNumber="1"
-                            TotalNumber="60"
-                            Icon="{x:Static fontawesome:IconFont.Clock}"
-                            PrefixTotal="mins">
-                <local:BaseCard.RigthRatioViewItem>
-                    <StackLayout>
+                <local:BaseCard TitleText="Steps"
+                                TotalNumber="10000"
+                                IsInEditMode="{Binding IsInEditMode}"
+                                CurrentNumber="5000"
+                                PrefixTotal="steps">
+                    <local:BaseCard.RigthHeaderItem>
+                        <ActivityIndicator IsRunning="True"
+                                           HeightRequest="15"
+                                           Color="{DynamicResource MainGreen}"/>
+                    </local:BaseCard.RigthHeaderItem>
+
+                    <local:LabeledProgressBar Percentage="{Binding Source={RelativeSource AncestorType={x:Type local:BaseCard}}, Path=Percentage}"/>
+                </local:BaseCard>
+
+                <local:BaseCard TitleText="Active time"
+                                CurrentNumber="1"
+                                IsInEditMode="{Binding IsInEditMode}"
+                                TotalNumber="60"
+                                Icon="{x:Static fontawesome:IconFont.Clock}"
+                                PrefixTotal="mins">
+                    <local:BaseCard.RigthRatioViewItem>
                         <Label Text="425 Kcal  |  0.0Km"/>
+                    </local:BaseCard.RigthRatioViewItem>
+                </local:BaseCard>
+
+                <local:BaseCard TitleText="Exercise"
+                                IsRatioVisible="False"
+                                IsInEditMode="{Binding IsInEditMode}"
+                                Icon="{x:Static fontawesome:IconFont.Running}">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Label Text="View history"/>
+                    </local:BaseCard.RigthHeaderItem>
+
+
+                    <StackLayout Margin="20,0"
+                                 Orientation="Horizontal"
+                                 HorizontalOptions="Center"
+                                 Spacing="20">
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Running}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
+
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Walking}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
+
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.Bicycle}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
+
+                        <local:CircleIconView>
+                            <local:CircleIconView.Source>
+                                <FontImageSource Glyph="{x:Static fontawesome:IconFont.ListUl}"
+                                                 FontFamily="FontAwesome"
+                                                 Size="20"
+                                                 Color="Black"/>
+                            </local:CircleIconView.Source>
+                        </local:CircleIconView>
                     </StackLayout>
-                </local:BaseCard.RigthRatioViewItem>
-            </local:BaseCard>
+                </local:BaseCard>
 
-            <local:BaseCard TitleText="Exercise"
-                            IsRatioVisible="False"
-                            Icon="{x:Static fontawesome:IconFont.Running}">
-                <local:BaseCard.RigthHeaderItem>
-                    <Label Text="View history"/>
-                </local:BaseCard.RigthHeaderItem>
+                <local:BaseCard TitleText="Food"
+                                TotalNumber="950"
+                                IsInEditMode="{Binding IsInEditMode}"
+                                CurrentNumber="0"
+                                PrefixTotal="Kcal"
+                                Icon="{x:Static fontawesome:IconFont.SadCry}">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Button Padding="0"
+                                xct:TouchEffect.NativeAnimation="True"
+                                Text="Add"
+                                Visual="Material"
+                                VerticalOptions="Center"
+                                WidthRequest="120"
+                                HeightRequest="35"
+                                BorderColor="LightGray"
+                                BorderWidth="1"/>
+                    </local:BaseCard.RigthHeaderItem>
+                </local:BaseCard>
+
+                <local:BaseCard TitleText="Water"
+                                IsInEditMode="{Binding IsInEditMode}"
+                                IsRatioVisible="False"
+                                Icon="{x:Static fontawesome:IconFont.GlassWhiskey}"
+                                Color="Blue">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Stepper BackgroundColor="red"
+                                 Value="7"/>
+                    </local:BaseCard.RigthHeaderItem>
+                </local:BaseCard>
+
+                <local:BaseCard TitleText="Were you asleep"
+                                IsRatioVisible="False"
+                                IsInEditMode="{Binding IsInEditMode}"
+                                Icon="{x:Static fontawesome:IconFont.Moon}"
+                                Color="Purple">
+                    <local:BaseCard.RigthHeaderItem>
+                        <Label Text="OK"/>
+                    </local:BaseCard.RigthHeaderItem>
+                </local:BaseCard>
+
+                <Label Text="Manage Items  &gt;"
+                       HorizontalOptions="End"/>
+            </StackLayout>
+        </ScrollView>
 
 
-                <StackLayout Margin="20,0"
-                             Orientation="Horizontal"
-                             HorizontalOptions="Center"
-                             Spacing="20">
-                    <local:CircleIconView>
-                        <local:CircleIconView.Source>
-                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.Running}"
-                                             FontFamily="FontAwesome"
-                                             Size="20"
-                                             Color="Black"/>
-                        </local:CircleIconView.Source>
-                    </local:CircleIconView>
+        <Grid IsVisible="{Binding IsInEditMode}"
+              RowDefinitions="auto">
+            <Grid.Resources>
+                <Style x:Key="BottomButtonsStyle"
+                       TargetType="Button">
+                    <Setter Property="FontAttributes" Value="Bold"/>
+                    <Setter Property="TextTransform" Value="None"/>
+                    <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                    <Setter Property="CornerRadius" Value="0"/>
+                    <Setter Property="xct:TouchEffect.NativeAnimation" Value="True"/>
+                </Style>
+            </Grid.Resources>
 
-                    <local:CircleIconView>
-                        <local:CircleIconView.Source>
-                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.Walking}"
-                                             FontFamily="FontAwesome"
-                                             Size="20"
-                                             Color="Black"/>
-                        </local:CircleIconView.Source>
-                    </local:CircleIconView>
-
-                    <local:CircleIconView>
-                        <local:CircleIconView.Source>
-                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.Bicycle}"
-                                             FontFamily="FontAwesome"
-                                             Size="20"
-                                             Color="Black"/>
-                        </local:CircleIconView.Source>
-                    </local:CircleIconView>
-
-                    <local:CircleIconView>
-                        <local:CircleIconView.Source>
-                            <FontImageSource Glyph="{x:Static fontawesome:IconFont.ListUl}"
-                                             FontFamily="FontAwesome"
-                                             Size="20"
-                                             Color="Black"/>
-                        </local:CircleIconView.Source>
-                    </local:CircleIconView>
-                </StackLayout>
-            </local:BaseCard>
-
-            <local:BaseCard TitleText="Food"
-                            TotalNumber="950"
-                            CurrentNumber="0"
-                            PrefixTotal="Kcal"
-                            Icon="{x:Static fontawesome:IconFont.SadCry}">
-                <local:BaseCard.RigthHeaderItem>
-                    <Button Padding="0"
-                            xct:TouchEffect.NativeAnimation="True"
-                            Text="Add"
-                            Visual="Material"
-                            VerticalOptions="Center"
-                            WidthRequest="120"
-                            HeightRequest="35"
-                            BorderColor="LightGray"
-                            BorderWidth="1"/>
-                </local:BaseCard.RigthHeaderItem>
-            </local:BaseCard>
-
-            <local:BaseCard TitleText="Water"
-                            IsRatioVisible="False"
-                            Icon="{x:Static fontawesome:IconFont.GlassWhiskey}"
-                            Color="Blue">
-                <local:BaseCard.RigthHeaderItem>
-                    <Stepper BackgroundColor="red"
-                             Value="7"/>
-                </local:BaseCard.RigthHeaderItem>
-            </local:BaseCard>
-
-            <local:BaseCard TitleText="Were you asleep"
-                            IsRatioVisible="False"
-                            Icon="{x:Static fontawesome:IconFont.Moon}"
-                            Color="Purple">
-                <local:BaseCard.RigthHeaderItem>
-                    <Label Text="OK"/>
-                </local:BaseCard.RigthHeaderItem>
-            </local:BaseCard>
-
-            <Label Text="Manage Items  &gt;"
-                   HorizontalOptions="End"/>
-        </StackLayout>
-    </ScrollView>
+            <Button Grid.Column="0"
+                    Style="{StaticResource BottomButtonsStyle}"
+                    Command="{Binding CancelCommand}"
+                    Text="Cancel"/>
+            <Button Grid.Column="1"
+                    Style="{StaticResource BottomButtonsStyle}"
+                    Command="{Binding SaveCommand}"
+                    Text="Save"/>
+        </Grid>
+    </StackLayout>
 
 </ContentPage>

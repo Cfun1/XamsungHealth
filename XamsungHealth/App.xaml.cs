@@ -4,10 +4,14 @@ namespace XamsungHealth
 {
 	public partial class App : Application
 	{
+		public static Color MainGreen
+		{
+			get => (Color)Application.Current.Resources["MainGreen"];
+		}
+
 		public App()
 		{
 			InitializeComponent();
-
 			MainPage = new AppShell();
 		}
 

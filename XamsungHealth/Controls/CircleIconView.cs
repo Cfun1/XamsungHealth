@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+﻿using System.Runtime.CompilerServices;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit.UI.Views;
@@ -12,7 +9,7 @@ namespace XamsungHealth.Controls
 	public class CircleIconView : AvatarView
 	{
 		//TODO: Add a Tap gesture reconizer with Command
-		static Style<AvatarView> DefaultStyle
+		public static Style<AvatarView> DefaultStyle
 		{
 			get => new(
 			(VerticalOptionsProperty, LayoutOptions.Start),

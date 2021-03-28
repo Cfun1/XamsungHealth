@@ -4,6 +4,7 @@ using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit.UI.Views.Internals;
 using Xamarin.Forms;
+using XamsungHealth.Lib.Fonts;
 
 namespace XamsungHealth.Controls
 {
@@ -42,6 +43,12 @@ namespace XamsungHealth.Controls
 												defaultBindingMode: BindingMode.TwoWay,
 												propertyChanged: IsRatioVisibleChanged);
 
+		public bool IsRatioVisible
+		{
+			get { return (bool)GetValue(IsRatioVisibleProperty); }
+			set { SetValue(IsRatioVisibleProperty, value); }
+		}
+
 		private static void IsRatioVisibleChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			var baseCard = bindable as BaseCard;
@@ -51,15 +58,22 @@ namespace XamsungHealth.Controls
 			}
 		}
 
-		public bool IsRatioVisible
+
+		public static readonly BindableProperty IsInEditModeProperty = BindableProperty.Create(
+										propertyName: nameof(IsInEditMode),
+										returnType: typeof(bool),
+ 										declaringType: typeof(BaseCard),
+										defaultBindingMode: BindingMode.TwoWay);
+
+		public bool IsInEditMode
 		{
-			get { return (bool)GetValue(IsRatioVisibleProperty); }
-			set { SetValue(IsRatioVisibleProperty, value); }
+			get { return (bool)GetValue(IsInEditModeProperty); }
+			set { SetValue(IsInEditModeProperty, value); }
 		}
 
 
 		public static readonly BindableProperty ContentProperty =
-			BindableProperty.Create(nameof(Content), typeof(View), typeof(BaseCard));
+					BindableProperty.Create(nameof(Content), typeof(View), typeof(BaseCard));
 
 		public View? Content
 		{

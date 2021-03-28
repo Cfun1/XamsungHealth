@@ -7,7 +7,7 @@ namespace XamsungHealth
 		public HomePage()
 		{
 			InitializeComponent();
-
+			BindingContext = new HomeViewModel();
 		}
 	}
 }
