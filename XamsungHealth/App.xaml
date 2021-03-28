@@ -5,9 +5,9 @@
              xmlns:fontawesome="clr-namespace:XamsungHealth.Lib.Fonts;assembly=XamsungHealth.Lib"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
 
-
     <Application.Resources>
         <ResourceDictionary>
+            <!--  region Colors  -->
             <Color x:Key="MainBackgroundColor">
                 WhiteSmoke
             </Color>
@@ -15,12 +15,11 @@
             <Color x:Key="MainGreen">
                 #00CE08
             </Color>
+            <!--#endregion-->
 
             <Style TargetType="{x:Type Tab}">
                 <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource MainBackgroundColor}"/>
                 <Setter Property="Shell.TabBarTitleColor" Value="Black"/>
-                <Setter Property="Shell.NavBarHasShadow" Value="False"/>
-                <Setter Property="Shell.NavBarIsVisible" Value="True"/>
             </Style>
 
 

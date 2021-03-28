@@ -11,6 +11,35 @@ namespace XamsungHealth.Controls
 	[ContentProperty(nameof(Content))]
 	public class BaseCard : BaseTemplatedView<IconHedearRatioTemplate>
 	{
+		private static void LongPress(object obj)
+			=> (obj as BaseCard)?.SetValue(IsInEditModeProperty, true);
+
+		RatioView? ratioView;
+		public RatioView? RatioView
+		{
+			get
+			{
+				return ratioView ??= new();
+			}
+		}
+
+		#region Bindable properties
+
+		public static readonly BindableProperty EditModeCommandProperty = BindableProperty.Create(
+														propertyName: nameof(EditModeCommand),
+														returnType: typeof(Command),
+														declaringType: typeof(BaseCard),
+														defaultValue: new Command(LongPress),
+														defaultBindingMode: BindingMode.TwoWay);
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public Command EditModeCommand
+		{
+			get { return (Command)GetValue(EditModeCommandProperty); }
+			set { SetValue(EditModeCommandProperty, value); }
+		}
+
+
 		public static readonly BindableProperty ColorProperty = BindableProperty.Create(
 														propertyName: nameof(Color),
 														returnType: typeof(Color),
@@ -57,7 +86,6 @@ namespace XamsungHealth.Controls
 				baseCard.ratioView = null;
 			}
 		}
-
 
 		public static readonly BindableProperty IsInEditModeProperty = BindableProperty.Create(
 										propertyName: nameof(IsInEditMode),
@@ -106,21 +134,12 @@ namespace XamsungHealth.Controls
 						(Label.FontAttributesProperty, FontAttributes.Bold));
 		}
 
-		RatioView? ratioView;
-		public RatioView? RatioView
-		{
-			get
-			{
-				return ratioView ??= new();
-			}
-		}
-
 		public static readonly BindableProperty IconProperty = BindableProperty.Create(
-												propertyName: nameof(Icon),
-												returnType: typeof(string),
-												declaringType: typeof(BaseCard),
- 												defaultBindingMode: BindingMode.TwoWay,
-												propertyChanged: null);
+														propertyName: nameof(Icon),
+														returnType: typeof(string),
+														declaringType: typeof(BaseCard),
+														 defaultBindingMode: BindingMode.TwoWay,
+														propertyChanged: null);
 
 		public string Icon
 		{
@@ -144,28 +163,28 @@ namespace XamsungHealth.Controls
 
 		public static readonly BindableProperty TotalNumberProperty = BindableProperty.Create(
 												propertyName: nameof(TotalNumber),
-												returnType: typeof(double),
+												returnType: typeof(float),
 												declaringType: typeof(BaseCard),
 												defaultBindingMode: BindingMode.TwoWay,
 												propertyChanged: OnRatioNumbersChanged);
 
-		public double TotalNumber
+		public float TotalNumber
 		{
-			get { return (double)GetValue(TotalNumberProperty); }
+			get { return (float)GetValue(TotalNumberProperty); }
 			set { SetValue(TotalNumberProperty, value); }
 		}
 
 
 		public static readonly BindableProperty CurrentNumberProperty = BindableProperty.Create(
 												propertyName: nameof(CurrentNumber),
-												returnType: typeof(double),
+												returnType: typeof(float),
 												declaringType: typeof(BaseCard),
  												defaultBindingMode: BindingMode.TwoWay,
 												propertyChanged: OnRatioNumbersChanged);
 
-		public double CurrentNumber
+		public float CurrentNumber
 		{
-			get { return (double)GetValue(CurrentNumberProperty); }
+			get { return (float)GetValue(CurrentNumberProperty); }
 			set { SetValue(CurrentNumberProperty, value); }
 		}
 
@@ -174,7 +193,7 @@ namespace XamsungHealth.Controls
 			var baseCard = (bindable as BaseCard);
 			if (baseCard != null)
 			{
-				baseCard.Percentage = (baseCard.CurrentNumber / baseCard.TotalNumber) * 100d;
+				baseCard.Percentage = (baseCard.CurrentNumber / baseCard.TotalNumber) * 100f;
 			}
 		}
 
@@ -192,16 +211,16 @@ namespace XamsungHealth.Controls
 
 		public static readonly BindableProperty PercentageProperty = BindableProperty.Create(
 												propertyName: nameof(Percentage),
-												returnType: typeof(double),
+												returnType: typeof(float),
 												declaringType: typeof(BaseCard));
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public double Percentage
+		public float Percentage
 		{
-			get { return (double)GetValue(PercentageProperty); }
+			get { return (float)GetValue(PercentageProperty); }
 			set { SetValue(PercentageProperty, value); }
 		}
-
+		#endregion
 
 		protected override void OnControlInitialized(IconHedearRatioTemplate control)
 		{

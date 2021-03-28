@@ -7,13 +7,9 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:xamsunghealth="clr-namespace:XamsungHealth"
              x:DataType="xamsunghealth:HomeViewModel"
-             Shell.NavBarIsVisible="{Binding IsInEditMode, Converter={StaticResource InvertedBoolConverter}}"
              Shell.TabBarIsVisible="{Binding IsInEditMode, Converter={StaticResource InvertedBoolConverter}}"
              BackgroundColor="{DynamicResource MainBackgroundColor}">
 
-    <Shell.TitleView>
-        <ContentView ControlTemplate="{DynamicResource AppBar}"/>
-    </Shell.TitleView>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -25,16 +21,38 @@
                 <Setter Property="FontSize" Value="15"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
+
+            <Style TargetType="xamsunghealth:HomePage">
+                <Setter Property="Shell.TitleView">
+                    <Setter.Value>
+                        <ContentView ControlTemplate="{DynamicResource AppBar}"/>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <DataTrigger TargetType="xamsunghealth:HomePage"
+                                 Binding="{Binding IsInEditMode}"
+                                 Value="true">
+                        <Setter Property="Shell.TitleView">
+                            <Setter.Value>
+                                <Grid BackgroundColor="White">
+                                    <Label Margin="10,0"
+                                           Text="Manage Items"
+                                           VerticalOptions="Center"
+                                           FontSize="20"/>
+                                </Grid>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
 
     <StackLayout Spacing="0">
-
-        <ScrollView Scale="{Binding IsInEditMode, Converter={xct:BoolToObjectConverter FalseObject=1.0, TrueObject=0.95}}">
+        <ScrollView>
             <StackLayout Padding="10,5"
-                         xct:TouchEffect.LongPressCommand="{Binding LongPressCommand}"
-                         xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
                          Spacing="10">
 
                 <local:BaseCard TitleText="Steps"
@@ -174,7 +192,7 @@
 
             <Button Grid.Column="0"
                     Style="{StaticResource BottomButtonsStyle}"
-                    Command="{Binding CancelCommand}"
+                    Command="{Binding ExitEditModeCommand}"
                     Text="Cancel"/>
             <Button Grid.Column="1"
                     Style="{StaticResource BottomButtonsStyle}"

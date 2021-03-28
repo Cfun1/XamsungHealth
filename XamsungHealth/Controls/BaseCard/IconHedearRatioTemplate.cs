@@ -1,4 +1,5 @@
-﻿using Xamarin.CommunityToolkit.Converters;
+﻿using Xamanimation;
+using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
@@ -11,12 +12,46 @@ namespace XamsungHealth.Controls
 	{
 		static Style<Frame> DefaulFrameStyle
 		{
-			get => new(
+			get
+			{
+				var style = new Style<Frame>(
 						(Frame.CornerRadiusProperty, 15),
 						(Frame.PaddingProperty, 20),
 						(Frame.BackgroundColorProperty, Color.White),
-						(Frame.BorderColorProperty, Color.Transparent)
+						(Frame.BorderColorProperty, Color.Transparent),
+						(TouchEffect.ShouldMakeChildrenInputTransparentProperty, true)
 					);
+
+				style.FormsStyle.Triggers.Add(
+				new DataTrigger(typeof(Frame))
+				{
+					Value = true,
+					Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
+											path: nameof(BaseCard.IsInEditMode)),
+
+					EnterActions =
+					{
+						new AnimateDouble()
+						{
+							Duration = 250,
+							To = 0.9,
+							TargetProperty = Frame.ScaleProperty
+						}
+					},
+
+					ExitActions =
+					{
+						new AnimateDouble()
+						{
+							Duration = 250,
+							To = 1,
+							TargetProperty = Frame.ScaleProperty
+						}
+					}
+				});
+
+				return style;
+			}
 		}
 
 		public static Style<CircleIconView> DefaulCircleIconViewStyle
@@ -24,22 +59,16 @@ namespace XamsungHealth.Controls
 			get => new Style<CircleIconView>(
 						(HorizontalOptionsProperty, LayoutOptions.End),
 						(VerticalOptionsProperty, LayoutOptions.Start),
-						(CircleIconView.SizeProperty, 25),
-						(TranslationXProperty, -15),
-						(TranslationYProperty, 10)
-					  ).BasedOn(CircleIconView.DefaultStyle!);
+						(OpacityProperty, 0),
+						(CircleIconView.SizeProperty, 30)
+						).BasedOn(CircleIconView.DefaultStyle!);
 		}
 
 		public Image IconImage { get; set; }
 		public IconHedearRatioTemplate()
 		{
-			var mainFrame = new Frame().Style(DefaulFrameStyle)
-							.Bind(ScaleProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.IsInEditMode),
-							converter: new BoolToObjectConverter()
-							{
-								TrueObject = .85,
-								FalseObject = 1.0
-							});
+			var mainFrame = new Frame()
+				.Style(DefaulFrameStyle);
 
 			var title = new Label()
 			{
@@ -109,13 +138,13 @@ namespace XamsungHealth.Controls
 							new ContentView()
 							{
 								VerticalOptions = LayoutOptions.End,
- 							}.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.RigthRatioViewItem))
+							}.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.RigthRatioViewItem))
 						}
 					},
 
 					new ContentPresenter()
 					{
-						Margin = new Thickness(0,10)
+						Margin = new Thickness(0, 10)
 					}
 				}
 			};
@@ -126,15 +155,58 @@ namespace XamsungHealth.Controls
 				{
 					Glyph = IconFont.Minus,
 					FontFamily = IconFont.FontName,
-					Size = 10,
+					Size = 15,
 					Color = Color.Red
-				}
+				},
 			}
-				.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle)
-				.Bind(IsVisibleProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.IsInEditMode));
+				.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle);
+
+			EditModeCloseButton.Triggers.Add(
+									new DataTrigger(typeof(CircleIconView))
+									{
+										Value = true,
+										Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
+																path: nameof(BaseCard.IsInEditMode)),
+
+										EnterActions =
+										{
+											new AnimateDouble()
+											{
+												Duration=250,
+												To=-5,
+												TargetProperty =CircleIconView.TranslationYProperty,
+											},
+											new AnimateDouble()
+											{
+												Duration=250,
+												To=1,
+												TargetProperty =CircleIconView.OpacityProperty,
+											},
+										},
+
+										ExitActions =
+										{
+										new AnimateDouble()
+											{
+												Duration=250,
+												To=0,
+												TargetProperty =CircleIconView.TranslationYProperty,
+											},
+											new AnimateDouble()
+											{
+												Duration=250,
+												To=0,
+												TargetProperty =CircleIconView.OpacityProperty,
+											},
+										}
+									}
+							);
 
 			mainFrame.Content = mainStackLayout;
 			Children.Add(mainFrame);
+			mainFrame.Bind(TouchEffect.LongPressCommandProperty, source: RelativeBindingSource.TemplatedParent,
+					path: nameof(BaseCard.EditModeCommand))
+				.Bind(TouchEffect.LongPressCommandParameterProperty, source: RelativeBindingSource.TemplatedParent);
 			Children.Add(EditModeCloseButton);
 		}
 	}
