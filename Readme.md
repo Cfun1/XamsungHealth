@@ -1,1 +1,1 @@
-This project is using System.Graphics package (https://github.com/dotnet/System.Graphics) and some base parts of GraphicsControls (https://github.com/dotnet/GraphicsControls)
+This project is using System.Graphics package (https://github.com/dotnet/System.Graphics) and some base bits of GraphicsControls (https://github.com/dotnet/GraphicsControls) and of cource Xamarin.CommunityToolkit (https://github.com/Xamarin/XamarinCommunityToolkit) in order to replicate Samsung Health UI as genuine as possible.
