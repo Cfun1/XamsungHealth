@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="XamsungHealth.TogetherPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xamsunghealth="clr-namespace:XamsungHealth"
+             xmlns:local="clr-namespace:XamsungHealth.Controls"
+             xmlns:fontawesome="clr-namespace:XamsungHealth.Lib.Fonts;assembly=XamsungHealth.Lib"
+             x:DataType="xamsunghealth:HomeViewModel"
+             BackgroundColor="{DynamicResource MainBackgroundColor}">
+
+    <Shell.TitleView>
+        <ContentView ControlTemplate="{DynamicResource AppBar}"/>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary/>
+    </ContentPage.Resources>
+
+
+</ContentPage>

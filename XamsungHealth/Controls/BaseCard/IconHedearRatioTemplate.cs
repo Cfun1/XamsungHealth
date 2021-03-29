@@ -154,7 +154,7 @@ namespace XamsungHealth.Controls
 				Source = new FontImageSource
 				{
 					Glyph = IconFont.Minus,
-					FontFamily = IconFont.FontName,
+					FontFamily = IconFont._FontName,
 					Size = 15,
 					Color = Color.Red
 				},

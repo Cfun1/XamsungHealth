@@ -27,7 +27,7 @@
             </Tab.Icon>
             <ShellContent Title="Together"
                           Route="Together"
-                          ContentTemplate="{DataTemplate xamsunghealth:HomePage}"/>
+                          ContentTemplate="{DataTemplate xamsunghealth:TogetherPage}"/>
         </Tab>
 
         <Tab Title="Discover">

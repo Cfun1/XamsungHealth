@@ -1,12 +1,12 @@
 ﻿using Xamarin.Forms;
 using XamsungHealth.Lib.Fonts;
 
-[assembly: ExportFont("fa-solid-900.ttf", Alias = IconFont.FontName)]
+[assembly: ExportFont("fa-solid-900.ttf", Alias = IconFont._FontName)]
 namespace XamsungHealth.Lib.Fonts
 {
 	public static class IconFont
 	{
-		public const string FontName = "FontAwesome";
+		public const string _FontName = "FontAwesome";
 		// FontAwesome
 		public const string Ad = "\uf641";
 		public const string AddressBook = "\uf2b9";

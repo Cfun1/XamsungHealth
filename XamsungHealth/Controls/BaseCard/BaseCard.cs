@@ -1,16 +1,15 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit.UI.Views.Internals;
 using Xamarin.Forms;
-using XamsungHealth.Lib.Fonts;
 
 namespace XamsungHealth.Controls
 {
 	[ContentProperty(nameof(Content))]
 	public class BaseCard : BaseTemplatedView<IconHedearRatioTemplate>
 	{
+		//TODO: add a bool to indicate whether the card is active or no, active means was not hidden by user
 		private static void LongPress(object obj)
 			=> (obj as BaseCard)?.SetValue(IsInEditModeProperty, true);
 

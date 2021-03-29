@@ -17,11 +17,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="Xamanimation" Version="1.3.0" />
 	  <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
 	  <PackageReference Include="Xamarin.CommunityToolkit" Version="1.1.0" />
 	  <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.1.0" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.763-beta" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +31,9 @@
   <ItemGroup>
     <Compile Update="Controls\GraphicControls\ProgressCircle.xaml.cs">
       <DependentUpon>ProgressCircle.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TogetherPage.xaml.cs">
+      <DependentUpon>TogetherPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
