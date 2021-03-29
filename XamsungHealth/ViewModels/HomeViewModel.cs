@@ -60,7 +60,8 @@ namespace XamsungHealth
 											LabeledProgressBar.PercentageProperty,
 											source: new RelativeBindingSource(RelativeBindingSourceMode.FindAncestor,
 											typeof(BaseCard)), path: nameof(BaseCard.Percentage))
-				}.Bind(BaseCard.IsInEditModeProperty, nameof(IsInEditMode)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
 
 				new BaseCard()
 				{
@@ -73,7 +74,8 @@ namespace XamsungHealth
 					{
 						Text = "425 Kcal  |  0.0Km"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, nameof(IsInEditMode)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
 
 				new BaseCard()
 				{
@@ -134,7 +136,8 @@ namespace XamsungHealth
 							}
 						}
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, nameof(IsInEditMode)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
 
 				new BaseCard()
 				{
@@ -148,7 +151,8 @@ namespace XamsungHealth
 						Style = buttonStyle,
 						Text = "Add"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, nameof(IsInEditMode)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
 
 				new BaseCard()
 				{
@@ -161,14 +165,17 @@ namespace XamsungHealth
 					{
 						Text = "OK"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, nameof(IsInEditMode)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand))
 			};
 		}
 
-		private ICommand? longPressCommand;
-		public ICommand LongPressCommand => longPressCommand ??= new Command(LongPress);
+		private ICommand? enableEditModeCommand;
+		public ICommand EnableEditModeCommand => enableEditModeCommand ??= new Command<object>(EnableEditMode);
 
-		private void LongPress() => IsInEditMode = true;
+		private void EnableEditMode(object obj)
+			=> IsInEditMode = true;
+
 
 		private ICommand? saveCommand;
 		public ICommand SaveCommand => saveCommand ??= new Command(Save);
@@ -178,8 +185,10 @@ namespace XamsungHealth
 		}
 
 		private ICommand? exitEditModeCommand;
-		public ICommand ExitEditModeCommand => exitEditModeCommand ??= new Command(ExitEditMode);
+		public ICommand ExitEditModeCommand
+			=> exitEditModeCommand ??= new Command(ExitEditMode);
 
-		private void ExitEditMode() => IsInEditMode = false;
+		private void ExitEditMode()
+			=> IsInEditMode = false;
 	}
 }

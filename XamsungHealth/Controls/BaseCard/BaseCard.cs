@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Input;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.CommunityToolkit.UI.Views.Internals;
@@ -26,15 +27,15 @@ namespace XamsungHealth.Controls
 
 		public static readonly BindableProperty EditModeCommandProperty = BindableProperty.Create(
 														propertyName: nameof(EditModeCommand),
-														returnType: typeof(Command),
+														returnType: typeof(ICommand),
 														declaringType: typeof(BaseCard),
 														defaultValue: new Command(LongPress),
 														defaultBindingMode: BindingMode.TwoWay);
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public Command EditModeCommand
+		public ICommand EditModeCommand
 		{
-			get { return (Command)GetValue(EditModeCommandProperty); }
+			get { return (ICommand)GetValue(EditModeCommandProperty); }
 			set { SetValue(EditModeCommandProperty, value); }
 		}
 

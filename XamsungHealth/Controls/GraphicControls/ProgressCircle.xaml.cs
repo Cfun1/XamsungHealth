@@ -9,7 +9,9 @@ using System.ComponentModel;
 
 namespace XamsungHealth.Controls
 {
+	//Not done in xaml with shapes and path because of https://github.com/xamarin/Xamarin.Forms/issues/13828
 	//Adapted from https://github.com/michaelstonis/SkiaSharpExamples/blob/master/SkiaSharpExamples/Views/CircularProgress.cs
+	//Alternative: could be replaced by https://github.com/jsuarezruiz/TemplateUI/blob/master/src/TemplateUI/Controls/CircleProgressBar/CircleProgressBar.cs
 	public class ProgressCircle : GraphicsView
 	{
 		public ProgressCircle()

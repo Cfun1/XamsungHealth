@@ -48,8 +48,7 @@
     </ContentPage.Resources>
 
 
-    <StackLayout Padding="10,5"
-                 Spacing="10">
+    <StackLayout Margin="15,10">
         <CollectionView ItemsSource="{Binding BaseCardsList}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="10"
@@ -58,10 +57,8 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout>
-                        <ContentView x:DataType="local:BaseCard"
-                                     Content="{Binding .}"/>
-                    </StackLayout>
+                    <ContentView x:DataType="local:BaseCard"
+                                 Content="{Binding .}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 

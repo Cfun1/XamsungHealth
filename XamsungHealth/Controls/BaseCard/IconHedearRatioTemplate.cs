@@ -60,7 +60,9 @@ namespace XamsungHealth.Controls
 						(HorizontalOptionsProperty, LayoutOptions.End),
 						(VerticalOptionsProperty, LayoutOptions.Start),
 						(OpacityProperty, 0),
-						(CircleIconView.SizeProperty, 30)
+						(CircleIconView.SizeProperty, 30),
+						(CircleIconView.TranslationYProperty, -5)
+						//TODO: set this value as a constant because it used in triggers also
 						).BasedOn(CircleIconView.DefaultStyle!);
 		}
 
@@ -149,7 +151,8 @@ namespace XamsungHealth.Controls
 				}
 			};
 
-			var EditModeCloseButton = new CircleIconView()
+			//Will be used for both + - icons
+			var EditModeButton = new CircleIconView()
 			{
 				Source = new FontImageSource
 				{
@@ -161,7 +164,7 @@ namespace XamsungHealth.Controls
 			}
 				.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle);
 
-			EditModeCloseButton.Triggers.Add(
+			EditModeButton.Triggers.Add(
 									new DataTrigger(typeof(CircleIconView))
 									{
 										Value = true,
@@ -173,7 +176,7 @@ namespace XamsungHealth.Controls
 											new AnimateDouble()
 											{
 												Duration=250,
-												To=-5,
+												To=0,
 												TargetProperty =CircleIconView.TranslationYProperty,
 											},
 											new AnimateDouble()
@@ -189,7 +192,7 @@ namespace XamsungHealth.Controls
 										new AnimateDouble()
 											{
 												Duration=250,
-												To=0,
+												To=-5,
 												TargetProperty =CircleIconView.TranslationYProperty,
 											},
 											new AnimateDouble()
@@ -203,11 +206,13 @@ namespace XamsungHealth.Controls
 							);
 
 			mainFrame.Content = mainStackLayout;
+
+			//instead of Grid it could be done with a RelativeLayout also, ConstraintExpression Type=RelativeToView
 			Children.Add(mainFrame);
 			mainFrame.Bind(TouchEffect.LongPressCommandProperty, source: RelativeBindingSource.TemplatedParent,
 					path: nameof(BaseCard.EditModeCommand))
 				.Bind(TouchEffect.LongPressCommandParameterProperty, source: RelativeBindingSource.TemplatedParent);
-			Children.Add(EditModeCloseButton);
+			Children.Add(EditModeButton);
 		}
 	}
 }
