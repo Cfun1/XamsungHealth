@@ -60,8 +60,7 @@ namespace XamsungHealth
 											LabeledProgressBar.PercentageProperty,
 											source: new RelativeBindingSource(RelativeBindingSourceMode.FindAncestor,
 											typeof(BaseCard)), path: nameof(BaseCard.Percentage))
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
 
 				new BaseCard()
 				{
@@ -74,8 +73,7 @@ namespace XamsungHealth
 					{
 						Text = "425 Kcal  |  0.0Km"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
 
 				new BaseCard()
 				{
@@ -136,9 +134,7 @@ namespace XamsungHealth
 							}
 						}
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
-
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
 				new BaseCard()
 				{
 					TitleText = "Food",
@@ -151,8 +147,7 @@ namespace XamsungHealth
 						Style = buttonStyle,
 						Text = "Add"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
 
 				new BaseCard()
 				{
@@ -166,16 +161,8 @@ namespace XamsungHealth
 						Text = "OK"
 					}
 				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				 .Bind(BaseCard.EditModeCommandProperty, source: this, path: nameof(EnableEditModeCommand))
 			};
 		}
-
-		private ICommand? enableEditModeCommand;
-		public ICommand EnableEditModeCommand => enableEditModeCommand ??= new Command<object>(EnableEditMode);
-
-		private void EnableEditMode(object obj)
-			=> IsInEditMode = true;
-
 
 		private ICommand? saveCommand;
 		public ICommand SaveCommand => saveCommand ??= new Command(Save);

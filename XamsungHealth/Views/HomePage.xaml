@@ -8,7 +8,7 @@
              xmlns:xamsunghealthLib="clr-namespace:XamsungHealth.Lib.Behaviors;assembly=XamsungHealth.Lib"
              xmlns:converters="clr-namespace:XamsungHealth.Lib.Converters;assembly=XamsungHealth.Lib"
              x:DataType="xamsunghealth:HomeViewModel"
-             Shell.NavBarHasShadow="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter Condition='>', Value=10}}"
+             Shell.NavBarHasShadow="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter ComparisonOperator='>', ComparingValue=10}}"
              Shell.TabBarIsVisible="{Binding IsInEditMode, Converter={StaticResource InvertedBoolConverter}}"
              BackgroundColor="{DynamicResource MainBackgroundColor}">
 
@@ -27,7 +27,7 @@
                 <Setter Property="Shell.TitleView">
                     <Setter.Value>
                         <ContentView ControlTemplate="{DynamicResource AppBar}"
-                                     BackgroundColor="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter Condition='>', Value=10, TrueObject='White', FalseObject='WhiteSmoke'}}"/>
+                                     BackgroundColor="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter ComparisonOperator='>', ComparingValue=10, TrueObject='White', FalseObject='WhiteSmoke'}}"/>
                     </Setter.Value>
                 </Setter>
 
