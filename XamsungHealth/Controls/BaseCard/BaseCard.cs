@@ -22,7 +22,6 @@ namespace XamsungHealth.Controls
 				return ratioView ??= new();
 			}
 		}
-
 		#region Bindable properties
 
 		public static readonly BindableProperty EditModeCommandProperty = BindableProperty.Create(

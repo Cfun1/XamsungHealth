@@ -1,5 +1,4 @@
 ﻿using Xamanimation;
-using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
@@ -19,7 +18,7 @@ namespace XamsungHealth.Controls
 						(Frame.PaddingProperty, 20),
 						(Frame.BackgroundColorProperty, Color.White),
 						(Frame.BorderColorProperty, Color.Transparent),
-						(TouchEffect.ShouldMakeChildrenInputTransparentProperty, true)
+						(TouchEffect.ShouldMakeChildrenInputTransparentProperty, false)
 					);
 
 				style.FormsStyle.Triggers.Add(
