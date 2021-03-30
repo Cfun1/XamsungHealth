@@ -5,7 +5,10 @@
              xmlns:local="clr-namespace:XamsungHealth.Controls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:xamsunghealth="clr-namespace:XamsungHealth"
+             xmlns:xamsunghealthLib="clr-namespace:XamsungHealth.Lib.Behaviors;assembly=XamsungHealth.Lib"
+             xmlns:converters="clr-namespace:XamsungHealth.Lib.Converters;assembly=XamsungHealth.Lib"
              x:DataType="xamsunghealth:HomeViewModel"
+             Shell.NavBarHasShadow="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter Condition='>', Value=10}}"
              Shell.TabBarIsVisible="{Binding IsInEditMode, Converter={StaticResource InvertedBoolConverter}}"
              BackgroundColor="{DynamicResource MainBackgroundColor}">
 
@@ -23,7 +26,8 @@
             <Style TargetType="xamsunghealth:HomePage">
                 <Setter Property="Shell.TitleView">
                     <Setter.Value>
-                        <ContentView ControlTemplate="{DynamicResource AppBar}"/>
+                        <ContentView ControlTemplate="{DynamicResource AppBar}"
+                                     BackgroundColor="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter Condition='>', Value=10, TrueObject='White', FalseObject='WhiteSmoke'}}"/>
                     </Setter.Value>
                 </Setter>
 
@@ -50,6 +54,10 @@
 
     <StackLayout Margin="15,10">
         <CollectionView ItemsSource="{Binding BaseCardsList}">
+            <CollectionView.Behaviors>
+                <xamsunghealthLib:CollectionViewScrollBehavior x:Name="scroll"/>
+            </CollectionView.Behaviors>
+
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="10"
                                    Orientation="Vertical"/>
