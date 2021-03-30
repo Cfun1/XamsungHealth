@@ -49,7 +49,6 @@ namespace XamsungHealth.Lib.Behaviors
 			ScrollY = e.VerticalOffset;
 			ScrollX = e.HorizontalOffset;
 
-			Console.WriteLine(ScrollY);
 			//Size contentSize = scrollView.ContentSize;
 
 			//var viewportHeight = contentSize.Height - collectionView.Height;

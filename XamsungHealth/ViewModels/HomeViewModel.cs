@@ -135,6 +135,7 @@ namespace XamsungHealth
 						}
 					}
 				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
+
 				new BaseCard()
 				{
 					TitleText = "Food",

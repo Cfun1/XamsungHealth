@@ -18,36 +18,63 @@ namespace XamsungHealth.Controls
 						(Frame.PaddingProperty, 20),
 						(Frame.BackgroundColorProperty, Color.White),
 						(Frame.BorderColorProperty, Color.Transparent),
-						(TouchEffect.ShouldMakeChildrenInputTransparentProperty, false)
+ 						(TouchEffect.ShouldMakeChildrenInputTransparentProperty, false)
 					);
 
 				style.FormsStyle.Triggers.Add(
-				new DataTrigger(typeof(Frame))
-				{
-					Value = true,
-					Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
+					new DataTrigger(typeof(Frame))
+					{
+						Value = true,
+						Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
+										path: nameof(BaseCard.IsInEditMode)),
+
+						EnterActions =
+						{
+							new AnimateDouble()
+							{
+								Duration = 250,
+								To = 0.85,
+								TargetProperty = Frame.ScaleProperty,
+								Easing = EasingType.SpringIn
+							},
+						},
+
+						ExitActions =
+						{
+							new AnimateDouble()
+							{
+								Duration = 250,
+								To = 1,
+								TargetProperty = Frame.ScaleProperty,
+								Easing = EasingType.SpringIn
+							}
+						}
+					});
+
+				//TODO: Question Issue: if "Setters" merged in DataTrigger above same binding same value, it won't work, why?
+				style.FormsStyle.Triggers.Add(
+					new DataTrigger(typeof(Frame))
+					{
+						Value = true,
+						Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
 											path: nameof(BaseCard.IsInEditMode)),
-
-					EnterActions =
-					{
-						new AnimateDouble()
+						Setters =
 						{
-							Duration = 250,
-							To = 0.9,
-							TargetProperty = Frame.ScaleProperty
-						}
-					},
+							//Question Issue: Why this is working on the last card of the collectionview only ?
+							//If reloading xaml with hotreload suddenly starts work on all items
 
-					ExitActions =
-					{
-						new AnimateDouble()
-						{
-							Duration = 250,
-							To = 1,
-							TargetProperty = Frame.ScaleProperty
-						}
+							new Setter() {
+								Property = TouchEffect.NativeAnimationProperty,
+								Value = true
+							},
+
+							new Setter() {
+								Property = TouchEffect.ShouldMakeChildrenInputTransparentProperty,
+								Value = true
+							},
+ 						}
 					}
-				});
+					);
 
 				return style;
 			}
@@ -59,8 +86,9 @@ namespace XamsungHealth.Controls
 						(HorizontalOptionsProperty, LayoutOptions.End),
 						(VerticalOptionsProperty, LayoutOptions.Start),
 						(OpacityProperty, 0),
-						(CircleIconView.SizeProperty, 30),
-						(CircleIconView.TranslationYProperty, -5)
+						(CircleIconView.SizeProperty, 25),
+						(CircleIconView.TranslationYProperty, -5),
+						(CircleIconView.TranslationXProperty, -10)
 						//TODO: set this value as a constant because it used in triggers also
 						).BasedOn(CircleIconView.DefaultStyle!);
 		}
@@ -157,7 +185,7 @@ namespace XamsungHealth.Controls
 				{
 					Glyph = IconFont.Minus,
 					FontFamily = IconFont._FontName,
-					Size = 15,
+					Size = 10,
 					Color = Color.Red
 				},
 			}

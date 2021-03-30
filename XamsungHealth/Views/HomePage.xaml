@@ -59,7 +59,7 @@
             </CollectionView.Behaviors>
 
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="10"
+                <LinearItemsLayout ItemSpacing="{Binding IsInEditMode, Converter={xct:BoolToObjectConverter FalseObject=10, TrueObject=0}}"  
                                    Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
 
