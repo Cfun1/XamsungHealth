@@ -15,6 +15,9 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <xct:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
+            <xct:BoolToObjectConverter x:Key="BoolToObjectConverter"
+                                       TrueObject="0"
+                                       FalseObject="10"/>
 
             <Style x:Key="HedearTitleStyle"
                    TargetType="Label">
@@ -48,27 +51,60 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+
+            <Thickness x:Key="GlobalMargin">
+                15,10
+            </Thickness>
+
+            <Thickness x:Key="GlobalMarginEditMode">
+                0,10
+            </Thickness>
+
+            <!--  Could be moved inide CardsDataTemplateSelector  -->
+            <DataTemplate x:Key="visibleCardsDataTemplate">
+                <ContentView x:DataType="local:BaseCard"
+                             Content="{Binding .}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="hiddenCardsDataTemplate">
+                <ContentView x:DataType="local:BaseCard"
+                             BackgroundColor="LightGray"
+                             Content="{Binding .}"/>
+            </DataTemplate>
+
+            <xamsunghealth:CardsDataTemplateSelector x:Key="cardsDataTemplateSelector"
+                                                     VisibleCardsDataTemplate="{StaticResource visibleCardsDataTemplate}"
+                                                     HiddenCardsDataTemplate="{StaticResource hiddenCardsDataTemplate}"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
 
-    <StackLayout Margin="15,10">
-        <CollectionView ItemsSource="{Binding BaseCardsList}">
+    <StackLayout Margin="{Binding IsInEditMode, Converter={xct:BoolToObjectConverter FalseObject={StaticResource GlobalMargin}, TrueObject={StaticResource GlobalMarginEditMode}}}">
+        <CollectionView ItemsSource="{Binding CardsList}"
+                        ItemTemplate="{StaticResource cardsDataTemplateSelector}">
             <CollectionView.Behaviors>
                 <xamsunghealthLib:CollectionViewScrollBehavior x:Name="scroll"/>
             </CollectionView.Behaviors>
 
+            <!--<CollectionView.GestureRecognizers>
+                <DragGestureRecognizer CanDrag="True"
+                                       DragStartingCommand="{Binding DragStartingCommand}"
+                                       DragStartingCommandParameter="{Binding .}"
+                                       DropCompletedCommand="{Binding DropCompletedCommand}"
+                                       DropCompletedCommandParameter="{Binding .}"/>
+                <DropGestureRecognizer AllowDrop="True"
+                                       DragLeaveCommand="{Binding DragLeaveCommand}"
+                                       DragLeaveCommandParameter="{Binding .}"
+                                       DragOverCommand="{Binding DragOverCommand}"
+                                       DragOverCommandParameter="{Binding .}"
+                                       DropCommand="{Binding DropCommand}"
+                                       DropCommandParameter="{Binding .}"/>
+            </CollectionView.GestureRecognizers>-->
+
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="{Binding IsInEditMode, Converter={xct:BoolToObjectConverter FalseObject=10, TrueObject=0}}"  
+                <LinearItemsLayout ItemSpacing="{Binding IsInEditMode, Converter={StaticResource BoolToObjectConverter}}"
                                    Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <ContentView x:DataType="local:BaseCard"
-                                 Content="{Binding .}"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
 
             <CollectionView.Footer>
                 <Label Text="Manage Items  &gt;"

@@ -24,6 +24,19 @@ namespace XamsungHealth.Controls
 		}
 		#region Bindable properties
 
+		public static readonly BindableProperty IsHiddenProperty = BindableProperty.Create(
+												propertyName: nameof(IsHidden),
+												returnType: typeof(bool),
+												declaringType: typeof(BaseCard),
+ 												defaultBindingMode: BindingMode.TwoWay);
+
+		public bool IsHidden
+		{
+			get { return (bool)GetValue(IsHiddenProperty); }
+			set { SetValue(IsHiddenProperty, value); }
+		}
+
+
 		public static readonly BindableProperty EditModeCommandProperty = BindableProperty.Create(
 														propertyName: nameof(EditModeCommand),
 														returnType: typeof(ICommand),

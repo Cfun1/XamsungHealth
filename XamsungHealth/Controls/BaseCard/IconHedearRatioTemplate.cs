@@ -1,4 +1,5 @@
 ﻿using Xamanimation;
+using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
@@ -41,7 +42,7 @@ namespace XamsungHealth.Controls
 
 						ExitActions =
 						{
-							new AnimateDouble()
+ 							new AnimateDouble()
 							{
 								Duration = 250,
 								To = 1,
@@ -178,18 +179,38 @@ namespace XamsungHealth.Controls
 				}
 			};
 
-			//Will be used for both + - icons
+			//Will be used for both + - icons depending on IsHidden property
 			var EditModeButton = new CircleIconView()
 			{
 				Source = new FontImageSource
 				{
-					Glyph = IconFont.Minus,
 					FontFamily = IconFont._FontName,
-					Size = 10,
-					Color = Color.Red
+					Size = 10
+				}
+			.Bind(FontImageSource.GlyphProperty,
+				source: new RelativeBindingSource(
+					RelativeBindingSourceMode.FindAncestorBindingContext,
+					typeof(BaseCard)),
+				path: nameof(BaseCard.IsHidden),
+				converter: new BoolToObjectConverter()
+				{
+					TrueObject = IconFont.Plus,
+					FalseObject = IconFont.Minus
 				},
+				fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
+			)
+				.Bind(FontImageSource.ColorProperty,
+					source: new RelativeBindingSource(
+						RelativeBindingSourceMode.FindAncestorBindingContext,
+						typeof(BaseCard)),
+					path: nameof(BaseCard.IsHidden),
+					converter: new BoolToObjectConverter()
+					{
+						TrueObject = Color.Green,
+						FalseObject = Color.Red
+					})
 			}
-				.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle);
+			.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle);
 
 			EditModeButton.Triggers.Add(
 									new DataTrigger(typeof(CircleIconView))
