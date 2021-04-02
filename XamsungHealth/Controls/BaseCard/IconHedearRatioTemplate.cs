@@ -185,7 +185,6 @@ namespace XamsungHealth.Controls
 
 			var EditModeButton = new CircleIconView()
 			{
-				Command = new Command<BaseCard>(x => x.IsHidden = x.IsHidden ? x.IsHidden = false : x.IsHidden = true),
 				Source = new FontImageSource
 				{
 					FontFamily = IconFont._FontName,
@@ -203,22 +202,27 @@ namespace XamsungHealth.Controls
 				},
 				fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
 			)
-				.Bind(FontImageSource.ColorProperty,
-					source: new RelativeBindingSource(
+			.Bind(FontImageSource.ColorProperty,
+				source: new RelativeBindingSource(
 						RelativeBindingSourceMode.FindAncestorBindingContext,
 						typeof(BaseCard)),
-					path: nameof(BaseCard.IsHidden),
-					converter: new BoolToObjectConverter()
-					{
-						TrueObject = Color.Green,
-						FalseObject = Color.Red
-					})
+				path: nameof(BaseCard.IsHidden),
+				converter: new BoolToObjectConverter()
+				{
+					TrueObject = Color.Green,
+					FalseObject = Color.Red
+				})
 			}
 			.Bind(CircleIconView.CommandParameterProperty,
 				source: new RelativeBindingSource(
 						RelativeBindingSourceMode.FindAncestorBindingContext,
 						typeof(BaseCard))
 				)
+			.Bind(CircleIconView.CommandProperty,
+				source: new RelativeBindingSource(
+					RelativeBindingSourceMode.FindAncestorBindingContext,
+					typeof(BaseCard)),
+				path: nameof(BaseCard.EditModeMainButtonCommand))
 			.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle);
 
 			EditModeButton.Triggers.Add(
@@ -276,7 +280,7 @@ namespace XamsungHealth.Controls
 			//instead of Grid it could be done with a RelativeLayout also, ConstraintExpression Type=RelativeToView
 			Children.Add(mainFrame);
 			mainFrame.Bind(TouchEffect.LongPressCommandProperty, source: RelativeBindingSource.TemplatedParent,
-					path: nameof(BaseCard.EditModeCommand))
+					path: nameof(BaseCard.LongPressEditModeCommand))
 				.Bind(TouchEffect.LongPressCommandParameterProperty, source: RelativeBindingSource.TemplatedParent);
 			Children.Add(EditModeButton);
 		}

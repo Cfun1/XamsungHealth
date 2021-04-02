@@ -10,9 +10,15 @@ namespace XamsungHealth.Controls
 	[ContentProperty(nameof(Content))]
 	public class BaseCard : BaseTemplatedView<IconHedearRatioTemplate>
 	{
-		//TODO: add a bool to indicate whether the card is active or no, active means was not hidden by user
 		private static void LongPress(object obj)
 			=> (obj as BaseCard)?.SetValue(IsInEditModeProperty, true);
+
+		private static void EditModeMainButtonClicked(object obj)
+		{
+			if (obj is not BaseCard baseCard)
+				return;
+			baseCard.IsHidden = baseCard.IsHidden ? baseCard.IsHidden = false : baseCard.IsHidden = true;
+		}
 
 		RatioView? ratioView;
 		public RatioView? RatioView
@@ -36,29 +42,38 @@ namespace XamsungHealth.Controls
 			set { SetValue(IsHiddenProperty, value); }
 		}
 
+		public static readonly BindableProperty EditModeMainButtonCommandProperty = BindableProperty.Create(
+												propertyName: nameof(EditModeMainButtonCommand),
+												returnType: typeof(ICommand),
+												declaringType: typeof(BaseCard),
+												defaultValue: new Command(EditModeMainButtonClicked));
 
-		public static readonly BindableProperty EditModeCommandProperty = BindableProperty.Create(
-														propertyName: nameof(EditModeCommand),
-														returnType: typeof(ICommand),
-														declaringType: typeof(BaseCard),
-														defaultValue: new Command(LongPress),
-														defaultBindingMode: BindingMode.TwoWay);
-
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public ICommand EditModeCommand
+		public ICommand EditModeMainButtonCommand
 		{
-			get { return (ICommand)GetValue(EditModeCommandProperty); }
-			set { SetValue(EditModeCommandProperty, value); }
+			get { return (ICommand)GetValue(EditModeMainButtonCommandProperty); }
+			set { SetValue(EditModeMainButtonCommandProperty, value); }
 		}
 
+		public static readonly BindableProperty LongPressEditModeCommandProperty = BindableProperty.Create(
+														propertyName: nameof(LongPressEditModeCommand),
+														returnType: typeof(ICommand),
+														declaringType: typeof(BaseCard),
+														defaultValue: new Command(LongPress));
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public ICommand LongPressEditModeCommand
+		{
+			get { return (ICommand)GetValue(LongPressEditModeCommandProperty); }
+			set { SetValue(LongPressEditModeCommandProperty, value); }
+		}
 
 		public static readonly BindableProperty ColorProperty = BindableProperty.Create(
-														propertyName: nameof(Color),
-														returnType: typeof(Color),
-														declaringType: typeof(BaseCard),
-														defaultValue: Color.FromHex("#00CE08"),
-														defaultBindingMode: BindingMode.TwoWay,
-														propertyChanged: ColorChanged);
+												propertyName: nameof(Color),
+												returnType: typeof(Color),
+												declaringType: typeof(BaseCard),
+												defaultValue: Color.FromHex("#00CE08"),
+												defaultBindingMode: BindingMode.TwoWay,
+												propertyChanged: ColorChanged);
 
 		private static void ColorChanged(BindableObject bindable, object oldValue, object newValue)
 		{

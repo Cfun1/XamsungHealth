@@ -1,15 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using XamsungHealth.Controls;
 using XamsungHealth.Lib.Fonts;
 
 namespace XamsungHealth
 {
-	public class HomeViewModel : BaseViewModel//, IBaseDragDrop
+	public class HomeViewModel : ObservableObject//, IBaseDragDrop
 	{
 		public HomeViewModel()
 		{
@@ -31,7 +33,8 @@ namespace XamsungHealth
 											LabeledProgressBar.PercentageProperty,
 											source: new RelativeBindingSource(RelativeBindingSourceMode.FindAncestor,
 											typeof(BaseCard)), path: nameof(BaseCard.Percentage))
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
+				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				 .Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
 				new BaseCard()
 				{
@@ -44,7 +47,9 @@ namespace XamsungHealth
 					{
 						Text = "425 Kcal  |  0.0Km"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
+				}
+				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
 				new BaseCard()
 				{
@@ -105,7 +110,9 @@ namespace XamsungHealth
 							}
 						}
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
+				}
+				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
 				new BaseCard()
 				{
@@ -119,7 +126,9 @@ namespace XamsungHealth
 						Style = ButtonStyle,
 						Text = "Add"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
+				}
+				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
 				new BaseCard()
 				{
@@ -133,7 +142,9 @@ namespace XamsungHealth
 					{
 						Text = "OK"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode)),
+				}
+				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
 				new BaseCard()
 				{
@@ -147,7 +158,9 @@ namespace XamsungHealth
 					{
 						Text = "OK"
 					}
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				}
+				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand))
 			};
 		}
 
@@ -172,7 +185,7 @@ namespace XamsungHealth
 			set { }
 		}
 
-		private bool isInEditMode;
+		bool isInEditMode;
 		public bool IsInEditMode
 		{
 			get => isInEditMode;
@@ -180,14 +193,14 @@ namespace XamsungHealth
 		}
 
 		#region Drag/Drop properties
-		//private bool isBeingDragged;
+		// bool isBeingDragged;
 		//public bool IsBeingDragged
 		//{
 		//	get { return isBeingDragged; }
 		//	set { isBeingDragged = value; }
 		//}
 
-		//private bool isBeingDraggedOver;
+		// bool isBeingDraggedOver;
 		//public bool IsBeingDraggedOver
 		//{
 		//	get { return isBeingDraggedOver; }
@@ -197,32 +210,35 @@ namespace XamsungHealth
 		#endregion
 
 		#region Commands
-		private ICommand? saveCommand;
+		ICommand? saveCommand;
 		public ICommand SaveCommand => saveCommand ??= new Command(Save);
 
 		private ICommand? exitEditModeCommand;
 		public ICommand ExitEditModeCommand
 			=> exitEditModeCommand ??= new Command(ExitEditMode);
 
+		Command<object>? editButtonCommand;
+		public Command<object> EditButtonCommand => editButtonCommand ??= new Command<object>(EditButton);
+
 
 		#region Drag/Drop Commands
-		//private ICommand? dragStartingCommand;
+		// ICommand? dragStartingCommand;
 		//public ICommand DragStartingCommand => dragStartingCommand ??= new Command(DragStarting);
 
-		//private ICommand? dropCompletedCommand;
+		// ICommand? dropCompletedCommand;
 		//public ICommand DropCompletedCommand => dropCompletedCommand ??= new Command(DropCompleted);
-		//private ICommand? dragOverCommand;
+		// ICommand? dragOverCommand;
 		//public ICommand DragOverCommand => dragOverCommand ??= new Command(DragOver);
-		//private ICommand? dragLeaveCommand;
+		// ICommand? dragLeaveCommand;
 		//public ICommand DragLeaveCommand => dragLeaveCommand ??= new Command(DragLeave);
-		//private ICommand? dropCommand;
+		// ICommand? dropCommand;
 		//public ICommand DropCommand => dropCommand ??= new Command(Drop);
 		#endregion
 
 		#endregion
 
 		#region Methods
-		private void Save()
+		void Save()
 		{
 			IsInEditMode = true;
 		}
@@ -230,26 +246,34 @@ namespace XamsungHealth
 		private void ExitEditMode()
 			=> IsInEditMode = false;
 
+		void EditButton(object obj)
+		{
+			if (obj is not BaseCard baseCard)
+				return;
+			baseCard.IsHidden = baseCard.IsHidden ? baseCard.IsHidden = false : baseCard.IsHidden = true;
+			//here move it down reorder
+			//Add it to a temporary list to be ued on SaveCommand or CancelCommand
+		}
 
-		//private void DragStarting()
+		// void DragStarting()
 		//{
 		//}
 
-		//private void DropCompleted()
+		// void DropCompleted()
 		//{
 		//}
 
-		//private void DragOver()
+		// void DragOver()
 		//{
 		//}
 
 
 
-		//private void DragLeave()
+		// void DragLeave()
 		//{
 		//}
 
-		//private void Drop()
+		// void Drop()
 		//{
 		//}
 		#endregion

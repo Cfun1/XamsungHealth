@@ -11,7 +11,6 @@ namespace XamsungHealth
 		public DataTemplate? VisibleCardsDataTemplate { get; set; }
 
 		WeakReference<BaseCard>? baseCardWeakReference;
-
 		BindableObject? Container;
 		protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
 		{
@@ -26,7 +25,6 @@ namespace XamsungHealth
 			}
 
 			Container = container;
-
 			baseCardWeakReference = new WeakReference<BaseCard>(baseCard);
 			baseCard.PropertyChanged += PropertyChangedHandler;
 
