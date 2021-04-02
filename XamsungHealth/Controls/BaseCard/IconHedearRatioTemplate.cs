@@ -73,6 +73,10 @@ namespace XamsungHealth.Controls
 								Property = TouchEffect.ShouldMakeChildrenInputTransparentProperty,
 								Value = true
 							},
+							new Setter() {
+								Property = ShadowEffect.ColorProperty,
+								Value = Color.Black
+							}
  						}
 					}
 					);
@@ -179,9 +183,9 @@ namespace XamsungHealth.Controls
 				}
 			};
 
-			//Will be used for both + - icons depending on IsHidden property
 			var EditModeButton = new CircleIconView()
 			{
+				Command = new Command<BaseCard>(x => x.IsHidden = x.IsHidden ? x.IsHidden = false : x.IsHidden = true),
 				Source = new FontImageSource
 				{
 					FontFamily = IconFont._FontName,
@@ -210,6 +214,11 @@ namespace XamsungHealth.Controls
 						FalseObject = Color.Red
 					})
 			}
+			.Bind(CircleIconView.CommandParameterProperty,
+				source: new RelativeBindingSource(
+						RelativeBindingSourceMode.FindAncestorBindingContext,
+						typeof(BaseCard))
+				)
 			.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle);
 
 			EditModeButton.Triggers.Add(
@@ -218,6 +227,15 @@ namespace XamsungHealth.Controls
 										Value = true,
 										Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
 																path: nameof(BaseCard.IsInEditMode)),
+
+										//A workaround to set it at the same elevation as the Frame
+										Setters =
+										{
+											new Setter() {
+												Property = ShadowEffect.ColorProperty,
+												Value = Color.Transparent
+											}
+										},
 
 										EnterActions =
 										{

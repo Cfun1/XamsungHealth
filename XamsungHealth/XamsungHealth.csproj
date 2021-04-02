@@ -18,11 +18,8 @@
 
   <ItemGroup>
     <Compile Remove="Models\**" />
-    <Compile Remove="Templates\**" />
     <EmbeddedResource Remove="Models\**" />
-    <EmbeddedResource Remove="Templates\**" />
     <None Remove="Models\**" />
-    <None Remove="Templates\**" />
   </ItemGroup>
 
   <ItemGroup>

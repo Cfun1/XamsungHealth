@@ -154,7 +154,6 @@ namespace XamsungHealth
 		static Style<Button> ButtonStyle
 		{
 			get => new Style<Button>(
-
 				(Button.PaddingProperty, 0),
 				(Button.VerticalOptionsProperty, LayoutOptions.Center),
 				(Button.WidthRequestProperty, 120),
