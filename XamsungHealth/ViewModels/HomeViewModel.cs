@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -15,11 +16,11 @@ namespace XamsungHealth
 	{
 		public HomeViewModel()
 		{
-			CardsList = new()
+			AllCardsList = new[]
 			{
 				new BaseCard()
 				{
-					TitleText = "Steps",
+ 					TitleText = "Steps",
 					TotalNumber = 10000,
 					CurrentNumber = 5000,
 					PrefixTotal = "steps",
@@ -116,7 +117,7 @@ namespace XamsungHealth
 
 				new BaseCard()
 				{
-					TitleText = "Food",
+ 					TitleText = "Food",
 					TotalNumber = 950,
 					CurrentNumber = 0,
 					PrefixTotal = "Kcal",
@@ -162,6 +163,7 @@ namespace XamsungHealth
 				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
 				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand))
 			};
+			CardsList = new(AllCardsList.Where(x => x.IsHidden == false).ToList());
 		}
 
 		static Style<Button> ButtonStyle
@@ -177,12 +179,12 @@ namespace XamsungHealth
 		}
 
 		#region Properties
-		public ObservableCollection<BaseCard>? CardsList { get; set; }
-		public ObservableCollection<BaseCard>? VisibleCardsList
+		public IEnumerable<BaseCard> AllCardsList { get; }
+
+		public ObservableCollection<BaseCard> CardsList
 		{
-			//put both hidden and not hidden in one same list that needs to be initially ordered, push Hidden cards to the end of the list, maybe in future Lazy load on demand (when entering edit mode) them in a separate CollectionView?
-			get => new(CardsList.Where(x => x.IsHidden == false).ToList());
-			set { }
+			get;
+			set;
 		}
 
 		bool isInEditMode;
@@ -213,9 +215,9 @@ namespace XamsungHealth
 		ICommand? saveCommand;
 		public ICommand SaveCommand => saveCommand ??= new Command(Save);
 
-		private ICommand? exitEditModeCommand;
-		public ICommand ExitEditModeCommand
-			=> exitEditModeCommand ??= new Command(ExitEditMode);
+		private ICommand? cancelCommand;
+		public ICommand CancelCommand
+			=> cancelCommand ??= new Command(Cancel);
 
 		Command<object>? editButtonCommand;
 		public Command<object> EditButtonCommand => editButtonCommand ??= new Command<object>(EditButton);
@@ -243,9 +245,10 @@ namespace XamsungHealth
 			IsInEditMode = true;
 		}
 
-		private void ExitEditMode()
-			=> IsInEditMode = false;
-
+		private void Cancel()
+		{
+			IsInEditMode = false;
+		}
 		void EditButton(object obj)
 		{
 			if (obj is not BaseCard baseCard)
@@ -255,6 +258,35 @@ namespace XamsungHealth
 			//Add it to a temporary list to be ued on SaveCommand or CancelCommand
 		}
 
+		protected override void OnPropertyChanged([CallerMemberName] string? propertyName = "")
+		{
+			base.OnPropertyChanged(propertyName);
+			if (propertyName is null)
+			{
+				return;
+			}
+
+			if (propertyName.Equals(nameof(IsInEditMode)))
+			{
+				UpdateCards();
+			}
+		}
+
+		void UpdateCards()
+		{
+			var list = AllCardsList.Where(x => x.IsHidden == true).ToList();
+			foreach (var card in list)
+			{
+				if (IsInEditMode)
+				{
+					CardsList.Add(card);
+				}
+				else
+				{
+					CardsList.Remove(card);
+				}
+			}
+		}
 		// void DragStarting()
 		//{
 		//}

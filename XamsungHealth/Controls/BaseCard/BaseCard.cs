@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 namespace XamsungHealth.Controls
 {
+	//TODO: change bindable properties that won't be used with binding to simple properties
 	[ContentProperty(nameof(Content))]
 	public class BaseCard : BaseTemplatedView<IconHedearRatioTemplate>
 	{
@@ -28,6 +29,7 @@ namespace XamsungHealth.Controls
 				return ratioView ??= new();
 			}
 		}
+
 		#region Bindable properties
 
 		public static readonly BindableProperty IsHiddenProperty = BindableProperty.Create(
