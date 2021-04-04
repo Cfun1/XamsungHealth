@@ -9,6 +9,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using XamsungHealth.Controls;
 using XamsungHealth.Lib.Fonts;
+using System;
 
 namespace XamsungHealth
 {
@@ -164,6 +165,7 @@ namespace XamsungHealth
 				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand))
 			};
 			CardsList = new(AllCardsList.Where(x => x.IsHidden == false).ToList());
+			lastVisibleCardIndex = CardsList.Count() - 1;
 		}
 
 		static Style<Button> ButtonStyle
@@ -179,7 +181,14 @@ namespace XamsungHealth
 		}
 
 		#region Properties
+		public bool IsOrderChanged;
+		public bool IsHiddenChanged;
+		int lastVisibleCardIndex;
+
 		public IEnumerable<BaseCard> AllCardsList { get; }
+		List<BaseCard>? changedIsHiddenCardsList;
+
+		List<string>? savedCardsOrder;
 
 		public ObservableCollection<BaseCard> CardsList
 		{
@@ -215,10 +224,6 @@ namespace XamsungHealth
 		ICommand? saveCommand;
 		public ICommand SaveCommand => saveCommand ??= new Command(Save);
 
-		private ICommand? cancelCommand;
-		public ICommand CancelCommand
-			=> cancelCommand ??= new Command(Cancel);
-
 		Command<object>? editButtonCommand;
 		public Command<object> EditButtonCommand => editButtonCommand ??= new Command<object>(EditButton);
 
@@ -242,20 +247,86 @@ namespace XamsungHealth
 		#region Methods
 		void Save()
 		{
-			IsInEditMode = true;
+			changedIsHiddenCardsList?.Clear();
+			savedCardsOrder?.Clear();
+			IsOrderChanged = IsHiddenChanged = IsInEditMode = false;
 		}
 
-		private void Cancel()
+		internal void Cancel()
 		{
-			IsInEditMode = false;
+			changedIsHiddenCardsList?.Clear();
+			savedCardsOrder?.Clear();
+			IsOrderChanged = IsHiddenChanged = IsInEditMode = false;
 		}
+
+		internal void CheckForChanges()
+		{
+			IsOrderChanged = CheckForOrderChanged();
+			IsHiddenChanged = CheckForIsHiddenChanged();
+		}
+
+		bool CheckForIsHiddenChanged()
+			=> (changedIsHiddenCardsList is not null && changedIsHiddenCardsList.Count() != 0);
+
+		bool CheckForOrderChanged()
+		{
+			if (savedCardsOrder is null)
+			{
+				throw new NullReferenceException(nameof(savedCardsOrder));
+			}
+
+			var returnValue = false;
+			for (var i = 0; i < CardsList.Count - 1; i++)
+			{
+				if (!CardsList[i].TitleText.Equals(savedCardsOrder[i]))
+				{
+					returnValue = true;
+					break;
+				}
+			}
+			return returnValue;
+		}
+
 		void EditButton(object obj)
 		{
 			if (obj is not BaseCard baseCard)
+			{
 				return;
-			baseCard.IsHidden = baseCard.IsHidden ? baseCard.IsHidden = false : baseCard.IsHidden = true;
-			//here move it down reorder
-			//Add it to a temporary list to be ued on SaveCommand or CancelCommand
+			}
+
+			RelocateOnIsHiddenChanged(baseCard);
+			UpdatechangedIsHiddenCardsList(baseCard);
+		}
+
+		private void UpdatechangedIsHiddenCardsList(BaseCard baseCard)
+		{
+			changedIsHiddenCardsList ??= new List<BaseCard>();
+			if (changedIsHiddenCardsList.Contains(baseCard))
+			{
+				changedIsHiddenCardsList.Remove(baseCard);
+			}
+			else
+			{
+				changedIsHiddenCardsList.Add(baseCard);
+			}
+		}
+
+		void RelocateOnIsHiddenChanged(BaseCard baseCard)
+		{
+			var index = CardsList.IndexOf(baseCard);
+
+			if (baseCard.IsHidden)
+			{
+				lastVisibleCardIndex++;
+				baseCard.IsHidden = false;
+				CardsList.Move(index, lastVisibleCardIndex);
+			}
+			else
+			{
+				CardsList.Move(index, lastVisibleCardIndex);
+				lastVisibleCardIndex--;
+				baseCard.IsHidden = true;
+			}
 		}
 
 		protected override void OnPropertyChanged([CallerMemberName] string? propertyName = "")
@@ -268,11 +339,26 @@ namespace XamsungHealth
 
 			if (propertyName.Equals(nameof(IsInEditMode)))
 			{
-				UpdateCards();
+				UpdateCardsListOnIsInEditModeChanged();
+
+				if (IsInEditMode)   //Entering edit mode
+				{
+					SaveCurrentCardsOrder();
+					CardsList.Move(0, 1);   //todo: delete: fake a reorder
+				}
 			}
 		}
 
-		void UpdateCards()
+		void SaveCurrentCardsOrder()
+		{
+			savedCardsOrder ??= new(CardsList.Select(x => x.TitleText));
+			if (savedCardsOrder.Count() == 0)
+			{
+				savedCardsOrder.AddRange(CardsList.Select(x => x.TitleText));
+			}
+		}
+
+		void UpdateCardsListOnIsInEditModeChanged()
 		{
 			var list = AllCardsList.Where(x => x.IsHidden == true).ToList();
 			foreach (var card in list)
@@ -285,6 +371,51 @@ namespace XamsungHealth
 				{
 					CardsList.Remove(card);
 				}
+			}
+		}
+
+		internal void RevertChanges()
+		{
+			if (IsHiddenChanged)
+			{
+				RestoreIsHidden();
+			}
+
+			if (IsOrderChanged)
+			{
+				RestoreOrder();
+			}
+		}
+
+		private void RestoreOrder()
+		{
+			if (savedCardsOrder is null || savedCardsOrder.Count() == 0)
+			{
+				return;
+			}
+
+			for (var i = 0; i < savedCardsOrder.Count() - 1; i++)
+			{
+				var card = CardsList.Where(x => x.TitleText.Equals(savedCardsOrder[i])).FirstOrDefault();
+				var index = CardsList.IndexOf(card);
+				if (index != i)
+				{
+					CardsList.Move(index, i);
+				}
+			}
+		}
+
+		private void RestoreIsHidden()
+		{
+			if (changedIsHiddenCardsList is null || changedIsHiddenCardsList.Count() == 0)
+			{
+				return;
+			}
+
+			foreach (var card in changedIsHiddenCardsList)
+			{
+				var cardToRestore = CardsList.Where(x => x.Equals(card)).FirstOrDefault();
+				cardToRestore.IsHidden = cardToRestore.IsHidden ? false : true;
 			}
 		}
 		// void DragStarting()

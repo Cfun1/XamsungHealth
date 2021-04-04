@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup x:Class="XamsungHealth.Views.Popups.CancelPopup"
+           xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+           xmlns:popup="clr-namespace:XamsungHealth.Views.Popups"
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="End"
+           TranslationY="-50"
+           Size="{x:Static popup:CancelPopup.PopupSize}"
+           Color="Transparent">
+
+    <xct:Popup.Resources>
+        <ResourceDictionary>
+            <Style x:Key="Title"
+                   TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
+            <Style x:Key="Divider"
+                   TargetType="BoxView">
+                <Setter Property="WidthRequest" Value="1"/>
+                <Setter Property="HeightRequest" Value="10"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Color" Value="#c3c3c3"/>
+            </Style>
+
+            <Style x:Key="Content"
+                   TargetType="Label">
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="PopupLayout"
+                   TargetType="Frame">
+                <Setter Property="Padding" Value="20,30"/>
+                <Setter Property="CornerRadius" Value="30"/>
+            </Style>
+
+            <Style x:Key="ButtonStyle"
+                   TargetType="Button">
+                <Setter Property="Padding" Value="15"/>
+                <Setter Property="TextTransform" Value="None"/>
+                <Setter Property="xct:TouchEffect.NativeAnimation" Value="True"/>
+            </Style>
+        </ResourceDictionary>
+    </xct:Popup.Resources>
+
+    <Frame Style="{StaticResource PopupLayout}"
+           VerticalOptions="Start"
+           HorizontalOptions="Start">
+
+        <StackLayout Spacing="20">
+            <Label Style="{StaticResource Title}"
+                   Text="Save your change or discard them?"/>
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="CenterAndExpand"
+                         VerticalOptions="CenterAndExpand"
+                         Spacing="15">
+
+                <Button Text="Cancel"
+                        Clicked="Cancel_Clicked"
+                        Style="{StaticResource ButtonStyle}"/>
+                <BoxView Style="{StaticResource Divider}"/>
+
+                <Button Text="Discard"
+                        Clicked="Discard_Clicked"
+                        Style="{StaticResource ButtonStyle}"/>
+
+                <BoxView Style="{StaticResource Divider}"/>
+
+                <Button Text="Save"
+                        Clicked="Save_Clicked"
+                        Style="{StaticResource ButtonStyle}"/>
+            </StackLayout>
+        </StackLayout>
+    </Frame>
+</xct:Popup>

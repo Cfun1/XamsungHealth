@@ -128,7 +128,7 @@
 
             <Button Grid.Column="0"
                     Style="{StaticResource BottomButtonsStyle}"
-                    Command="{Binding CancelCommand}"
+                    Clicked="Cancel_Clicked"
                     Text="Cancel"/>
             <Button Grid.Column="1"
                     Style="{StaticResource BottomButtonsStyle}"
