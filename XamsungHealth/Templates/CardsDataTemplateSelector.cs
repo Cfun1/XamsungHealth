@@ -10,11 +10,11 @@ namespace XamsungHealth
 		public DataTemplate? HiddenCardsDataTemplate { get; set; }
 		public DataTemplate? VisibleCardsDataTemplate { get; set; }
 
-		WeakReference<BaseCard>? baseCardWeakReference;
+		WeakReference<MainCardView>? mainCardViewWeakReference;
 		BindableObject? Container;
 		protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
 		{
-			if (item is not BaseCard baseCard)
+			if (item is not MainCardView mainCardView)
 			{
 				throw new ArgumentNullException(nameof(item), $"shouldn't be null");
 			}
@@ -25,23 +25,23 @@ namespace XamsungHealth
 			}
 
 			Container = container;
-			baseCardWeakReference = new WeakReference<BaseCard>(baseCard);
-			baseCard.PropertyChanged += PropertyChangedHandler;
+			mainCardViewWeakReference = new WeakReference<MainCardView>(mainCardView);
+			mainCardView.PropertyChanged += PropertyChangedHandler;
 
 			void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
 			{
-				if (baseCardWeakReference == null || Container is not CollectionView collectionView)
+				if (mainCardViewWeakReference == null || Container is not CollectionView collectionView)
 					return;
 
-				if (e.PropertyName.Equals(nameof(BaseCard.IsHidden)) &&
-					baseCardWeakReference.TryGetTarget(out var baseCard))
+				if (e.PropertyName.Equals(nameof(MainCardView.IsHidden)) &&
+					mainCardViewWeakReference.TryGetTarget(out var mainCardView))
 				{
 					collectionView.ItemTemplate = null;
 					collectionView.ItemTemplate = this;
 				}
 			}
 
-			return baseCard.IsHidden ? HiddenCardsDataTemplate! : VisibleCardsDataTemplate!;
+			return mainCardView.IsHidden ? HiddenCardsDataTemplate! : VisibleCardsDataTemplate!;
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace XamsungHealth
 		{
 			AllCardsList = new[]
 			{
-				new BaseCard()
+				new MainCardView()
 				{
  					TitleText = "Steps",
 					TotalNumber = 10000,
@@ -34,11 +34,11 @@ namespace XamsungHealth
 					Content = new LabeledProgressBar().Bind(
 											LabeledProgressBar.PercentageProperty,
 											source: new RelativeBindingSource(RelativeBindingSourceMode.FindAncestor,
-											typeof(BaseCard)), path: nameof(BaseCard.Percentage))
-				}.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				 .Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
+											typeof(MainCardView)), path: nameof(MainCardView.Percentage))
+				}.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				 .Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
-				new BaseCard()
+				new MainCardView()
 				{
 					TitleText = "Active time",
 					TotalNumber = 60,
@@ -50,10 +50,10 @@ namespace XamsungHealth
 						Text = "425 Kcal  |  0.0Km"
 					}
 				}
-				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
+				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
-				new BaseCard()
+				new MainCardView()
 				{
 					TitleText = "Exercise",
 					IsRatioVisible = false,
@@ -113,10 +113,10 @@ namespace XamsungHealth
 						}
 					}
 				}
-				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
+				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
-				new BaseCard()
+				new MainCardView()
 				{
  					TitleText = "Food",
 					TotalNumber = 950,
@@ -129,10 +129,10 @@ namespace XamsungHealth
 						Text = "Add"
 					}
 				}
-				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
+				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
-				new BaseCard()
+				new MainCardView()
 				{
 					IsHidden = true,
 					TitleText = "Were you asleep (Hidden)",
@@ -145,10 +145,10 @@ namespace XamsungHealth
 						Text = "OK"
 					}
 				}
-				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
+				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
 
-				new BaseCard()
+				new MainCardView()
 				{
 					IsHidden = true,
 					TitleText = "Were you asleep",
@@ -161,8 +161,8 @@ namespace XamsungHealth
 						Text = "OK"
 					}
 				}
-				.Bind(BaseCard.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(BaseCard.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand))
+				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
+				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand))
 			};
 			CardsList = new(AllCardsList.Where(x => x.IsHidden == false).ToList());
 			lastVisibleCardIndex = CardsList.Count() - 1;
@@ -185,12 +185,12 @@ namespace XamsungHealth
 		public bool IsHiddenChanged;
 		int lastVisibleCardIndex;
 
-		public IEnumerable<BaseCard> AllCardsList { get; }
-		List<BaseCard>? changedIsHiddenCardsList;
+		public IEnumerable<MainCardView> AllCardsList { get; }
+		List<MainCardView>? changedIsHiddenCardsList;
 
 		List<string>? savedCardsOrder;
 
-		public ObservableCollection<BaseCard> CardsList
+		public ObservableCollection<MainCardView> CardsList
 		{
 			get;
 			set;
@@ -289,43 +289,43 @@ namespace XamsungHealth
 
 		void EditButton(object obj)
 		{
-			if (obj is not BaseCard baseCard)
+			if (obj is not MainCardView mainCardView)
 			{
 				return;
 			}
 
-			RelocateOnIsHiddenChanged(baseCard);
-			UpdatechangedIsHiddenCardsList(baseCard);
+			RelocateOnIsHiddenChanged(mainCardView);
+			UpdatechangedIsHiddenCardsList(mainCardView);
 		}
 
-		private void UpdatechangedIsHiddenCardsList(BaseCard baseCard)
+		private void UpdatechangedIsHiddenCardsList(MainCardView mainCardView)
 		{
-			changedIsHiddenCardsList ??= new List<BaseCard>();
-			if (changedIsHiddenCardsList.Contains(baseCard))
+			changedIsHiddenCardsList ??= new List<MainCardView>();
+			if (changedIsHiddenCardsList.Contains(mainCardView))
 			{
-				changedIsHiddenCardsList.Remove(baseCard);
+				changedIsHiddenCardsList.Remove(mainCardView);
 			}
 			else
 			{
-				changedIsHiddenCardsList.Add(baseCard);
+				changedIsHiddenCardsList.Add(mainCardView);
 			}
 		}
 
-		void RelocateOnIsHiddenChanged(BaseCard baseCard)
+		void RelocateOnIsHiddenChanged(MainCardView mainCardView)
 		{
-			var index = CardsList.IndexOf(baseCard);
+			var index = CardsList.IndexOf(mainCardView);
 
-			if (baseCard.IsHidden)
+			if (mainCardView.IsHidden)
 			{
 				lastVisibleCardIndex++;
-				baseCard.IsHidden = false;
+				mainCardView.IsHidden = false;
 				CardsList.Move(index, lastVisibleCardIndex);
 			}
 			else
 			{
 				CardsList.Move(index, lastVisibleCardIndex);
 				lastVisibleCardIndex--;
-				baseCard.IsHidden = true;
+				mainCardView.IsHidden = true;
 			}
 		}
 
@@ -344,7 +344,7 @@ namespace XamsungHealth
 				if (IsInEditMode)   //Entering edit mode
 				{
 					SaveCurrentCardsOrder();
-					CardsList.Move(0, 1);   //todo: delete: fake a reorder
+					CardsList.Move(1, 2);   //todo: delete: fake a reorder
 				}
 			}
 		}

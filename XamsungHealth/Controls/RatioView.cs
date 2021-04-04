@@ -20,10 +20,10 @@ namespace XamsungHealth.Controls
 							Spans =
 							{
 								new Span().Bind(Span.TextProperty, source:
-												RelativeBindingSource.TemplatedParent, path: nameof                                 (BaseCard.TotalNumber), stringFormat: "/{0} ").Font(size:10),
+												RelativeBindingSource.TemplatedParent, path: nameof                                 (MainCardView.TotalNumber), stringFormat: "/{0} ").Font(size:10),
 
 								new Span().Bind(Span.TextProperty, source:
-										RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.PrefixTotal)).Font(size:10)
+										RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.PrefixTotal)).Font(size:10)
 							}
 						}
 					}

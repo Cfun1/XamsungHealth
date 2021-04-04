@@ -8,7 +8,7 @@ using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
 
 namespace XamsungHealth.Controls
 {
-	public class IconHedearRatioTemplate : Grid
+	public class MainCardViewTemplate : Grid
 	{
 		static Style<Frame> DefaulFrameStyle
 		{
@@ -27,7 +27,7 @@ namespace XamsungHealth.Controls
 					{
 						Value = true,
 						Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
-										path: nameof(BaseCard.IsInEditMode)),
+										path: nameof(MainCardView.IsInEditMode)),
 
 						EnterActions =
 						{
@@ -58,7 +58,7 @@ namespace XamsungHealth.Controls
 					{
 						Value = true,
 						Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
-											path: nameof(BaseCard.IsInEditMode)),
+											path: nameof(MainCardView.IsInEditMode)),
 						Setters =
 						{
 							//Question Issue: Why this is working on the last card of the collectionview only ?
@@ -99,7 +99,8 @@ namespace XamsungHealth.Controls
 		}
 
 		public Image IconImage { get; set; }
-		public IconHedearRatioTemplate()
+
+		public MainCardViewTemplate()
 		{
 			var mainFrame = new Frame()
 				.Style(DefaulFrameStyle);
@@ -109,9 +110,9 @@ namespace XamsungHealth.Controls
 				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.Start
 			}
-							.Bind(Label.TextProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.TitleText))
-							.Bind(Label.TextColorProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.Color))
-							.Style(BaseCard.DefaulTitleStyle);
+							.Bind(Label.TextProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.TitleText))
+							.Bind(Label.TextColorProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.Color))
+							.Style(MainCardView.DefaulTitleStyle);
 
 			IconImage = new Image()
 			{
@@ -122,9 +123,9 @@ namespace XamsungHealth.Controls
 					FontFamily = "FontAwesome"
 				}
 					.Bind(FontImageSource.GlyphProperty,
-						source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.Icon)),
+						source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.Icon)),
 			};
-			IconTintColorEffect.SetTintColor(IconImage, (Color)BaseCard.ColorProperty.DefaultValue);
+			IconTintColorEffect.SetTintColor(IconImage, (Color)MainCardView.ColorProperty.DefaultValue);
 
 			var headerGrid = new Grid()
 			{
@@ -146,7 +147,7 @@ namespace XamsungHealth.Controls
 					{
 						HorizontalOptions = LayoutOptions.End
 					}.Column(1).RowSpan(2)
-						.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.RigthHeaderItem))
+						.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.RigthHeaderItem))
 				}
 			};
 
@@ -166,13 +167,13 @@ namespace XamsungHealth.Controls
 							{
 								HorizontalOptions = LayoutOptions.StartAndExpand
 							}
-							.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.RatioView))
-							.Bind(IsVisibleProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.IsRatioVisible)),
+							.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.RatioView))
+							.Bind(IsVisibleProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.IsRatioVisible)),
 
 							new ContentView()
 							{
 								VerticalOptions = LayoutOptions.End,
-							}.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(BaseCard.RigthRatioViewItem))
+							}.Bind(ContentView.ContentProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.RigthRatioViewItem))
 						}
 					},
 
@@ -183,54 +184,55 @@ namespace XamsungHealth.Controls
 				}
 			};
 
-			var EditModeButton = new CircleIconView()
+
+			var editModeButton = new CircleIconView()
 			{
 				Source = new FontImageSource
 				{
 					FontFamily = IconFont._FontName,
 					Size = 10
 				}
-			.Bind(FontImageSource.GlyphProperty,
-				source: new RelativeBindingSource(
+		.Bind(FontImageSource.GlyphProperty,
+			source: new RelativeBindingSource(
+				RelativeBindingSourceMode.FindAncestorBindingContext,
+				typeof(MainCardView)),
+			path: nameof(MainCardView.IsHidden),
+			converter: new BoolToObjectConverter()
+			{
+				TrueObject = IconFont.Plus,
+				FalseObject = IconFont.Minus
+			},
+			fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
+		)
+		.Bind(FontImageSource.ColorProperty,
+			source: new RelativeBindingSource(
 					RelativeBindingSourceMode.FindAncestorBindingContext,
-					typeof(BaseCard)),
-				path: nameof(BaseCard.IsHidden),
-				converter: new BoolToObjectConverter()
-				{
-					TrueObject = IconFont.Plus,
-					FalseObject = IconFont.Minus
-				},
-				fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
-			)
-			.Bind(FontImageSource.ColorProperty,
-				source: new RelativeBindingSource(
-						RelativeBindingSourceMode.FindAncestorBindingContext,
-						typeof(BaseCard)),
-				path: nameof(BaseCard.IsHidden),
-				converter: new BoolToObjectConverter()
-				{
-					TrueObject = Color.Green,
-					FalseObject = Color.Red
-				})
+					typeof(MainCardView)),
+			path: nameof(MainCardView.IsHidden),
+			converter: new BoolToObjectConverter()
+			{
+				TrueObject = Color.Green,
+				FalseObject = Color.Red
+			})
 			}
-			.Bind(CircleIconView.CommandParameterProperty,
-				source: new RelativeBindingSource(
-						RelativeBindingSourceMode.FindAncestorBindingContext,
-						typeof(BaseCard))
-				)
-			.Bind(CircleIconView.CommandProperty,
-				source: new RelativeBindingSource(
+		.Bind(CircleIconView.CommandParameterProperty,
+			source: new RelativeBindingSource(
 					RelativeBindingSourceMode.FindAncestorBindingContext,
-					typeof(BaseCard)),
-				path: nameof(BaseCard.EditModeMainButtonCommand))
-			.Style(IconHedearRatioTemplate.DefaulCircleIconViewStyle);
+					typeof(MainCardView))
+			)
+		.Bind(CircleIconView.CommandProperty,
+			source: new RelativeBindingSource(
+				RelativeBindingSourceMode.FindAncestorBindingContext,
+				typeof(MainCardView)),
+			path: nameof(MainCardView.EditModeMainButtonCommand))
+		.Style(MainCardViewTemplate.DefaulCircleIconViewStyle);
 
-			EditModeButton.Triggers.Add(
+			editModeButton.Triggers.Add(
 									new DataTrigger(typeof(CircleIconView))
 									{
 										Value = true,
 										Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
-																path: nameof(BaseCard.IsInEditMode)),
+																path: nameof(MainCardView.IsInEditMode)),
 
 										//A workaround to set it at the same elevation as the Frame
 										Setters =
@@ -280,9 +282,10 @@ namespace XamsungHealth.Controls
 			//instead of Grid it could be done with a RelativeLayout also, ConstraintExpression Type=RelativeToView
 			Children.Add(mainFrame);
 			mainFrame.Bind(TouchEffect.LongPressCommandProperty, source: RelativeBindingSource.TemplatedParent,
-					path: nameof(BaseCard.LongPressEditModeCommand))
+					path: nameof(MainCardView.LongPressEditModeCommand))
 				.Bind(TouchEffect.LongPressCommandParameterProperty, source: RelativeBindingSource.TemplatedParent);
-			Children.Add(EditModeButton);
+
+			Children.Add(editModeButton);
 		}
 	}
 }

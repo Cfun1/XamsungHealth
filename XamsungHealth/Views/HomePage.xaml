@@ -62,12 +62,12 @@
 
             <!--  Could be moved inide CardsDataTemplateSelector  -->
             <DataTemplate x:Key="visibleCardsDataTemplate">
-                <ContentView x:DataType="local:BaseCard"
+                <ContentView x:DataType="local:MainCardView"
                              Content="{Binding .}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="hiddenCardsDataTemplate">
-                <ContentView x:DataType="local:BaseCard"
+                <ContentView x:DataType="local:MainCardView"
                              BackgroundColor="LightGray"
                              Content="{Binding .}"/>
             </DataTemplate>
