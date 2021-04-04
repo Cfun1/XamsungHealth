@@ -19,7 +19,7 @@ namespace XamsungHealth
 		{
 			AllCardsList = new[]
 			{
-				new MainCardView()
+				new MainCardView(true)
 				{
  					TitleText = "Steps",
 					TotalNumber = 10000,

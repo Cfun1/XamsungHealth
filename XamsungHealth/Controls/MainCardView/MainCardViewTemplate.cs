@@ -99,8 +99,14 @@ namespace XamsungHealth.Controls
 		}
 
 		public Image IconImage { get; set; }
+		CircleIconView? editModeButton;
 
-		public MainCardViewTemplate()
+		public MainCardViewTemplate() : this(false)
+		{
+
+		}
+
+		public MainCardViewTemplate(bool isPersistent)
 		{
 			var mainFrame = new Frame()
 				.Style(DefaulFrameStyle);
@@ -184,67 +190,68 @@ namespace XamsungHealth.Controls
 				}
 			};
 
-
-			var editModeButton = new CircleIconView()
+			if (!isPersistent)
 			{
-				Source = new FontImageSource
+				editModeButton = new CircleIconView()
 				{
-					FontFamily = IconFont._FontName,
-					Size = 10
-				}
-		.Bind(FontImageSource.GlyphProperty,
-			source: new RelativeBindingSource(
-				RelativeBindingSourceMode.FindAncestorBindingContext,
-				typeof(MainCardView)),
-			path: nameof(MainCardView.IsHidden),
-			converter: new BoolToObjectConverter()
-			{
-				TrueObject = IconFont.Plus,
-				FalseObject = IconFont.Minus
-			},
-			fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
-		)
-		.Bind(FontImageSource.ColorProperty,
-			source: new RelativeBindingSource(
+					Source = new FontImageSource
+					{
+						FontFamily = IconFont._FontName,
+						Size = 10
+					}
+			.Bind(FontImageSource.GlyphProperty,
+				source: new RelativeBindingSource(
 					RelativeBindingSourceMode.FindAncestorBindingContext,
 					typeof(MainCardView)),
-			path: nameof(MainCardView.IsHidden),
-			converter: new BoolToObjectConverter()
-			{
-				TrueObject = Color.Green,
-				FalseObject = Color.Red
-			})
-			}
-		.Bind(CircleIconView.CommandParameterProperty,
-			source: new RelativeBindingSource(
-					RelativeBindingSourceMode.FindAncestorBindingContext,
-					typeof(MainCardView))
+				path: nameof(MainCardView.IsHidden),
+				converter: new BoolToObjectConverter()
+				{
+					TrueObject = IconFont.Plus,
+					FalseObject = IconFont.Minus
+				},
+				fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
 			)
-		.Bind(CircleIconView.CommandProperty,
-			source: new RelativeBindingSource(
-				RelativeBindingSourceMode.FindAncestorBindingContext,
-				typeof(MainCardView)),
-			path: nameof(MainCardView.EditModeMainButtonCommand))
-		.Style(MainCardViewTemplate.DefaulCircleIconViewStyle);
+			.Bind(FontImageSource.ColorProperty,
+				source: new RelativeBindingSource(
+						RelativeBindingSourceMode.FindAncestorBindingContext,
+						typeof(MainCardView)),
+				path: nameof(MainCardView.IsHidden),
+				converter: new BoolToObjectConverter()
+				{
+					TrueObject = Color.Green,
+					FalseObject = Color.Red
+				})
+				}
+			.Bind(CircleIconView.CommandParameterProperty,
+				source: new RelativeBindingSource(
+						RelativeBindingSourceMode.FindAncestorBindingContext,
+						typeof(MainCardView))
+				)
+			.Bind(CircleIconView.CommandProperty,
+				source: new RelativeBindingSource(
+					RelativeBindingSourceMode.FindAncestorBindingContext,
+					typeof(MainCardView)),
+				path: nameof(MainCardView.EditModeMainButtonCommand))
+			.Style(MainCardViewTemplate.DefaulCircleIconViewStyle);
 
-			editModeButton.Triggers.Add(
-									new DataTrigger(typeof(CircleIconView))
-									{
-										Value = true,
-										Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
-																path: nameof(MainCardView.IsInEditMode)),
-
-										//A workaround to set it at the same elevation as the Frame
-										Setters =
+				editModeButton.Triggers.Add(
+										new DataTrigger(typeof(CircleIconView))
 										{
+											Value = true,
+											Binding = new Binding(source: RelativeBindingSource.TemplatedParent,
+																	path: nameof(MainCardView.IsInEditMode)),
+
+											//A workaround to set it at the same elevation as the Frame
+											Setters =
+											{
 											new Setter() {
 												Property = ShadowEffect.ColorProperty,
 												Value = Color.Transparent
 											}
-										},
+											},
 
-										EnterActions =
-										{
+											EnterActions =
+											{
 											new AnimateDouble()
 											{
 												Duration=250,
@@ -257,10 +264,10 @@ namespace XamsungHealth.Controls
 												To=1,
 												TargetProperty =CircleIconView.OpacityProperty,
 											},
-										},
+											},
 
-										ExitActions =
-										{
+											ExitActions =
+											{
 										new AnimateDouble()
 											{
 												Duration=250,
@@ -273,9 +280,10 @@ namespace XamsungHealth.Controls
 												To=0,
 												TargetProperty =CircleIconView.OpacityProperty,
 											},
+											}
 										}
-									}
-							);
+								);
+			}
 
 			mainFrame.Content = mainStackLayout;
 
@@ -285,7 +293,10 @@ namespace XamsungHealth.Controls
 					path: nameof(MainCardView.LongPressEditModeCommand))
 				.Bind(TouchEffect.LongPressCommandParameterProperty, source: RelativeBindingSource.TemplatedParent);
 
-			Children.Add(editModeButton);
+			if (!isPersistent)
+			{
+				Children.Add(editModeButton);
+			}
 		}
 	}
 }

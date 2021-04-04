@@ -11,6 +11,15 @@ namespace XamsungHealth.Controls
 	[ContentProperty(nameof(Content))]
 	public class MainCardView : BaseTemplatedView<MainCardViewTemplate>
 	{
+		public MainCardView()
+		{
+		}
+
+		public MainCardView(bool isPersistent)
+		{
+			ControlTemplate = new ControlTemplate(() => { return new MainCardViewTemplate(true); });
+		}
+
 		private static void LongPress(object obj)
 			=> (obj as MainCardView)?.SetValue(IsInEditModeProperty, true);
 
