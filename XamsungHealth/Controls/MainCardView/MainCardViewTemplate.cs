@@ -10,6 +10,11 @@ namespace XamsungHealth.Controls
 {
 	public class MainCardViewTemplate : Grid
 	{
+		public Image IconImage { get; set; }
+
+		readonly CircleIconView? editModeButton;
+		public readonly Frame mainFrame = new();
+
 		static Style<Frame> DefaulFrameStyle
 		{
 			get
@@ -64,10 +69,10 @@ namespace XamsungHealth.Controls
 							//Question Issue: Why this is working on the last card of the collectionview only ?
 							//If reloading xaml with hotreload suddenly starts work on all items
 
-							new Setter() {
-								Property = TouchEffect.NativeAnimationProperty,
-								Value = true
-							},
+							//new Setter() {
+							//	Property = TouchEffect.NativeAnimationProperty,
+							//	Value = true
+							//},
 
 							new Setter() {
 								Property = TouchEffect.ShouldMakeChildrenInputTransparentProperty,
@@ -98,8 +103,6 @@ namespace XamsungHealth.Controls
 						).BasedOn(CircleIconView.DefaultStyle!);
 		}
 
-		public Image IconImage { get; set; }
-		CircleIconView? editModeButton;
 
 		public MainCardViewTemplate() : this(false)
 		{
@@ -108,8 +111,7 @@ namespace XamsungHealth.Controls
 
 		public MainCardViewTemplate(bool isPersistent)
 		{
-			var mainFrame = new Frame()
-				.Style(DefaulFrameStyle);
+			mainFrame.Style(DefaulFrameStyle);
 
 			var title = new Label()
 			{
@@ -199,40 +201,40 @@ namespace XamsungHealth.Controls
 						FontFamily = IconFont._FontName,
 						Size = 10
 					}
-			.Bind(FontImageSource.GlyphProperty,
-				source: new RelativeBindingSource(
-					RelativeBindingSourceMode.FindAncestorBindingContext,
-					typeof(MainCardView)),
-				path: nameof(MainCardView.IsHidden),
-				converter: new BoolToObjectConverter()
-				{
-					TrueObject = IconFont.Plus,
-					FalseObject = IconFont.Minus
-				},
-				fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
-			)
-			.Bind(FontImageSource.ColorProperty,
-				source: new RelativeBindingSource(
-						RelativeBindingSourceMode.FindAncestorBindingContext,
-						typeof(MainCardView)),
-				path: nameof(MainCardView.IsHidden),
-				converter: new BoolToObjectConverter()
-				{
-					TrueObject = Color.Green,
-					FalseObject = Color.Red
-				})
+					.Bind(FontImageSource.GlyphProperty,
+						source: new RelativeBindingSource(
+							RelativeBindingSourceMode.FindAncestorBindingContext,
+							typeof(MainCardView)),
+						path: nameof(MainCardView.IsHidden),
+						converter: new BoolToObjectConverter()
+						{
+							TrueObject = IconFont.Plus,
+							FalseObject = IconFont.Minus
+						},
+						fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
+					)
+					.Bind(FontImageSource.ColorProperty,
+						source: new RelativeBindingSource(
+								RelativeBindingSourceMode.FindAncestorBindingContext,
+								typeof(MainCardView)),
+						path: nameof(MainCardView.IsHidden),
+						converter: new BoolToObjectConverter()
+						{
+							TrueObject = Color.Green,
+							FalseObject = Color.Red
+						})
 				}
-			.Bind(CircleIconView.CommandParameterProperty,
-				source: new RelativeBindingSource(
-						RelativeBindingSourceMode.FindAncestorBindingContext,
-						typeof(MainCardView))
-				)
-			.Bind(CircleIconView.CommandProperty,
-				source: new RelativeBindingSource(
-					RelativeBindingSourceMode.FindAncestorBindingContext,
-					typeof(MainCardView)),
-				path: nameof(MainCardView.EditModeMainButtonCommand))
-			.Style(MainCardViewTemplate.DefaulCircleIconViewStyle);
+					.Bind(CircleIconView.CommandParameterProperty,
+						source: new RelativeBindingSource(
+								RelativeBindingSourceMode.FindAncestorBindingContext,
+								typeof(MainCardView))
+						)
+					.Bind(CircleIconView.CommandProperty,
+						source: new RelativeBindingSource(
+							RelativeBindingSourceMode.FindAncestorBindingContext,
+							typeof(MainCardView)),
+						path: nameof(MainCardView.EditModeMainButtonCommand))
+					.Style(MainCardViewTemplate.DefaulCircleIconViewStyle);
 
 				editModeButton.Triggers.Add(
 										new DataTrigger(typeof(CircleIconView))

@@ -1,34 +1,29 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
-using Xamarin.CommunityToolkit.UI.Views.Internals;
 using Xamarin.Forms;
 
 namespace XamsungHealth.Controls
 {
 	//TODO: change bindable properties that won't be used with binding to simple properties
 	[ContentProperty(nameof(Content))]
-	public class MainCardView : BaseTemplatedView<MainCardViewTemplate>
+	public class MainCardView : Lib.BaseTemplatedView<MainCardViewTemplate>, IDragDrop
 	{
 		public MainCardView()
 		{
 		}
 
-		public MainCardView(bool isPersistent)
+		public MainCardView(bool isPersistent) : base(isPersistent)
 		{
-			ControlTemplate = new ControlTemplate(() => { return new MainCardViewTemplate(true); });
+			IsPersistent = isPersistent;
 		}
 
-		private static void LongPress(object obj)
-			=> (obj as MainCardView)?.SetValue(IsInEditModeProperty, true);
 
-		private static void EditModeMainButtonClicked(object obj)
-		{
-			if (obj is not MainCardView card)
-				return;
-			card.IsHidden = card.IsHidden ? card.IsHidden = false : card.IsHidden = true;
-		}
+		#region properties
+
+		public bool IsPersistent;
 
 		RatioView? ratioView;
 		public RatioView? RatioView
@@ -39,13 +34,16 @@ namespace XamsungHealth.Controls
 			}
 		}
 
-		#region Bindable properties
+		public bool IsBeingDragged { get; set; }
+		public bool IsBeingDraggedOver { get; set; }
+		#endregion
 
+		#region Bindable properties
 		public static readonly BindableProperty IsHiddenProperty = BindableProperty.Create(
 												propertyName: nameof(IsHidden),
 												returnType: typeof(bool),
 												declaringType: typeof(MainCardView),
- 												defaultBindingMode: BindingMode.TwoWay);
+												 defaultBindingMode: BindingMode.TwoWay);
 
 		public bool IsHidden
 		{
@@ -86,14 +84,6 @@ namespace XamsungHealth.Controls
 												defaultBindingMode: BindingMode.TwoWay,
 												propertyChanged: ColorChanged);
 
-		private static void ColorChanged(BindableObject bindable, object oldValue, object newValue)
-		{
-			var iconImage = (bindable as MainCardView)?.Control?.IconImage;
-			if (iconImage != null)
-			{
-				IconTintColorEffect.SetTintColor(iconImage, (Color)newValue);
-			}
-		}
 
 		public Color Color
 		{
@@ -116,19 +106,12 @@ namespace XamsungHealth.Controls
 			set { SetValue(IsRatioVisibleProperty, value); }
 		}
 
-		private static void IsRatioVisibleChanged(BindableObject bindable, object oldValue, object newValue)
-		{
-			var mainCardView = bindable as MainCardView;
-			if (mainCardView?.ratioView != null && (bool)newValue == false)
-			{
-				mainCardView.ratioView = null;
-			}
-		}
 
 		public static readonly BindableProperty IsInEditModeProperty = BindableProperty.Create(
 										propertyName: nameof(IsInEditMode),
 										returnType: typeof(bool),
- 										declaringType: typeof(MainCardView),
+										 declaringType: typeof(MainCardView),
+										propertyChanged: OnIsInEditModeChanged,
 										defaultBindingMode: BindingMode.TwoWay);
 
 		public bool IsInEditMode
@@ -137,9 +120,8 @@ namespace XamsungHealth.Controls
 			set { SetValue(IsInEditModeProperty, value); }
 		}
 
-
 		public static readonly BindableProperty ContentProperty =
-					BindableProperty.Create(nameof(Content), typeof(View), typeof(MainCardView));
+							BindableProperty.Create(nameof(Content), typeof(View), typeof(MainCardView));
 
 		public View? Content
 		{
@@ -176,8 +158,7 @@ namespace XamsungHealth.Controls
 														propertyName: nameof(Icon),
 														returnType: typeof(string),
 														declaringType: typeof(MainCardView),
-														 defaultBindingMode: BindingMode.TwoWay,
-														propertyChanged: null);
+														defaultBindingMode: BindingMode.TwoWay);
 
 		public string Icon
 		{
@@ -190,8 +171,7 @@ namespace XamsungHealth.Controls
 												propertyName: nameof(TitleText),
 												returnType: typeof(string),
 												declaringType: typeof(MainCardView),
- 												defaultBindingMode: BindingMode.TwoWay,
-												propertyChanged: null);
+												 defaultBindingMode: BindingMode.TwoWay);
 		public string TitleText
 		{
 			get { return (string)GetValue(TitleTextProperty); }
@@ -217,7 +197,7 @@ namespace XamsungHealth.Controls
 												propertyName: nameof(CurrentNumber),
 												returnType: typeof(float),
 												declaringType: typeof(MainCardView),
- 												defaultBindingMode: BindingMode.TwoWay,
+												 defaultBindingMode: BindingMode.TwoWay,
 												propertyChanged: OnRatioNumbersChanged);
 
 		public float CurrentNumber
@@ -226,20 +206,11 @@ namespace XamsungHealth.Controls
 			set { SetValue(CurrentNumberProperty, value); }
 		}
 
-		private static void OnRatioNumbersChanged(BindableObject bindable, object oldValue, object newValue)
-		{
-			var mainCardView = (bindable as MainCardView);
-			if (mainCardView != null)
-			{
-				mainCardView.Percentage = (mainCardView.CurrentNumber / mainCardView.TotalNumber) * 100f;
-			}
-		}
-
 		public static readonly BindableProperty PrefixTotalProperty = BindableProperty.Create(
-												propertyName: nameof(PrefixTotal),
-												returnType: typeof(string),
-												declaringType: typeof(MainCardView),
- 												defaultBindingMode: BindingMode.TwoWay);
+														propertyName: nameof(PrefixTotal),
+														returnType: typeof(string),
+														declaringType: typeof(MainCardView),
+														defaultBindingMode: BindingMode.TwoWay);
 
 		public string PrefixTotal
 		{
@@ -247,7 +218,7 @@ namespace XamsungHealth.Controls
 			set { SetValue(PrefixTotalProperty, value); }
 		}
 
-		public static readonly BindableProperty PercentageProperty = BindableProperty.Create(
+		protected static readonly BindableProperty PercentageProperty = BindableProperty.Create(
 												propertyName: nameof(Percentage),
 												returnType: typeof(float),
 												declaringType: typeof(MainCardView));
@@ -257,6 +228,111 @@ namespace XamsungHealth.Controls
 		{
 			get { return (float)GetValue(PercentageProperty); }
 			set { SetValue(PercentageProperty, value); }
+		}
+		#endregion
+
+
+		#region Property Changed
+
+		static void IsRatioVisibleChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var mainCardView = bindable as MainCardView;
+			if (mainCardView?.ratioView != null && (bool)newValue == false)
+			{
+				mainCardView.ratioView = null;
+			}
+		}
+
+		static void OnRatioNumbersChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var mainCardView = (bindable as MainCardView);
+			if (mainCardView != null)
+			{
+				mainCardView.Percentage = (mainCardView.CurrentNumber / mainCardView.TotalNumber) * 100f;
+			}
+		}
+
+		static void ColorChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var iconImage = (bindable as MainCardView)?.Control?.IconImage;
+			if (iconImage != null)
+			{
+				IconTintColorEffect.SetTintColor(iconImage, (Color)newValue);
+			}
+		}
+
+		static void OnIsInEditModeChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var card = (MainCardView)bindable;
+			UpdateGestureRecognizersForDragDrop((bool)newValue, card.Control.mainFrame);
+		}
+		#endregion
+
+		#region methods
+		static void LongPress(object obj)
+			=> (obj as MainCardView)?.SetValue(IsInEditModeProperty, true);
+
+		static void EditModeMainButtonClicked(object obj)
+		{
+			if (obj is not MainCardView card)
+				return;
+			card.IsHidden = card.IsHidden ? card.IsHidden = false : card.IsHidden = true;
+		}
+
+		static void UpdateGestureRecognizersForDragDrop(bool isInEditMode, View view)
+		{
+			if (isInEditMode)
+			{
+				if (view.GestureRecognizers.Count != 0)
+				{
+					if (view?.GestureRecognizers[0] is DragGestureRecognizer dragGestureRecognizer)
+					{
+						dragGestureRecognizer.CanDrag = true;
+					}
+
+					if (view?.GestureRecognizers[0] is DropGestureRecognizer dropGestureRecognizer)
+					{
+						dropGestureRecognizer.AllowDrop = true;
+					}
+				}
+
+				else
+				{
+					view?.GestureRecognizers.Add(
+						new DragGestureRecognizer()
+						{
+							CanDrag = true,
+							//DragStartingCommand = DragStartingCommand,
+							//DragStartingCommandParameter = DragStartingCommandParameter,
+							//DropCompletedCommand = DropCompletedCommand,
+							//DropCompletedCommandParameter = DropCompletedCommandParameter
+						});
+
+					view?.GestureRecognizers.Add(
+						new DropGestureRecognizer()
+						{
+							AllowDrop = true,
+							//DragLeaveCommand = DragLeaveCommand,
+							//DragLeaveCommandParameter = DragLeaveCommandParameter,
+							//DragOverCommand = DragOverCommand,
+							//DragOverCommandParameter = DragOverCommandParameter,
+							//DropCommand = DropCommand,
+							//DropCommandParameter = DropCommandParameter,
+						});
+				}
+			}
+
+			else
+			{
+				if (view?.GestureRecognizers[0] is DragGestureRecognizer dragGestureRecognizer)
+				{
+					dragGestureRecognizer.CanDrag = false;
+				}
+				if (view?.GestureRecognizers[1] is DropGestureRecognizer dropGestureRecognizer)
+				{
+					dropGestureRecognizer.AllowDrop = false;
+				}
+			}
 		}
 		#endregion
 
