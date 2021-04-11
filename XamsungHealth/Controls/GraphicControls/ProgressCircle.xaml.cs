@@ -100,7 +100,7 @@ namespace XamsungHealth.Controls
 			set { SetValue(SecondaryTextFontSizeProperty, value); }
 		}
 
-		private static readonly Color transparent = XColor.Transparent.ToGraphicsColor();
+		static readonly Color transparent = XColor.Transparent.ToGraphicsColor();
 		#endregion
 
 		#region Method

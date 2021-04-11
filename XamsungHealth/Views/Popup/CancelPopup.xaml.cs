@@ -23,13 +23,13 @@ namespace XamsungHealth.Views.Popups
 		protected override void LightDismiss()
 			=> Dismiss(ReturnMessages.Cancel);
 
-		private void Cancel_Clicked(object sender, System.EventArgs e)
-			=> Dismiss(ReturnMessages.Cancel);
+		void Cancel_Clicked(object sender, System.EventArgs e)
+		  => Dismiss(ReturnMessages.Cancel);
 
-		private void Discard_Clicked(object sender, System.EventArgs e)
-			 => Dismiss(ReturnMessages.Discard);
+		void Discard_Clicked(object sender, System.EventArgs e)
+		   => Dismiss(ReturnMessages.Discard);
 
-		private void Save_Clicked(object sender, System.EventArgs e)
-			 => Dismiss(ReturnMessages.Save);
+		void Save_Clicked(object sender, System.EventArgs e)
+		   => Dismiss(ReturnMessages.Save);
 	}
 }

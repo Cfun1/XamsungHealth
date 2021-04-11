@@ -24,7 +24,7 @@ namespace XamsungHealth
 		}
 
 		//handeled here because cannot call ShowPopupAsync from VM
-		private async void Cancel_Clicked(object sender, System.EventArgs e)
+		async void Cancel_Clicked(object sender, System.EventArgs e)
 		{
 			vm.CheckForChanges();
 

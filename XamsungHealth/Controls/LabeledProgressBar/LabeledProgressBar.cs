@@ -114,13 +114,13 @@ namespace XamsungHealth.Controls
 				HorizontalOptions = LayoutOptions.Center
 			};
 
-		private static ProgressBar CreateProgressBarElement()
-			=> new()
-			{
-				ProgressColor = MainGreen,
-				ScaleY = 9,
-				Progress = 0
-			};
+		static ProgressBar CreateProgressBarElement()
+		  => new()
+		  {
+			  ProgressColor = MainGreen,
+			  ScaleY = 9,
+			  Progress = 0
+		  };
 		#endregion
 
 		#region Overriden methods
