@@ -1,6 +1,8 @@
-﻿using Xamanimation;
+﻿using System;
+using Xamanimation;
 using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.Effects;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Forms;
 using XamsungHealth.Lib.Fonts;
@@ -10,6 +12,15 @@ namespace XamsungHealth.Controls
 {
 	public class MainCardViewTemplate : Grid
 	{
+		public Image IconImage { get; set; }
+
+		readonly CircleIconView? editModeButton;
+		public readonly Frame mainFrame = new();
+
+		public static Style<Label> DefaulTitleStyle => new(
+			(Label.FontSizeProperty, 15),
+			(Label.FontAttributesProperty, FontAttributes.Bold));
+
 		static Style<Frame> DefaulFrameStyle
 		{
 			get
@@ -34,7 +45,7 @@ namespace XamsungHealth.Controls
 							new AnimateDouble()
 							{
 								Duration = 250,
-								To = 0.85,
+								To = 0.77,
 								TargetProperty = Frame.ScaleProperty,
 								Easing = EasingType.SpringIn
 							},
@@ -64,10 +75,10 @@ namespace XamsungHealth.Controls
 							//Question Issue: Why this is working on the last card of the collectionview only ?
 							//If reloading xaml with hotreload suddenly starts work on all items
 
-							new Setter() {
-								Property = TouchEffect.NativeAnimationProperty,
-								Value = true
-							},
+							//new Setter() {
+							//	Property = TouchEffect.NativeAnimationProperty,
+							//	Value = true
+							//},
 
 							new Setter() {
 								Property = TouchEffect.ShouldMakeChildrenInputTransparentProperty,
@@ -98,8 +109,6 @@ namespace XamsungHealth.Controls
 						).BasedOn(CircleIconView.DefaultStyle!);
 		}
 
-		public Image IconImage { get; set; }
-		CircleIconView? editModeButton;
 
 		public MainCardViewTemplate() : this(false)
 		{
@@ -108,8 +117,7 @@ namespace XamsungHealth.Controls
 
 		public MainCardViewTemplate(bool isPersistent)
 		{
-			var mainFrame = new Frame()
-				.Style(DefaulFrameStyle);
+			mainFrame.Style(DefaulFrameStyle);
 
 			var title = new Label()
 			{
@@ -118,7 +126,7 @@ namespace XamsungHealth.Controls
 			}
 							.Bind(Label.TextProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.TitleText))
 							.Bind(Label.TextColorProperty, source: RelativeBindingSource.TemplatedParent, path: nameof(MainCardView.Color))
-							.Style(MainCardView.DefaulTitleStyle);
+							.Style(DefaulTitleStyle);
 
 			IconImage = new Image()
 			{
@@ -194,45 +202,47 @@ namespace XamsungHealth.Controls
 			{
 				editModeButton = new CircleIconView()
 				{
+					TranslationX = -35, //TODO: deal with the Magic number :/
+
 					Source = new FontImageSource
 					{
 						FontFamily = IconFont._FontName,
 						Size = 10
 					}
-			.Bind(FontImageSource.GlyphProperty,
-				source: new RelativeBindingSource(
-					RelativeBindingSourceMode.FindAncestorBindingContext,
-					typeof(MainCardView)),
-				path: nameof(MainCardView.IsHidden),
-				converter: new BoolToObjectConverter()
-				{
-					TrueObject = IconFont.Plus,
-					FalseObject = IconFont.Minus
-				},
-				fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
-			)
-			.Bind(FontImageSource.ColorProperty,
-				source: new RelativeBindingSource(
-						RelativeBindingSourceMode.FindAncestorBindingContext,
-						typeof(MainCardView)),
-				path: nameof(MainCardView.IsHidden),
-				converter: new BoolToObjectConverter()
-				{
-					TrueObject = Color.Green,
-					FalseObject = Color.Red
-				})
+					.Bind(FontImageSource.GlyphProperty,
+						source: new RelativeBindingSource(
+							RelativeBindingSourceMode.FindAncestorBindingContext,
+							typeof(MainCardView)),
+						path: nameof(MainCardView.IsHidden),
+						converter: new BoolToObjectConverter()
+						{
+							TrueObject = IconFont.Plus,
+							FalseObject = IconFont.Minus
+						},
+						fallbackValue: IconFont.Dizzy //if omitted => java.lang.IllegalArgumentException text cannot be null
+					)
+					.Bind(FontImageSource.ColorProperty,
+						source: new RelativeBindingSource(
+								RelativeBindingSourceMode.FindAncestorBindingContext,
+								typeof(MainCardView)),
+						path: nameof(MainCardView.IsHidden),
+						converter: new BoolToObjectConverter()
+						{
+							TrueObject = Color.Green,
+							FalseObject = Color.Red
+						})
 				}
-			.Bind(CircleIconView.CommandParameterProperty,
-				source: new RelativeBindingSource(
-						RelativeBindingSourceMode.FindAncestorBindingContext,
-						typeof(MainCardView))
-				)
-			.Bind(CircleIconView.CommandProperty,
-				source: new RelativeBindingSource(
-					RelativeBindingSourceMode.FindAncestorBindingContext,
-					typeof(MainCardView)),
-				path: nameof(MainCardView.EditModeMainButtonCommand))
-			.Style(MainCardViewTemplate.DefaulCircleIconViewStyle);
+					.Bind(CircleIconView.CommandParameterProperty,
+						source: new RelativeBindingSource(
+								RelativeBindingSourceMode.FindAncestorBindingContext,
+								typeof(MainCardView))
+						)
+					.Bind(CircleIconView.CommandProperty,
+						source: new RelativeBindingSource(
+							RelativeBindingSourceMode.FindAncestorBindingContext,
+							typeof(MainCardView)),
+						path: nameof(MainCardView.EditModeMainButtonCommand))
+					.Style(MainCardViewTemplate.DefaulCircleIconViewStyle);
 
 				editModeButton.Triggers.Add(
 										new DataTrigger(typeof(CircleIconView))
@@ -255,7 +265,7 @@ namespace XamsungHealth.Controls
 											new AnimateDouble()
 											{
 												Duration=250,
-												To=0,
+												To=5,
 												TargetProperty =CircleIconView.TranslationYProperty,
 											},
 											new AnimateDouble()
@@ -297,6 +307,73 @@ namespace XamsungHealth.Controls
 			{
 				Children.Add(editModeButton);
 			}
+			AddDrgDropGestureRconizers();
+		}
+
+
+		void AddDrgDropGestureRconizers()
+		{
+			var subView = mainFrame;
+			var dragGestureRecognizer = new DragGestureRecognizer()
+			{
+				DragStartingCommand = new Command<MainCardView>((x) =>
+				{
+					x.IsBeingDragged = true;
+					Console.WriteLine(x.TitleText + " is being dragged");
+				}),
+
+				DropCompletedCommand = new Command<MainCardView>((x) =>
+				{
+					x.IsBeingDragged = false;
+					Console.WriteLine(x.TitleText + " completed the drop");
+				}),
+			}
+			.Bind(DragGestureRecognizer.DropCompletedCommandParameterProperty, source: RelativeBindingSource.TemplatedParent)
+			.Bind(DragGestureRecognizer.DragStartingCommandProperty, source: RelativeBindingSource.TemplatedParent,
+										path: nameof(MainCardView.DragStartingCommand))
+			.Bind(DragGestureRecognizer.DragStartingCommandParameterProperty, source: RelativeBindingSource.TemplatedParent)
+
+			.Bind(DragGestureRecognizer.DropCompletedCommandProperty, source: RelativeBindingSource.TemplatedParent,
+										path: nameof(MainCardView.DropCompletedCommand))
+			.Bind(DragGestureRecognizer.DragStartingCommandParameterProperty, source: RelativeBindingSource.TemplatedParent)
+			;
+			dragGestureRecognizer.SetBinding(DragGestureRecognizer.CanDragProperty,
+					new MultiBinding()
+					{
+						Converter = new VariableMultiValueConverter() { ConditionType = MultiBindingCondition.All },
+						Bindings =
+						{
+							new Binding(nameof(MainCardView.IsHidden), source:RelativeBindingSource.TemplatedParent, converter: new InvertedBoolConverter()),
+							new Binding(nameof(MainCardView.IsInEditMode), source:RelativeBindingSource.TemplatedParent),
+						}
+					});
+
+			var dropGestureRecognizer = new DropGestureRecognizer()
+			{
+			}
+			.Bind(DropGestureRecognizer.DragLeaveCommandProperty, source: RelativeBindingSource.TemplatedParent,
+										path: nameof(MainCardView.DragLeaveCommand))
+			.Bind(DropGestureRecognizer.DragLeaveCommandParameterProperty, source: RelativeBindingSource.TemplatedParent)
+			.Bind(DropGestureRecognizer.DragOverCommandProperty, source: RelativeBindingSource.TemplatedParent,
+										path: nameof(MainCardView.DragOverCommand))
+			.Bind(DropGestureRecognizer.DragOverCommandParameterProperty, source: RelativeBindingSource.TemplatedParent)
+			.Bind(DropGestureRecognizer.DropCommandParameterProperty, source: RelativeBindingSource.TemplatedParent)
+			.Bind(DropGestureRecognizer.DropCommandProperty, source: RelativeBindingSource.TemplatedParent,
+											path: nameof(MainCardView.DropCommand));
+
+			dropGestureRecognizer.SetBinding(DropGestureRecognizer.AllowDropProperty,
+				new MultiBinding()
+				{
+					Converter = new VariableMultiValueConverter() { ConditionType = MultiBindingCondition.All },
+					Bindings =
+					{
+						new Binding(nameof(MainCardView.IsHidden), source: RelativeBindingSource.TemplatedParent, converter: new InvertedBoolConverter()),
+						new Binding(nameof(MainCardView.IsInEditMode), source: RelativeBindingSource.TemplatedParent),
+					}
+				});
+
+			subView?.GestureRecognizers.Add(dragGestureRecognizer);
+			subView?.GestureRecognizers.Add(dropGestureRecognizer);
 		}
 	}
 }

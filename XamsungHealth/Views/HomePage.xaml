@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="XamsungHealth.HomePage"
+<ContentPage x:Name="homePage"
+             x:Class="XamsungHealth.HomePage"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:XamsungHealth.Controls"
@@ -85,21 +86,6 @@
             <CollectionView.Behaviors>
                 <xamsunghealthLib:CollectionViewScrollBehavior x:Name="scroll"/>
             </CollectionView.Behaviors>
-
-            <!--<CollectionView.GestureRecognizers>
-                <DragGestureRecognizer CanDrag="True"
-                                       DragStartingCommand="{Binding DragStartingCommand}"
-                                       DragStartingCommandParameter="{Binding .}"
-                                       DropCompletedCommand="{Binding DropCompletedCommand}"
-                                       DropCompletedCommandParameter="{Binding .}"/>
-                <DropGestureRecognizer AllowDrop="True"
-                                       DragLeaveCommand="{Binding DragLeaveCommand}"
-                                       DragLeaveCommandParameter="{Binding .}"
-                                       DragOverCommand="{Binding DragOverCommand}"
-                                       DragOverCommandParameter="{Binding .}"
-                                       DropCommand="{Binding DropCommand}"
-                                       DropCommandParameter="{Binding .}"/>
-            </CollectionView.GestureRecognizers>-->
 
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="{Binding IsInEditMode, Converter={StaticResource BoolToObjectConverter}}"

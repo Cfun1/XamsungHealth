@@ -13,9 +13,14 @@ using System;
 
 namespace XamsungHealth
 {
-	public class HomeViewModel : ObservableObject//, IBaseDragDrop
+	public class HomeViewModel : ObservableObject, IDragDropMainCardViewVm
 	{
 		public HomeViewModel()
+		{
+			Initialize();
+		}
+
+		void Initialize()
 		{
 			AllCardsList = new[]
 			{
@@ -35,12 +40,11 @@ namespace XamsungHealth
 											LabeledProgressBar.PercentageProperty,
 											source: new RelativeBindingSource(RelativeBindingSourceMode.FindAncestor,
 											typeof(MainCardView)), path: nameof(MainCardView.Percentage))
-				}.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				 .Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
+				},
 
 				new MainCardView()
-				{
-					TitleText = "Active time",
+		{
+			TitleText = "Active time",
 					TotalNumber = 60,
 					CurrentNumber = 1,
 					PrefixTotal = "mins",
@@ -49,13 +53,10 @@ namespace XamsungHealth
 					{
 						Text = "425 Kcal  |  0.0Km"
 					}
-				}
-				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
-
-				new MainCardView()
-				{
-					TitleText = "Exercise",
+				},
+ 				new MainCardView()
+		{
+			TitleText = "Exercise",
 					IsRatioVisible = false,
 					Icon = IconFont.Running,
 					RigthHeaderItem = new Label()
@@ -112,13 +113,10 @@ namespace XamsungHealth
 							}
 						}
 					}
-				}
-				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
-
-				new MainCardView()
-				{
- 					TitleText = "Food",
+				},
+ 				new MainCardView()
+		{
+			TitleText = "Food",
 					TotalNumber = 950,
 					CurrentNumber = 0,
 					PrefixTotal = "Kcal",
@@ -128,13 +126,10 @@ namespace XamsungHealth
 						Style = ButtonStyle,
 						Text = "Add"
 					}
-				}
-				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
-
+				},
 				new MainCardView()
-				{
-					IsHidden = true,
+		{
+			IsHidden = true,
 					TitleText = "Were you asleep (Hidden)",
 					IsRatioVisible = false,
 					Icon = IconFont.Moon,
@@ -144,13 +139,10 @@ namespace XamsungHealth
 					{
 						Text = "OK"
 					}
-				}
-				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand)),
-
+				},
 				new MainCardView()
-				{
-					IsHidden = true,
+		{
+			IsHidden = true,
 					TitleText = "Were you asleep",
 					IsRatioVisible = false,
 					Icon = IconFont.Moon,
@@ -160,12 +152,24 @@ namespace XamsungHealth
 					{
 						Text = "OK"
 					}
-				}
-				.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode))
-				.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand))
+				},
 			};
+			SetBindings();
 			CardsList = new(AllCardsList.Where(x => x.IsHidden == false).ToList());
 			lastVisibleCardIndex = CardsList.Count() - 1;
+		}
+
+		void SetBindings()
+		{
+			foreach (var card in AllCardsList)
+			{
+				if (!(card.IsPersistent))
+				{
+					card.Bind(MainCardView.EditModeMainButtonCommandProperty, source: this, path: nameof(EditButtonCommand));
+				}
+				card.Bind(MainCardView.IsInEditModeProperty, source: this, path: nameof(IsInEditMode));
+				card.Bind(MainCardView.DropCommandProperty, source: this, path: nameof(DropCommand));
+			}
 		}
 
 		static Style<Button> ButtonStyle
@@ -185,16 +189,18 @@ namespace XamsungHealth
 		public bool IsHiddenChanged;
 		int lastVisibleCardIndex;
 
-		public IEnumerable<MainCardView> AllCardsList { get; }
+		//workaround https://github.com/dotnet/runtime/issues/31877#issuecomment-623452276
+		public IEnumerable<MainCardView> AllCardsList { get; set; } = null!;
 		List<MainCardView>? changedIsHiddenCardsList;
 
 		List<string>? savedCardsOrder;
 
+		//workaround https://github.com/dotnet/runtime/issues/31877#issuecomment-623452276
 		public ObservableCollection<MainCardView> CardsList
 		{
 			get;
 			set;
-		}
+		} = null!;
 
 		bool isInEditMode;
 		public bool IsInEditMode
@@ -202,22 +208,6 @@ namespace XamsungHealth
 			get => isInEditMode;
 			set => SetProperty(ref isInEditMode, value);
 		}
-
-		#region Drag/Drop properties
-		// bool isBeingDragged;
-		//public bool IsBeingDragged
-		//{
-		//	get { return isBeingDragged; }
-		//	set { isBeingDragged = value; }
-		//}
-
-		// bool isBeingDraggedOver;
-		//public bool IsBeingDraggedOver
-		//{
-		//	get { return isBeingDraggedOver; }
-		//	set { isBeingDraggedOver = value; }
-		//}
-		#endregion
 		#endregion
 
 		#region Commands
@@ -229,17 +219,8 @@ namespace XamsungHealth
 
 
 		#region Drag/Drop Commands
-		// ICommand? dragStartingCommand;
-		//public ICommand DragStartingCommand => dragStartingCommand ??= new Command(DragStarting);
-
-		// ICommand? dropCompletedCommand;
-		//public ICommand DropCompletedCommand => dropCompletedCommand ??= new Command(DropCompleted);
-		// ICommand? dragOverCommand;
-		//public ICommand DragOverCommand => dragOverCommand ??= new Command(DragOver);
-		// ICommand? dragLeaveCommand;
-		//public ICommand DragLeaveCommand => dragLeaveCommand ??= new Command(DragLeave);
-		// ICommand? dropCommand;
-		//public ICommand DropCommand => dropCommand ??= new Command(Drop);
+		ICommand? dropCommand;
+		public ICommand DropCommand => dropCommand ??= new Command<MainCardView>(Drop);
 		#endregion
 
 		#endregion
@@ -298,7 +279,7 @@ namespace XamsungHealth
 			UpdatechangedIsHiddenCardsList(mainCardView);
 		}
 
-		private void UpdatechangedIsHiddenCardsList(MainCardView mainCardView)
+		void UpdatechangedIsHiddenCardsList(MainCardView mainCardView)
 		{
 			changedIsHiddenCardsList ??= new List<MainCardView>();
 			if (changedIsHiddenCardsList.Contains(mainCardView))
@@ -341,10 +322,9 @@ namespace XamsungHealth
 			{
 				UpdateCardsListOnIsInEditModeChanged();
 
-				if (IsInEditMode)   //Entering edit mode
+				if (IsInEditMode)
 				{
 					SaveCurrentCardsOrder();
-					CardsList.Move(1, 2);   //todo: delete: fake a reorder
 				}
 			}
 		}
@@ -387,7 +367,7 @@ namespace XamsungHealth
 			}
 		}
 
-		private void RestoreOrder()
+		void RestoreOrder()
 		{
 			if (savedCardsOrder is null || savedCardsOrder.Count() == 0)
 			{
@@ -405,7 +385,7 @@ namespace XamsungHealth
 			}
 		}
 
-		private void RestoreIsHidden()
+		void RestoreIsHidden()
 		{
 			if (changedIsHiddenCardsList is null || changedIsHiddenCardsList.Count() == 0)
 			{
@@ -415,30 +395,20 @@ namespace XamsungHealth
 			foreach (var card in changedIsHiddenCardsList)
 			{
 				var cardToRestore = CardsList.Where(x => x.Equals(card)).FirstOrDefault();
-				cardToRestore.IsHidden = cardToRestore.IsHidden ? false : true;
+				cardToRestore.IsHidden = !cardToRestore.IsHidden;
 			}
 		}
-		// void DragStarting()
-		//{
-		//}
-
-		// void DropCompleted()
-		//{
-		//}
-
-		// void DragOver()
-		//{
-		//}
-
-
-
-		// void DragLeave()
-		//{
-		//}
-
-		// void Drop()
-		//{
-		//}
+		public void Drop(MainCardView cardWhereDropped)
+		{
+			var cardBeingDragged = CardsList.Where(x => x.IsBeingDragged).FirstOrDefault();
+			if (cardWhereDropped.Equals(cardBeingDragged))
+			{
+				return;
+			}
+			var cardBeingDraggedIndex = CardsList.IndexOf(cardBeingDragged);
+			var cardWhereDroppedIndex = CardsList.IndexOf(cardWhereDropped);
+			CardsList.Move(cardBeingDraggedIndex, cardWhereDroppedIndex);
+		}
 		#endregion
 	}
 }

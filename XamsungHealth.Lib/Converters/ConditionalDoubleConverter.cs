@@ -5,6 +5,7 @@ using Xamarin.Forms;
 
 namespace XamsungHealth.Lib.Converters
 {
+	//TODO: Got implemented in xct, remove once released  https://github.com/xamarin/XamarinCommunityToolkit/pull/1172
 	/// <summary>
 	/// Converts a double to an object or a boolean based on a comparaison.
 	/// </summary>

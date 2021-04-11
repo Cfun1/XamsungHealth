@@ -6,7 +6,6 @@
            xmlns:popup="clr-namespace:XamsungHealth.Views.Popups"
            HorizontalOptions="CenterAndExpand"
            VerticalOptions="End"
-           TranslationY="-50"
            Size="{x:Static popup:CancelPopup.PopupSize}"
            Color="Transparent">
 
