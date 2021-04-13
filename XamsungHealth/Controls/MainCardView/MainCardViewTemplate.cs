@@ -264,13 +264,13 @@ namespace XamsungHealth.Controls
 											{
 											new AnimateDouble()
 											{
-												Duration=250,
+												Duration=150,
 												To=5,
 												TargetProperty =CircleIconView.TranslationYProperty,
 											},
 											new AnimateDouble()
 											{
-												Duration=250,
+												Duration=150,
 												To=1,
 												TargetProperty =CircleIconView.OpacityProperty,
 											},
@@ -280,13 +280,13 @@ namespace XamsungHealth.Controls
 											{
 										new AnimateDouble()
 											{
-												Duration=250,
+												Duration=150,
 												To=-5,
 												TargetProperty =CircleIconView.TranslationYProperty,
 											},
 											new AnimateDouble()
 											{
-												Duration=250,
+												Duration=150,
 												To=0,
 												TargetProperty =CircleIconView.OpacityProperty,
 											},
