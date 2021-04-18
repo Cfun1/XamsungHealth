@@ -5,11 +5,14 @@
        xmlns:xamsunghealth="clr-namespace:XamsungHealth"
        xmlns:fontawesome="clr-namespace:XamsungHealth.Lib.Fonts;assembly=XamsungHealth.Lib"
        xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+       xmlns:controls="clr-namespace:XamsungHealth.Controls"
+       xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+       FlyoutBackgroundColor="Transparent"
        BackgroundColor="{DynamicResource MainBackgroundColor}">
     <!--  won't work if you move it to a style  -->
-
     <!--  issue elevation : https://github.com/xamarin/Xamarin.Forms/issues/5988  -->
-    <TabBar>
+
+    <FlyoutItem>
         <Tab Title="Home">
             <Tab.Icon>
                 <FontImageSource FontFamily="FontAwesome"
@@ -39,7 +42,53 @@
                           Route="Fitness"
                           ContentTemplate="{DataTemplate xamsunghealth:HomePage}"/>
         </Tab>
+    </FlyoutItem>
 
-    </TabBar>
+    <Shell.FlyoutContent>
+        <pancakeview:PancakeView CornerRadius="0,30,0,30"
+                                 BackgroundColor="White">
+            <StackLayout>
+                <StackLayout Margin="10"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="25"
+                             Orientation="Horizontal">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <FormattedString.Spans>
+                                    <Span Text="xamasung "
+                                          TextTransform="Uppercase"
+                                          FontAttributes="Bold"/>
+                                    <Span Text="Health"/>
+                                </FormattedString.Spans>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <controls:CircleIconView Source="https://avatars.githubusercontent.com/u/15718354?v=4"
+                                             Size="25"/>
 
+                    <xct:BadgeView Margin="0,-8,0,0"
+                                   FontSize="8"
+                                   Text="N"
+                                   IsAnimated="False"
+                                   TextColor="White"
+                                   BackgroundColor="#FF7200">
+
+                        <ImageButton Margin="15,0,0,0"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="Transparent">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="{x:Static fontawesome:IconFont._FontName}"
+                                                 Size="25"
+                                                 Glyph="{x:Static fontawesome:IconFont.Cog}"
+                                                 Color="Gray"/>
+                            </ImageButton.Source>
+                        </ImageButton>
+                    </xct:BadgeView>
+                </StackLayout>
+
+            </StackLayout>
+        </pancakeview:PancakeView>
+    </Shell.FlyoutContent>
 </Shell>

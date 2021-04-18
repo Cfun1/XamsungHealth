@@ -37,30 +37,14 @@
             </Style>
 
             <ControlTemplate x:Key="AppBar">
-                <StackLayout Margin="0,5,0,0"
-                             Orientation="Horizontal"
+                <StackLayout Orientation="Horizontal"
+                             VerticalOptions="Center"
                              BackgroundColor="{TemplateBinding BackgroundColor}"
                              Spacing="30">
-                    <xct:BadgeView Margin="-5"
-                                   FontSize="8"
-                                   VerticalOptions="Start"
-                                   Text="N"
-                                   IsAnimated="False"
-                                   TextColor="White"
-                                   BackgroundColor="#FF7200">
-                        <ImageButton Margin="15,0,0,0"
-                                     xct:IconTintColorEffect.TintColor="Black"
-                                     VerticalOptions="Start"
-                                     BackgroundColor="Transparent">
-                            <ImageButton.Source>
-                                <FontImageSource FontFamily="FontAwesome"
-                                                 Size="20"
-                                                 Glyph="{x:Static fontawesome:IconFont.Bars}"/>
-                            </ImageButton.Source>
-                        </ImageButton>
-                    </xct:BadgeView>
+
                     <!--  for some reasons FontSize and FontFamily not woking on spans when put in root <Label  -->
                     <Label TextColor="Black"
+                           VerticalTextAlignment="End"
                            VerticalOptions="Start">
                         <Label.FormattedText>
                             <FormattedString>
