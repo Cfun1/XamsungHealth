@@ -34,6 +34,7 @@ namespace XamsungHealth
 					{
 						IsRunning = true,
 						HeightRequest = 15,
+						WidthRequest = 15,
 						Color = App.MainGreen
 					},
 					Content = new LabeledProgressBar().Bind(
@@ -43,116 +44,116 @@ namespace XamsungHealth
 				},
 
 				new MainCardView()
-		{
-			TitleText = "Active time",
-					TotalNumber = 60,
-					CurrentNumber = 1,
-					PrefixTotal = "mins",
-					Icon = IconFont.Clock,
-					RigthRatioViewItem = new Label()
-					{
-						Text = "425 Kcal  |  0.0Km"
-					}
-				},
- 				new MainCardView()
-		{
-			TitleText = "Exercise",
-					IsRatioVisible = false,
-					Icon = IconFont.Running,
-					RigthHeaderItem = new Label()
-					{
-						Text = "View history"
-					},
-					Content = new StackLayout()
-					{
-						Margin = new Thickness(20, 0),
-						Orientation = StackOrientation.Horizontal,
-						HorizontalOptions = LayoutOptions.Center,
-						Spacing = 20,
-						Children =
-						{
-							new CircleIconView()
+				{
+					TitleText = "Active time",
+							TotalNumber = 60,
+							CurrentNumber = 1,
+							PrefixTotal = "mins",
+							Icon = IconFont.Clock,
+							RigthRatioViewItem = new Label()
 							{
-								Source = new FontImageSource()
-								{
-									FontFamily = IconFont._FontName,
-									Glyph = IconFont.Running,
-									Color = Color.Black,
-									Size = 20
-								},
-							},
-							new CircleIconView()
-							{
-								Source = new FontImageSource()
-								{
-									FontFamily = IconFont._FontName,
-									Glyph = IconFont.Walking,
-									Color = Color.Black,
-									Size = 20
-								},
-							},
-							new CircleIconView()
-							{
-								Source = new FontImageSource()
-								{
-									FontFamily = IconFont._FontName,
-									Glyph = IconFont.Bicycle,
-									Color = Color.Black,
-									Size = 20
-								},
-							},
-							new CircleIconView()
-							{
-								Source = new FontImageSource()
-								{
-									FontFamily = IconFont._FontName,
-									Glyph = IconFont.ListUl,
-									Color = Color.Black,
-									Size = 20
-								},
+								Text = "425 Kcal  |  0.0Km"
 							}
-						}
-					}
-				},
- 				new MainCardView()
-		{
-			TitleText = "Food",
-					TotalNumber = 950,
-					CurrentNumber = 0,
-					PrefixTotal = "Kcal",
+						},
+ 						new MainCardView()
+				{
+					TitleText = "Exercise",
+							IsRatioVisible = false,
+							Icon = IconFont.Running,
+							RigthHeaderItem = new Label()
+							{
+								Text = "View history"
+							},
+							Content = new StackLayout()
+							{
+								Margin = new Thickness(20, 0),
+								Orientation = StackOrientation.Horizontal,
+								HorizontalOptions = LayoutOptions.Center,
+								Spacing = 20,
+								Children =
+								{
+									new CircleIconView()
+									{
+										Source = new FontImageSource()
+										{
+											FontFamily = IconFont._FontName,
+											Glyph = IconFont.Running,
+											Color = Color.Black,
+											Size = 20
+										},
+									},
+									new CircleIconView()
+									{
+										Source = new FontImageSource()
+										{
+											FontFamily = IconFont._FontName,
+											Glyph = IconFont.Walking,
+											Color = Color.Black,
+											Size = 20
+										},
+									},
+									new CircleIconView()
+									{
+										Source = new FontImageSource()
+										{
+											FontFamily = IconFont._FontName,
+											Glyph = IconFont.Bicycle,
+											Color = Color.Black,
+											Size = 20
+										},
+									},
+									new CircleIconView()
+									{
+										Source = new FontImageSource()
+										{
+											FontFamily = IconFont._FontName,
+											Glyph = IconFont.ListUl,
+											Color = Color.Black,
+											Size = 20
+										},
+									}
+								}
+							}
+						},
+ 						new MainCardView()
+				{
+					TitleText = "Food",
+							TotalNumber = 950,
+							CurrentNumber = 0,
+							PrefixTotal = "Kcal",
 
-					RigthHeaderItem = new Button()
-					{
-						Style = ButtonStyle,
-						Text = "Add"
-					}
-				},
-				new MainCardView()
-		{
-			IsHidden = true,
-					TitleText = "Were you asleep (Hidden)",
-					IsRatioVisible = false,
-					Icon = IconFont.Moon,
-					Color = Color.Purple,
+							RigthHeaderItem = new Button()
+							{
+								Style = ButtonStyle,
+								Text = "Add"
+							}
+						},
+						new MainCardView()
+				{
+					IsHidden = true,
+							TitleText = "Were you asleep (Hidden)",
+							IsRatioVisible = false,
+							Icon = IconFont.Moon,
+							Color = Color.Purple,
 
-					RigthHeaderItem = new Label()
-					{
-						Text = "OK"
-					}
-				},
-				new MainCardView()
-		{
-			IsHidden = true,
-					TitleText = "Were you asleep",
-					IsRatioVisible = false,
-					Icon = IconFont.Moon,
-					Color = Color.Purple,
+							RigthHeaderItem = new Label()
+							{
+								Text = "OK"
+							}
+						},
+						new MainCardView()
+				{
+					IsHidden = true,
+							TitleText = "Were you asleep",
+							IsRatioVisible = false,
+							Icon = IconFont.Moon,
+							Color = Color.Purple,
 
-					RigthHeaderItem = new Label()
-					{
-						Text = "OK"
-					}
-				},
+							RigthHeaderItem = new Label()
+							{
+								Text = "OK"
+							}
+						},
 			};
 			SetBindings();
 			CardsList = new(AllCardsList.Where(x => x.IsHidden == false).ToList());
