@@ -6,7 +6,7 @@ namespace XamsungHealth
 	{
 		public static Color MainGreen
 		{
-			get => (Color)Application.Current.Resources["MainGreen"];
+			get => (Color)Current.Resources["MainGreen"];
 		}
 
 		public App()
