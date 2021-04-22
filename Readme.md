@@ -4,6 +4,7 @@
  <img src="Screenshots/99ceb1c9.png" width="303" height="538">
  <img src="Screenshots/bf2246534b4af245400e1db87b633fb2e2d37d3b.png" width="303" height="538">
  <img src="Screenshots/c5e7feef.png" width="303" height="538">
+  <img src="Screenshots/4306eabd.png" width="303" height="538">
 </p>
 
 This project is a personal learning challenge aiming to replicate [Samsung Health](https://play.google.com/store/apps/details?id=com.sec.android.app.shealth) UI as genuine as possible while staying as much as possible in the shared code, it target Android only and it is using the following packages:
