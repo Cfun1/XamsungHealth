@@ -11,8 +11,20 @@
              x:DataType="xamsunghealth:HomeViewModel"
              Shell.NavBarHasShadow="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter ComparisonOperator='>', ComparingValue=10}}"
              Shell.TabBarIsVisible="{Binding IsInEditMode, Converter={StaticResource InvertedBoolConverter}}"
-             Shell.BackgroundColor="{Binding Source={x:Reference scroll}, Path=ScrollY, Converter={converters:ConditionalDoubleConverter ComparisonOperator='>', ComparingValue=10, TrueObject='White', FalseObject='WhiteSmoke'}}"
              BackgroundColor="{DynamicResource MainBackgroundColor}">
+
+    <Shell.BackgroundColor>
+        <MultiBinding Converter="{converters:VariableMultiValueConverter ConditionType=Any,
+                                                                         TrueObject=White,
+                                                                         FalseObject=WhiteSmoke}">
+            <Binding Source="{x:Reference scroll}"
+                     Path="ScrollY"
+                     Converter="{converters:ConditionalDoubleConverter ComparisonOperator='>',
+                                                                       ComparingValue=10}"/>
+            <Binding Path="IsInEditMode"/>
+        </MultiBinding>
+    </Shell.BackgroundColor>
+
 
     <ContentPage.Resources>
         <ResourceDictionary>

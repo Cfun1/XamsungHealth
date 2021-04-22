@@ -90,7 +90,7 @@ namespace XamsungHealth.Lib.Converters
 			};
 		}
 
-		private object EvaluateCondition(bool v)
+		object EvaluateCondition(bool v)
 			=> v ? mode == Modes.Object ?
 					TrueObject! : true
 						: mode == Modes.Object ? FalseObject! : false;
