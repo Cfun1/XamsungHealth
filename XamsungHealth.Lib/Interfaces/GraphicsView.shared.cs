@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Graphics;
-using XamsungHealth.Lib.Effects;
 using Xamarin.Forms;
+using XamsungHealth.Lib.Effects;
 using Point = System.Graphics.Point;
 
 namespace XamsungHealth.Lib

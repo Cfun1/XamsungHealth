@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
@@ -48,7 +47,7 @@ namespace XamsungHealth.Controls
 
 		public object CommandParameter
 		{
-			get { return (object)GetValue(CommandParameterProperty); }
+			get { return GetValue(CommandParameterProperty); }
 			set { SetValue(CommandParameterProperty, value); }
 		}
 

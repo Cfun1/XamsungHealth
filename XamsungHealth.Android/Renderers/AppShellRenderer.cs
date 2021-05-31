@@ -1,6 +1,5 @@
 ﻿using Android.Content;
 using AndroidX.AppCompat.Widget;
-using Google.Android.Material.AppBar;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using XamsungHealth.Droid.Renderers;

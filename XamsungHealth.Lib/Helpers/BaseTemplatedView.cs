@@ -41,7 +41,9 @@ namespace XamsungHealth.Lib
 			base.OnBindingContextChanged();
 
 			if (control != null)
+			{
 				Control.BindingContext = BindingContext;
+			}
 		}
 
 		protected override void OnChildAdded(Element child)

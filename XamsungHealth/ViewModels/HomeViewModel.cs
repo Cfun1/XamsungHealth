@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,6 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using XamsungHealth.Controls;
 using XamsungHealth.Lib.Fonts;
-using System;
 
 namespace XamsungHealth
 {

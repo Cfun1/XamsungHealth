@@ -1,11 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Graphics;
 using Xamarin.Forms;
 using XamsungHealth.Lib;
-using XColor = Xamarin.Forms.Color;
-using Color = System.Graphics.Color;
 using XamsungHealth.Lib.Extensions;
-using System.Graphics;
-using System.ComponentModel;
+using Color = System.Graphics.Color;
+using XColor = Xamarin.Forms.Color;
 
 namespace XamsungHealth.Controls
 {

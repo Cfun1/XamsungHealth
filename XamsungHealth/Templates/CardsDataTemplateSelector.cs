@@ -31,7 +31,9 @@ namespace XamsungHealth
 			void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
 			{
 				if (mainCardViewWeakReference == null || Container is not CollectionView collectionView)
+				{
 					return;
+				}
 
 				if (e.PropertyName.Equals(nameof(MainCardView.IsHidden)) &&
 					mainCardViewWeakReference.TryGetTarget(out var mainCardView))

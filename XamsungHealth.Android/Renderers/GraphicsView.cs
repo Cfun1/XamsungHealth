@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Android.Content;
+using Android.Util;
+using Android.Views;
+using System;
 using System.ComponentModel;
 using System.Graphics;
 using System.Graphics.Android;
-using Android.Content;
-using Android.Util;
-using Android.Views;
-using XamsungHealth.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
+using XamsungHealth.Droid.Renderers;
 using ACanvas = Android.Graphics.Canvas;
 using APointF = Android.Graphics.PointF;
 using AView = Android.Views.View;
@@ -66,7 +66,10 @@ namespace XamsungHealth.Droid.Renderers
 
 		public override void Draw(ACanvas androidCanvas)
 		{
-			if (_drawable == null) return;
+			if (_drawable == null)
+			{
+				return;
+			}
 
 			var dirtyRect = new RectangleF(0, 0, _width / _scale, _height / _scale);
 
@@ -125,7 +128,9 @@ namespace XamsungHealth.Droid.Renderers
 
 			if (e.PropertyName == AutomationProperties.HelpTextProperty.PropertyName ||
 				e.PropertyName == AutomationProperties.NameProperty.PropertyName)
+			{
 				UpdateAutomationProperties();
+			}
 		}
 
 		protected override void OnAttachedToWindow()
@@ -188,7 +193,9 @@ namespace XamsungHealth.Droid.Renderers
 		void UpdateAutomationProperties()
 		{
 			if (Control == null)
+			{
 				return;
+			}
 
 			var defaultContentDescription = Control.ContentDescription;
 
@@ -197,7 +204,9 @@ namespace XamsungHealth.Droid.Renderers
 			var contentDescription = !string.IsNullOrWhiteSpace(value) ? value : defaultContentDescription;
 
 			if (string.IsNullOrWhiteSpace(contentDescription) && Element is Element element)
+			{
 				contentDescription = element.AutomationId;
+			}
 
 			Control.ContentDescription = contentDescription;
 		}
@@ -208,9 +217,14 @@ namespace XamsungHealth.Droid.Renderers
 			var helpText = (string)Element.GetValue(AutomationProperties.HelpTextProperty);
 
 			if (string.IsNullOrWhiteSpace(name))
+			{
 				return helpText;
+			}
+
 			if (string.IsNullOrWhiteSpace(helpText))
+			{
 				return name;
+			}
 
 			return $"{name}. {helpText}";
 		}
