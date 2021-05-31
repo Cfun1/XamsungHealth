@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="XamsungHealth.Views.SettingsPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:XamsungHealth.Views"
+             xmlns:xamsunghealth="clr-namespace:XamsungHealth"
+             xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             Title="Xamsung Health settings"
+             x:DataType="views:SettingsViewModel"
+             Shell.NavBarHasShadow="False"
+             Shell.TitleColor="Black"
+             Shell.TabBarIsVisible="false">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Thickness x:Key="HorizontalMargin">
+                20,0,10,0
+            </Thickness>
+
+            <Thickness x:Key="Padding">
+                10
+            </Thickness>
+
+            <Thickness x:Key="SeparatorMargin">
+                25,0
+            </Thickness>
+
+            <x:Double x:Key="SeparatorOpacity">
+                0.45
+            </x:Double>
+
+            <CornerRadius x:Key="CornerRadiusTop">
+                30,30,0,0
+            </CornerRadius>
+
+            <CornerRadius x:Key="CornerRadiusBottom">
+                0,0,30,30
+            </CornerRadius>
+
+            <x:Double x:Key="TitleFontSize">
+                17
+            </x:Double>
+
+            <x:Double x:Key="DescriptionFontSize">
+                13
+            </x:Double>
+
+            <DataTemplate x:Key="FirstItemDataTemplate"
+                          x:DataType="views:SettingItem">
+                <pancakeview:PancakeView xct:TouchEffect.NativeAnimation="True"
+                                         xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
+                                         CornerRadius="{StaticResource CornerRadiusTop}"
+                                         BackgroundColor="White">
+                    <StackLayout Spacing="5"
+                                 InputTransparent="False">
+                        <Grid Margin="{StaticResource HorizontalMargin}"
+                              Padding="{StaticResource Padding}">
+                            <StackLayout InputTransparent="True">
+                                <Label Text="{Binding Title}"
+                                       FontSize="{StaticResource TitleFontSize}"/>
+                                <Label Text="{Binding Description}"
+                                       IsVisible="{Binding Description, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                       FontSize="{StaticResource DescriptionFontSize}"
+                                       TextColor="Gray"/>
+                            </StackLayout>
+                            <Switch HorizontalOptions="End"
+                                    OnColor="SpringGreen"
+                                    ThumbColor="LightGray"
+                                    IsVisible="{Binding HaveSwitch}"/>
+                        </Grid>
+
+                        <BoxView Margin="{StaticResource SeparatorMargin}"
+                                 VerticalOptions="End"
+                                 HeightRequest="1"
+                                 Opacity="{StaticResource SeparatorOpacity}"
+                                 HorizontalOptions="Fill"
+                                 Color="LightGray"/>
+                    </StackLayout>
+                </pancakeview:PancakeView>
+            </DataTemplate>
+
+            <DataTemplate x:Key="MiddleItemDataTemplate"
+                          x:DataType="views:SettingItem">
+                <StackLayout xct:TouchEffect.NativeAnimation="True"
+                             xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
+                             Spacing="5"
+                             BackgroundColor="White">
+                    <Grid Margin="{StaticResource HorizontalMargin}"
+                          Padding="{StaticResource Padding}"
+                          InputTransparent="False">
+                        <StackLayout InputTransparent="True">
+                            <Label Text="{Binding Title}"
+                                   FontSize="{StaticResource TitleFontSize}"/>
+                            <Label Text="{Binding Description}"
+                                   IsVisible="{Binding Description, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                   FontSize="{StaticResource DescriptionFontSize}"
+                                   TextColor="Gray"/>
+                        </StackLayout>
+                        <Switch HorizontalOptions="End"
+                                OnColor="SpringGreen"
+                                ThumbColor="LightGray"
+                                IsVisible="{Binding HaveSwitch}"/>
+                    </Grid>
+                    <BoxView Margin="{StaticResource SeparatorMargin}"
+                             VerticalOptions="End"
+                             HeightRequest="1"
+                             Opacity="{StaticResource SeparatorOpacity}"
+                             HorizontalOptions="Fill"
+                             Color="LightGray"/>
+                </StackLayout>
+            </DataTemplate>
+
+            <DataTemplate x:Key="LastItemDataTemplate"
+                          x:DataType="views:SettingItem">
+                <pancakeview:PancakeView xct:TouchEffect.NativeAnimation="True"
+                                         xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
+                                         CornerRadius="{StaticResource CornerRadiusBottom}"
+                                         BackgroundColor="White">
+                    <Grid Margin="{StaticResource HorizontalMargin}"
+                          Padding="{StaticResource Padding}"
+                          InputTransparent="False">
+                        <StackLayout>
+                            <Label Text="{Binding Title}"
+                                   FontSize="{StaticResource TitleFontSize}"/>
+                            <Label Text="{Binding Description}"
+                                   IsVisible="{Binding Description, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                   FontSize="{StaticResource DescriptionFontSize}"
+                                   TextColor="Gray"/>
+                        </StackLayout>
+                        <Switch OnColor="SpringGreen"
+                                HorizontalOptions="End"
+                                ThumbColor="LightGray"
+                                IsVisible="{Binding HaveSwitch}"/>
+                    </Grid>
+                </pancakeview:PancakeView>
+            </DataTemplate>
+
+            <xamsunghealth:SettingsItemDataTemplateSelector x:Key="SettingsItemDataTemplateSelector"
+                                                            FirstItemDataTemplate="{StaticResource FirstItemDataTemplate}"
+                                                            MiddleItemDataTemplate="{StaticResource MiddleItemDataTemplate}"
+                                                            LastItemDataTemplate="{StaticResource LastItemDataTemplate}"/>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <CollectionView IsGrouped="True"
+                    BackgroundColor="WhiteSmoke"
+                    ItemTemplate="{StaticResource SettingsItemDataTemplateSelector}"
+                    ItemsSource="{Binding Settings}">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout ItemSpacing="0"
+                               Orientation="Vertical"/>
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.GroupHeaderTemplate>
+            <DataTemplate x:DataType="views:SettingsGroup">
+                <StackLayout Padding="10,5">
+                    <Label Margin="{StaticResource HorizontalMargin}"
+                           Padding="0,10"
+                           BackgroundColor="WhiteSmoke"
+                           IsVisible="{Binding Name, Converter={xct:IsNotNullOrEmptyConverter}}"
+                           TextColor="DarkGray"
+                           FontAttributes="Bold"
+                           Text="{Binding Name}"/>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.GroupHeaderTemplate>
+
+        <CollectionView.Footer>
+            <Grid HeightRequest="15"/>
+        </CollectionView.Footer>
+
+    </CollectionView>
+
+
+</ContentPage>

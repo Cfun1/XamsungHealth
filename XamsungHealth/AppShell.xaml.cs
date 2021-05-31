@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Xamarin.Forms;
+using XamsungHealth.Views;
 
 namespace XamsungHealth
 {
@@ -24,6 +25,11 @@ namespace XamsungHealth
 		protected override void OnPropertyChanged([CallerMemberName] string propertyName = null!)
 		{
 			base.OnPropertyChanged(propertyName);
+			if (propertyName.Equals(nameof(FlyoutIsPresented)) && !FlyoutIsPresented)
+			{
+				FlyoutOpenedPercentage = 0f;
+			}
+
 			if (propertyName.Equals(nameof(FlyoutOpenedPercentage)))
 			{
 				if (Current.CurrentPage != null)
@@ -36,6 +42,12 @@ namespace XamsungHealth
 					}
 				}
 			}
+		}
+		async void SettingsButton_Clicked(object sender, System.EventArgs e)
+		{
+			Current.FlyoutIsPresented = false;
+			Current.FlyoutBehavior = FlyoutBehavior.Disabled;
+			await Current.Navigation.PushAsync(new SettingsPage());
 		}
 	}
 }

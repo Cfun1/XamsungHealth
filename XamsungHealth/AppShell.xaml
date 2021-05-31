@@ -99,6 +99,7 @@
                     <xct:BadgeView Style="{StaticResource badgeNewNoticeStyle}"
                                    HorizontalOptions="End">
                         <ImageButton Margin="15,0,0,0"
+                                     Clicked="SettingsButton_Clicked"
                                      VerticalOptions="Center"
                                      BackgroundColor="Transparent">
                             <ImageButton.Source>

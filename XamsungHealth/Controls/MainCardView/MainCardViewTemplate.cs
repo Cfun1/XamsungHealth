@@ -12,7 +12,7 @@ namespace XamsungHealth.Controls
 {
 	public class MainCardViewTemplate : Grid
 	{
-		public Image IconImage { get; set; }
+		public Image? IconImage { get; set; }
 
 		readonly CircleIconView? editModeButton;
 		public readonly Frame mainFrame = new();
