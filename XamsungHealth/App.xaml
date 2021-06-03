@@ -7,6 +7,11 @@
 
     <Application.Resources>
         <ResourceDictionary>
+
+            <x:Double x:Key="DescriptionFontSize">
+                13
+            </x:Double>
+
             <!--  region Colors  -->
             <Color x:Key="MainBackgroundColor">
                 WhiteSmoke

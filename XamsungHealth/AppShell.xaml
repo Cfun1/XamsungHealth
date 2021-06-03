@@ -98,13 +98,16 @@
 
                     <xct:BadgeView Style="{StaticResource badgeNewNoticeStyle}"
                                    HorizontalOptions="End">
-                        <ImageButton Margin="15,0,0,0"
+                        <ImageButton Margin="13,-5,0,0"
+                                     Padding="5"
+                                     xct:TouchEffect.NativeAnimation="True"
+                                     xct:TouchEffect.NativeAnimationRadius="22"
                                      Clicked="SettingsButton_Clicked"
                                      VerticalOptions="Center"
                                      BackgroundColor="Transparent">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="{x:Static fontawesome:IconFont._FontName}"
-                                                 Size="20"
+                                                 Size="22"
                                                  Glyph="{x:Static fontawesome:IconFont.Cog}"
                                                  Color="Gray"/>
                             </ImageButton.Source>

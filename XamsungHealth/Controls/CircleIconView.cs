@@ -34,7 +34,7 @@ namespace XamsungHealth.Controls
 		}
 
 		static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
-		  => UpdateCommandAnParameter(bindable, newValue, true);
+		  => UpdateCommandAndParameter(bindable, newValue, true);
 
 
 
@@ -52,12 +52,11 @@ namespace XamsungHealth.Controls
 		}
 
 		static void OnCommandParameterChanged(BindableObject bindable, object oldValue, object newValue)
-		  => UpdateCommandAnParameter(bindable, newValue, false);
+		  => UpdateCommandAndParameter(bindable, newValue, false);
 
-		static void UpdateCommandAnParameter(BindableObject bindable, object newValue, bool isChangedPropertyCommand)
+		static void UpdateCommandAndParameter(BindableObject bindable, object newValue, bool isChangedPropertyCommand)
 		{
-			//TODO: Replace TapGestureRecognizer with a TouchEffect ?
-			var circleIconView = (bindable as CircleIconView);
+			CircleIconView? circleIconView = bindable as CircleIconView;
 			if (circleIconView is not null && newValue is not null)
 			{
 				if (circleIconView.GestureRecognizers.Count == 0)
@@ -81,7 +80,6 @@ namespace XamsungHealth.Controls
 				}
 			}
 		}
-
 
 		public CircleIconView()
 		{

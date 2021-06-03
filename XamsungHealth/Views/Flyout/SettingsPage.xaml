@@ -42,10 +42,6 @@
                 17
             </x:Double>
 
-            <x:Double x:Key="DescriptionFontSize">
-                13
-            </x:Double>
-
             <DataTemplate x:Key="FirstItemDataTemplate"
                           x:DataType="views:SettingItem">
                 <pancakeview:PancakeView xct:TouchEffect.NativeAnimation="True"
