@@ -35,7 +35,7 @@
     </x:Double>
 
     <DataTemplate x:Key="FirstItemDataTemplate"
-                  x:DataType="views:SettingItem">
+                  x:DataType="views:MenuItem">
         <pancakeview:PancakeView xct:TouchEffect.NativeAnimation="True"
                                  xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
                                  CornerRadius="{StaticResource CornerRadiusTop}"
@@ -69,7 +69,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="MiddleItemDataTemplate"
-                  x:DataType="views:SettingItem">
+                  x:DataType="views:MenuItem">
         <StackLayout xct:TouchEffect.NativeAnimation="True"
                      xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
                      Spacing="5"
@@ -100,7 +100,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="LastItemDataTemplate"
-                  x:DataType="views:SettingItem">
+                  x:DataType="views:MenuItem">
         <pancakeview:PancakeView xct:TouchEffect.NativeAnimation="True"
                                  xct:TouchEffect.ShouldMakeChildrenInputTransparent="False"
                                  CornerRadius="{StaticResource CornerRadiusBottom}"

@@ -16,15 +16,15 @@
         <ResourceDictionary Source="../../Templates/MenuTemplates.xaml"/>
 
         <!--  TODo: if put inside MenuTemplates it will thow StaticResource not found for key MenuTemplates  -->
-        <xamsunghealth:SettingsItemDataTemplateSelector x:Key="SettingsItemDataTemplateSelector"
-                                                        FirstItemDataTemplate="{StaticResource FirstItemDataTemplate}"
-                                                        MiddleItemDataTemplate="{StaticResource MiddleItemDataTemplate}"
-                                                        LastItemDataTemplate="{StaticResource LastItemDataTemplate}"/>
+        <xamsunghealth:MenuItemDataTemplateSelector x:Key="MenuItemDataTemplateSelector"
+                                                    FirstItemDataTemplate="{StaticResource FirstItemDataTemplate}"
+                                                    MiddleItemDataTemplate="{StaticResource MiddleItemDataTemplate}"
+                                                    LastItemDataTemplate="{StaticResource LastItemDataTemplate}"/>
     </ContentPage.Resources>
 
     <CollectionView IsGrouped="True"
                     BackgroundColor="WhiteSmoke"
-                    ItemTemplate="{StaticResource SettingsItemDataTemplateSelector}"
+                    ItemTemplate="{StaticResource MenuItemDataTemplateSelector}"
                     ItemsSource="{Binding Settings}">
         <CollectionView.ItemsLayout>
             <LinearItemsLayout ItemSpacing="0"

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using Xamarin.Forms;
-using XamsungHealth.Views;
-using static XamsungHealth.Views.SettingItem;
+using MenuItem = XamsungHealth.Models.MenuItem;
+using GroupOrder = XamsungHealth.Models.MenuItem.GroupOrder;
 
 namespace XamsungHealth
 {
-	public class SettingsItemDataTemplateSelector : DataTemplateSelector
+	public class MenuItemDataTemplateSelector : DataTemplateSelector
 	{
 		public DataTemplate? FirstItemDataTemplate { get; set; }
 		public DataTemplate? MiddleItemDataTemplate { get; set; }
@@ -14,7 +14,7 @@ namespace XamsungHealth
 
 		protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
 		{
-			if (item is not SettingItem settingItem)
+			if (item is not MenuItem menuItem)
 			{
 				throw new ArgumentNullException(nameof(item), $"shouldn't be null");
 			}
@@ -24,7 +24,7 @@ namespace XamsungHealth
 				throw new ArgumentNullException(nameof(FirstItemDataTemplate), $"{nameof(FirstItemDataTemplate)} and {nameof(MiddleItemDataTemplate)}  and {nameof(LastItemDataTemplate)} shouldn't be null");
 			}
 
-			return settingItem.OrderInGroup switch
+			return menuItem.OrderInGroup switch
 			{
 				GroupOrder.First => FirstItemDataTemplate,
 				GroupOrder.Middle => MiddleItemDataTemplate,

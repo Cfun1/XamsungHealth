@@ -6,6 +6,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:XamsungHealth.Controls"
              xmlns:xamsunghealth="clr-namespace:XamsungHealth"
+             xmlns:models="clr-namespace:XamsungHealth.Models"
              BackgroundColor="WhiteSmoke"
              Shell.NavBarIsVisible="False">
 
@@ -13,10 +14,10 @@
         <ResourceDictionary Source="../../Templates/MenuTemplates.xaml"/>
 
         <!--  TODO: if put inside MenuTemplates it will thow StaticResource not found for key MenuTemplates  -->
-        <xamsunghealth:SettingsItemDataTemplateSelector x:Key="SettingsItemDataTemplateSelector"
-                                                        FirstItemDataTemplate="{StaticResource FirstItemDataTemplate}"
-                                                        MiddleItemDataTemplate="{StaticResource MiddleItemDataTemplate}"
-                                                        LastItemDataTemplate="{StaticResource LastItemDataTemplate}"/>
+        <xamsunghealth:MenuItemDataTemplateSelector x:Key="MenuItemDataTemplateSelector"
+                                                    FirstItemDataTemplate="{StaticResource FirstItemDataTemplate}"
+                                                    MiddleItemDataTemplate="{StaticResource MiddleItemDataTemplate}"
+                                                    LastItemDataTemplate="{StaticResource LastItemDataTemplate}"/>
     </ContentPage.Resources>
 
 
@@ -27,10 +28,10 @@
                                          Size="70"
                                          HorizontalOptions="Center"/>
 
-                <Label Text="No Name No Name"
+                <Label Text="Healthy Life Healthy App"
                        HorizontalOptions="Center"
                        FontSize="25"/>
-                <Label Text="fake@fakEmail.com"
+                <Label Text="xamarin@FakeEmail.com"
                        HorizontalOptions="Center"
                        TextColor="Gray"
                        FontSize="{StaticResource DescriptionFontSize}"/>
@@ -63,17 +64,6 @@
                     </ImageButton.Source>
                 </ImageButton>
             </Grid>
-
-            <CollectionView ItemTemplate="{StaticResource SettingsItemDataTemplateSelector}">
-                <CollectionView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>test</x:String>
-                    </x:Array>
-                </CollectionView.ItemsSource>
-
-
-            </CollectionView>
-
 
         </StackLayout>
     </ScrollView>
