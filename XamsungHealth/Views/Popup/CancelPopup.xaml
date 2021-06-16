@@ -4,7 +4,6 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            xmlns:popup="clr-namespace:XamsungHealth.Views.Popups"
-           HorizontalOptions="CenterAndExpand"
            VerticalOptions="End"
            Size="{x:Static popup:CancelPopup.PopupSize}"
            Color="Transparent">
@@ -45,9 +44,8 @@
         </ResourceDictionary>
     </xct:Popup.Resources>
 
-    <Frame Style="{StaticResource PopupLayout}"
-           VerticalOptions="Start"
-           HorizontalOptions="Start">
+
+    <Frame Style="{StaticResource PopupLayout}">
 
         <StackLayout Spacing="20">
             <Label Style="{StaticResource Title}"
@@ -75,4 +73,5 @@
             </StackLayout>
         </StackLayout>
     </Frame>
+
 </xct:Popup>

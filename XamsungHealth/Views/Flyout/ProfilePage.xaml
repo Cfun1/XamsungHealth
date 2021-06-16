@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="XamsungHealth.Views.ProfilePage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fontawesome="clr-namespace:XamsungHealth.Lib.Fonts;assembly=XamsungHealth.Lib"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:controls="clr-namespace:XamsungHealth.Controls"
+             xmlns:xamsunghealth="clr-namespace:XamsungHealth"
+             BackgroundColor="WhiteSmoke"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary Source="../../Templates/MenuTemplates.xaml"/>
+
+        <!--  TODO: if put inside MenuTemplates it will thow StaticResource not found for key MenuTemplates  -->
+        <xamsunghealth:SettingsItemDataTemplateSelector x:Key="SettingsItemDataTemplateSelector"
+                                                        FirstItemDataTemplate="{StaticResource FirstItemDataTemplate}"
+                                                        MiddleItemDataTemplate="{StaticResource MiddleItemDataTemplate}"
+                                                        LastItemDataTemplate="{StaticResource LastItemDataTemplate}"/>
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <StackLayout Spacing="0">
+            <StackLayout>
+                <controls:CircleIconView Source="https://avatars.githubusercontent.com/u/15718354?v=4"
+                                         Size="70"
+                                         HorizontalOptions="Center"/>
+
+                <Label Text="No Name No Name"
+                       HorizontalOptions="Center"
+                       FontSize="25"/>
+                <Label Text="fake@fakEmail.com"
+                       HorizontalOptions="Center"
+                       TextColor="Gray"
+                       FontSize="{StaticResource DescriptionFontSize}"/>
+            </StackLayout>
+
+            <Grid Margin="0,50,0,0">
+                <ImageButton Margin="0,0,20,0"
+                             Padding="5"
+                             xct:TouchEffect.NativeAnimation="True"
+                             HorizontalOptions="End"
+                             BackgroundColor="Transparent">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="{x:Static fontawesome:IconFont._FontName}"
+                                         Size="18"
+                                         Glyph="{x:Static fontawesome:IconFont.EllipsisV}"
+                                         Color="Black"/>
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <ImageButton Margin="20,0,0,0"
+                             Padding="5"
+                             xct:TouchEffect.NativeAnimation="True"
+                             HorizontalOptions="Start"
+                             BackgroundColor="Transparent">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="{x:Static fontawesome:IconFont._FontName}"
+                                         Size="18"
+                                         Glyph="{x:Static fontawesome:IconFont.AngleLeft}"
+                                         Color="Black"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </Grid>
+
+            <CollectionView ItemTemplate="{StaticResource SettingsItemDataTemplateSelector}">
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>test</x:String>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+
+
+            </CollectionView>
+
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamsungHealth.Views;
 
@@ -43,11 +45,17 @@ namespace XamsungHealth
 				}
 			}
 		}
-		async void SettingsButton_Clicked(object sender, System.EventArgs e)
+		async Task HideFlyoutAndpushAsync(ContentPage page)
 		{
 			Current.FlyoutIsPresented = false;
 			Current.FlyoutBehavior = FlyoutBehavior.Disabled;
-			await Current.Navigation.PushAsync(new SettingsPage());
+			await Current.Navigation.PushAsync(page);
 		}
+
+		async void SettingsButton_Clicked(object sender, System.EventArgs e)
+			=> await HideFlyoutAndpushAsync(new SettingsPage());
+
+		async void Profile_Clicked(object sender, System.EventArgs e)
+			=> await HideFlyoutAndpushAsync(new ProfilePage());
 	}
 }

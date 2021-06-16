@@ -7,6 +7,7 @@
        xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
        xmlns:controls="clr-namespace:XamsungHealth.Controls"
        xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+       x:DataType="xamsunghealth:AppShell"
        FlyoutBackgroundColor="Transparent"
        BackgroundColor="{DynamicResource MainBackgroundColor}">
     <!--  won't work if you move it to a style  -->
@@ -94,6 +95,7 @@
 
                     <controls:CircleIconView Source="https://avatars.githubusercontent.com/u/15718354?v=4"
                                              Size="25"
+                                             Clicked="Profile_Clicked"
                                              HorizontalOptions="EndAndExpand"/>
 
                     <xct:BadgeView Style="{StaticResource badgeNewNoticeStyle}"

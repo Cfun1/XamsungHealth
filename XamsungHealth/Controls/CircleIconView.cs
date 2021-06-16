@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.Markup;
@@ -9,28 +10,49 @@ namespace XamsungHealth.Controls
 {
 	public class CircleIconView : AvatarView
 	{
-		//TODO: Add a Tap gesture reconizer with Command
-		public static Style<AvatarView> DefaultStyle
-		{
-			get => new(
+		public static Style<AvatarView> DefaultStyle => new(
 			(VerticalOptionsProperty, LayoutOptions.Start),
 			(AspectProperty, Aspect.AspectFit),
  			(BorderColorProperty, Color.LightGray),
 			(ColorProperty, Color.Transparent));
-		}
 
+		public event EventHandler? Clicked
+		{
+			add
+			{
+				if (GestureRecognizers.Count == 0)
+				{
+					var tapGestureRecognizer = new TapGestureRecognizer();
+					tapGestureRecognizer.Tapped += value;
+					GestureRecognizers.Add(tapGestureRecognizer);
+				}
+				else
+				{
+					(GestureRecognizers[0] as TapGestureRecognizer)!.Tapped += value;
+				}
+
+			}
+
+			remove
+			{
+				if (GestureRecognizers[0] is TapGestureRecognizer tapGestureRecognizer)
+				{
+					tapGestureRecognizer.Tapped -= value;
+				}
+			}
+		}
 
 		public static readonly BindableProperty CommandProperty = BindableProperty.Create(
 												propertyName: nameof(Command),
 												returnType: typeof(ICommand),
 												declaringType: typeof(CircleIconView),
- 												defaultBindingMode: BindingMode.TwoWay,
+												 defaultBindingMode: BindingMode.TwoWay,
 												propertyChanged: OnCommandChanged);
 
 		public ICommand Command
 		{
-			get { return (ICommand)GetValue(CommandProperty); }
-			set { SetValue(CommandProperty, value); }
+			get => (ICommand)GetValue(CommandProperty);
+			set => SetValue(CommandProperty, value);
 		}
 
 		static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
@@ -42,7 +64,7 @@ namespace XamsungHealth.Controls
 												propertyName: nameof(CommandParameter),
 												returnType: typeof(object),
 												declaringType: typeof(CircleIconView),
- 												defaultBindingMode: BindingMode.TwoWay,
+												 defaultBindingMode: BindingMode.TwoWay,
 												propertyChanged: OnCommandParameterChanged);
 
 		public object CommandParameter
